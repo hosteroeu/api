@@ -3,3 +3,15 @@ box: node
 build:
   steps:
     - npm-install
+
+docker:
+  steps:
+    - internal/docker-push:
+        username: $DOCKER_USER
+        password: $DOCKER_PASSWORD
+        tag: $WERCKER_GIT_COMMIT
+        repository: morion4000/atlas
+        registry: https://registry.hub.docker.com
+        cmd: node server.js
+        ports: "8080"
+        working-dir: /pipeline/source
