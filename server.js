@@ -12,14 +12,20 @@ var jwtCheck = jwt({
   audience: 'http://medusa.hoste.ro'
 });
 
-app.get('/', function(req, res) {
-  res.send('Yellow');
-});
+var instances = [{
+  id: 1,
+  name: 'My WordPress Instance',
+  cpu: 0.2,
+  ram: 512,
+  scale: 1,
+  created_at: '1476258811819',
+  updated_at: '1476258811819'
+}];
 
-app.use(jwtCheck);
+//app.use(jwtCheck);
 
-app.get('/authorized', function(req, res) {
-  res.send('Secured Resource');
+app.get('/v1/instances', function(req, res) {
+  res.send(instances);
 });
 
 app.listen(port);
