@@ -10,7 +10,7 @@ docker:
         username: $DOCKER_USER
         password: $DOCKER_PASSWORD
         tag: $WERCKER_GIT_COMMIT
-        repository: morion4000/atlas
+        repository: morion4000/medusa
         registry: https://registry.hub.docker.com
         cmd: node server.js
         ports: "8080"
