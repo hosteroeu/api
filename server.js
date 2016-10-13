@@ -3,13 +3,13 @@ var app = express();
 var jwt = require('express-jwt');
 var rsaValidation = require('auth0-api-jwt-rsa-validation');
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 80;
 
 var jwtCheck = jwt({
   secret: rsaValidation(),
   algorithms: ['RS256'],
   issuer: 'https://morion4000.auth0.com/',
-  audience: 'http://medusa.hoste.ro'
+  audience: 'http://api.hoste.ro'
 });
 
 var instances = [{
