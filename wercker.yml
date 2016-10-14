@@ -15,3 +15,21 @@ docker:
         cmd: node server.js
         ports: "8080"
         working-dir: /pipeline/source
+
+rancher:
+  steps:
+    - install-packages:
+        packages: unzip
+
+    - nhumrich/deploy-to-rancher:
+        access_key: $RANCHER_ACCESS_KEY
+        secret_key: $RANCHER_SECRET_KEY
+        rancher_url: $RANCHER_URL
+        https: false
+        tag: $WERCKER_GIT_COMMIT
+        stack_name: Dashboard
+        service_name: atlas
+        docker_org: morion4000
+        docker_image: atlas
+        use_tag: true
+        inplace: true
