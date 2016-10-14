@@ -6,8 +6,15 @@
   },
   "dependencies": {
     "auth0-api-jwt-rsa-validation": "0.0.1",
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "express-jwt": "^5.1.0"
+    "express-jwt": "^5.1.0",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
+    "mysql": "^2.11.1",
+    "sequelize": "^3.24.3",
+    "squel": "^5.4.3",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "private": true
