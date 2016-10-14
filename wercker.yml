@@ -13,7 +13,7 @@ docker:
         repository: morion4000/medusa
         registry: https://registry.hub.docker.com
         cmd: node server.js
-        ports: "8080"
+        ports: "80"
         working-dir: /pipeline/source
 
 rancher:
@@ -27,9 +27,9 @@ rancher:
         rancher_url: $RANCHER_URL
         https: false
         tag: $WERCKER_GIT_COMMIT
-        stack_name: Dashboard
-        service_name: atlas
+        stack_name: API
+        service_name: medusa
         docker_org: morion4000
-        docker_image: atlas
+        docker_image: medusa
         use_tag: true
         inplace: true
