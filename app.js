@@ -15,7 +15,7 @@ var jwtCheck = jwt({
   secret: rsaValidation(),
   algorithms: ['RS256'],
   issuer: 'https://morion4000.auth0.com/',
-  audience: 'https://api.hoste.ro'
+  audience: 'E6Zeo9d6DEXfEeFyvBPeYw3tYdtYNVDP'
 });
 
 switch (app.get('env')) {
