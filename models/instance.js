@@ -12,7 +12,8 @@ var Instance = function(sequelize) {
   ];
 
   var instance = sequelize.define('Instance', {
-    name: Sequelize.STRING
+    name: Sequelize.STRING,
+    user_id: Sequelize.STRING
   }, {
     underscored: true,
     tableName: 'instances'
@@ -29,7 +30,9 @@ var Instance = function(sequelize) {
   }
 
   var update = function(fields, condition, callback) {
-    instance.update(fields, condition)
+    instance.update(fields, {
+        where: condition
+      })
       .then(function(result) {
         callback();
       })
@@ -41,7 +44,9 @@ var Instance = function(sequelize) {
   var find = function(params, callback) {
     instance.findOne({
         attributes: fields,
-        where: {}
+        where: {
+          user_id: params.user.sub
+        }
       })
       .then(function(result) {
         callback(null, result);
@@ -54,7 +59,9 @@ var Instance = function(sequelize) {
   var findAll = function(params, callback) {
     instance.findAll({
         attributes: fields,
-        where: {}
+        where: {
+          user_id: params.user.sub
+        }
       })
       .then(function(result) {
         callback(null, result);
@@ -64,8 +71,10 @@ var Instance = function(sequelize) {
       });
   }
 
-  var destroy = function(params, callback) {
-    instance.destroy(params)
+  var destroy = function(condition, callback) {
+    instance.destroy({
+        where: condition
+      })
       .then(function(result) {
         callback(null, result);
       })
