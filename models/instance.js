@@ -5,10 +5,10 @@ var Sequelize = require('sequelize'),
 var Instance = function(sequelize) {
 
   var fields = [
-    'i.id',
-    'i.name',
-    'i.created_at',
-    'i.updated_at'
+    'id',
+    'name',
+    'created_at',
+    'updated_at'
   ];
 
   var instance = sequelize.define('Instance', {
@@ -39,21 +39,12 @@ var Instance = function(sequelize) {
   }
 
   var find = function(params, callback) {
-    var query = squel.select({
-      autoQuoteAliasNames: false
-    });
-
-    fields.forEach(function(field) {
-      query.field(field);
-    });
-
-    query.from('instances', 'i');
-
-    query.where('i.id = ' + params.id);
-
-    sequelize.query(query.toString())
-      .then(function(results) {
-        callback(null, _.first(results));
+    instance.findOne({
+        attributes: fields,
+        where: {}
+      })
+      .then(function(result) {
+        callback(null, result);
       })
       .catch(function(err) {
         callback(err, null);
@@ -61,19 +52,10 @@ var Instance = function(sequelize) {
   }
 
   var findAll = function(params, callback) {
-    var query = squel.select({
-      autoQuoteAliasNames: false
-    });
-
-    fields.forEach(function(field) {
-      query.field(field);
-    });
-
-    query.from('instances', 'i');
-
-    query.order('i.id');
-
-    sequelize.query(query.toString())
+    instance.findAll({
+        attributes: fields,
+        where: {}
+      })
       .then(function(result) {
         callback(null, result);
       })
