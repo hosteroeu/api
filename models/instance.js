@@ -1,5 +1,4 @@
 var Sequelize = require('sequelize'),
-  squel = require('squel'),
   _ = require('underscore');
 
 var Instance = function(sequelize) {
