@@ -15,6 +15,8 @@ var Instances = function() {
   };
 
   var create = function(req, res, next) {
+    req.body.user_id = req.user.sub;
+
     instance.create(req.body, function(err, result) {
       if (err) {
         return next(err);
@@ -41,7 +43,8 @@ var Instances = function() {
 
   var update = function(req, res, next) {
     instance.update(req.body, {
-      id: req.id
+      id: req.id,
+      user_id: req.user.sub
     }, function(err, result) {
       if (err) {
         return next(err);
@@ -54,7 +57,8 @@ var Instances = function() {
 
   var remove = function(req, res, next) {
     instance.destroy({
-      id: req.id
+      id: req.id,
+      user_id: req.user.sub
     }, function(err, result) {
       if (err) {
         return next(err);
