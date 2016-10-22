@@ -75,7 +75,7 @@ var Accounts = function() {
     retrieve: retrieve,
     update: update,
     remove: remove
-  }
+  };
 };
 
 module.exports = Accounts();

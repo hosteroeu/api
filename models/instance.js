@@ -26,7 +26,7 @@ var Instance = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var update = function(fields, condition, callback) {
     instance.update(fields, {
@@ -38,7 +38,7 @@ var Instance = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var find = function(params, callback) {
     instance.findOne({
@@ -53,7 +53,7 @@ var Instance = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var findAll = function(params, callback) {
     instance.findAll({
@@ -68,7 +68,7 @@ var Instance = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var destroy = function(condition, callback) {
     instance.destroy({
@@ -80,7 +80,7 @@ var Instance = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   return {
     create: create,
@@ -88,7 +88,7 @@ var Instance = function(sequelize) {
     find: find,
     findAll: findAll,
     destroy: destroy
-  }
-}
+  };
+};
 
 module.exports = Instance;

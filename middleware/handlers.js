@@ -1,4 +1,4 @@
-var _ = require('underscore'), 
+var _ = require('underscore'),
   config = require('./../config');
 
 var errors = function(err, req, res, next) {
@@ -49,7 +49,7 @@ var raw_body = function(req, res, next) {
 
     next();
   });
-}
+};
 
 module.exports.errors = errors;
 module.exports.raw_body = raw_body;

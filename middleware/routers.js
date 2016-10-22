@@ -35,7 +35,7 @@ var bodyCleanup = function(req, res, next) {
   cleanup(req.body);
 
   next();
-}
+};
 
 var filters = function(req, res, next) {
   var filters = _.extend(req.query, req.params),
@@ -57,7 +57,7 @@ var param = function(req, res, next, id) {
   req.id = id;
 
   next();
-}
+};
 
 module.exports.filters = filters;
 module.exports.bodyCleanup = bodyCleanup;
