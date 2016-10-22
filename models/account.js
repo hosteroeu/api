@@ -6,13 +6,15 @@ var Account = function(sequelize) {
   var fields = [
     'id',
     'name',
+    'rancher_environment_id',
     'created_at',
     'updated_at'
   ];
 
   var account = sequelize.define('Account', {
     name: Sequelize.STRING,
-    user_id: Sequelize.STRING
+    user_id: Sequelize.STRING,
+    rancher_environment_id: Sequelize.STRING
   }, {
     underscored: true,
     tableName: 'accounts'
@@ -26,7 +28,7 @@ var Account = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var update = function(fields, condition, callback) {
     account.update(fields, {
@@ -38,7 +40,7 @@ var Account = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var find = function(params, callback) {
     account.findOne({
@@ -53,7 +55,7 @@ var Account = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var findAll = function(params, callback) {
     account.findAll({
@@ -68,7 +70,7 @@ var Account = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   var destroy = function(condition, callback) {
     account.destroy({
@@ -80,7 +82,7 @@ var Account = function(sequelize) {
       .catch(function(err) {
         callback(err, null);
       });
-  }
+  };
 
   return {
     create: create,
@@ -88,7 +90,7 @@ var Account = function(sequelize) {
     find: find,
     findAll: findAll,
     destroy: destroy
-  }
-}
+  };
+};
 
 module.exports = Account;
