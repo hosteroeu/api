@@ -1,0 +1,15 @@
+{
+  "launchConfig": {
+    "imageUuid": "docker:wordpress",
+    "volumeDriver": "convoy-efs",
+    "dataVolumes": [
+      "plm:/var/www/html"
+    ],
+    "environment": {
+      "WORDPRESS_DB_HOST": "hostero.c0dfozdkb1jx.eu-west-1.rds.amazonaws.com",
+      "WORDPRESS_DB_USER": "root",
+      "WORDPRESS_DB_PASSWORD": "pisicuta",
+      "WORDPRESS_DB_NAME": "wordpress"
+    }
+  }
+}
