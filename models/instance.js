@@ -6,13 +6,15 @@ var Instance = function(sequelize) {
   var fields = [
     'id',
     'name',
+    'rancher_service_id',
     'created_at',
     'updated_at'
   ];
 
   var instance = sequelize.define('Instance', {
     name: Sequelize.STRING,
-    user_id: Sequelize.STRING
+    user_id: Sequelize.STRING,
+    rancher_service_id: Sequelize.STRING
   }, {
     underscored: true,
     tableName: 'instances'

@@ -3,11 +3,31 @@ var request = require('request'),
   config = require('./../config');
 
 var Rancher = function() {
+  var url = config.rancher.host;
 
-  var environments = function() {};
+  var environments = function() {
+    url += '/environments';
+
+    return {
+      query: function() {
+        request.get(url).auth(config.rancher.key, config.rancher.secret, false);
+      }
+    };
+  };
+
+  var services = function() {
+    url += '/services';
+
+    return {
+      query: function() {
+        request.get(url).auth(config.rancher.key, config.rancher.secret, false);
+      }
+    };
+  };
 
   return {
-    environments: environments
+    environments: environments,
+    services: services
   };
 };
 
