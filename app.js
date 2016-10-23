@@ -78,7 +78,9 @@ fs.readdirSync(routes_path).forEach(function(file) {
   }
 });
 
-models.sequelize.sync().then(function() {
+models.sequelize.sync({
+  //force: true
+}).then(function() {
   console.log('Db synced');
 });
 

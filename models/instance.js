@@ -6,6 +6,8 @@ var Instance = function(sequelize) {
   var fields = [
     'id',
     'name',
+    'status',
+    'scale',
     'rancher_service_id',
     'created_at',
     'updated_at'
@@ -14,7 +16,9 @@ var Instance = function(sequelize) {
   var instance = sequelize.define('Instance', {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
-    rancher_service_id: Sequelize.STRING
+    rancher_service_id: Sequelize.STRING,
+    scale: Sequelize.INTEGER,
+    status: Sequelize.ENUM('started', 'stopped')
   }, {
     underscored: true,
     tableName: 'instances'
