@@ -27,15 +27,14 @@ var Rancher = function() {
   };
 
   var services = function() {
-    var create_manifest = require('./../config/manifests/service_create.json');
-
     return {
       create: function(req, res, next) {
-        var volume_name = req.body.rancher_environment_id + '_' + req.body.name;
+        var create_manifest = require('./../config/manifests/service_create.json'),
+          volume_name = req.body.rancher_environment_id + '_' + req.body.name;
 
         create_manifest.environmentId = req.body.rancher_environment_id;
         create_manifest.name = req.body.name;
-        create_manifest.launchConfig.dataVolumes.push(volume_name + ':/var/www/html');
+        create_manifest.launchConfig.dataVolumes = [volume_name + ':/var/www/html'];
 
         request.post({
           url: url + '/services',
