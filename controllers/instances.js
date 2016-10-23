@@ -24,7 +24,7 @@ var Instances = function() {
       }
 
       res.status(201);
-      res.send();
+      res.send(result);
     });
   };
 
