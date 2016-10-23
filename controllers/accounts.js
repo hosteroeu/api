@@ -16,6 +16,7 @@ var Accounts = function() {
 
   var create = function(req, res, next) {
     req.body.user_id = req.user.sub;
+    req.body.rancher_environment_id = req.rancher_environment_id;
 
     account.create(req.body, function(err, result) {
       if (err) {
@@ -69,12 +70,30 @@ var Accounts = function() {
     });
   };
 
+  var sync = function(req, res, next) {
+    account.findAll(req, function(err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      if (result.length > 0) {
+        // Each account has only one environment attached, currently
+        return res.send(result[0]);
+      }
+
+      req.body.name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
+
+      next();
+    });
+  };
+
   return {
     collection: collection,
     create: create,
     retrieve: retrieve,
     update: update,
-    remove: remove
+    remove: remove,
+    sync: sync
   };
 };
 

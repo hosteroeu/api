@@ -7,6 +7,19 @@ var Rancher = function() {
 
   var environments = function() {
     return {
+      create: function(req, res, next) {
+        request.post({
+          url: url + '/environments',
+          json: true,
+          body: {
+            'name': req.body.name,
+          }
+        }, function(err, response, body) {
+          req.rancher_environment_id = body.id;
+
+          next(err);
+        }).auth(config.rancher.key, config.rancher.secret, false);
+      },
       query: function() {
         request.get(url).auth(config.rancher.key, config.rancher.secret, false);
       }
@@ -20,7 +33,7 @@ var Rancher = function() {
           url: url + '/services',
           json: true,
           body: {
-            'environmentId': '1e15',
+            'environmentId': req.body.rancher_environment_id,
             'name': req.body.name,
             'startOnCreate': true,
             'launchConfig': {
