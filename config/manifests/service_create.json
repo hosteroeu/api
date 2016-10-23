@@ -1,10 +1,11 @@
 {
+  "environmentId": null,
+  "name": null,
+  "startOnCreate": true,
   "launchConfig": {
     "imageUuid": "docker:wordpress",
     "volumeDriver": "convoy-efs",
-    "dataVolumes": [
-      "plm:/var/www/html"
-    ],
+    "dataVolumes": [],
     "environment": {
       "WORDPRESS_DB_HOST": "hostero.c0dfozdkb1jx.eu-west-1.rds.amazonaws.com",
       "WORDPRESS_DB_USER": "root",

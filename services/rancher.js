@@ -27,29 +27,20 @@ var Rancher = function() {
   };
 
   var services = function() {
+    var create_manifest = require('./../config/manifests/service_create.json');
+
     return {
       create: function(req, res, next) {
+        var volume_name = req.body.rancher_environment_id + '_' + req.body.name;
+
+        create_manifest.environmentId = req.body.rancher_environment_id;
+        create_manifest.name = req.body.name;
+        create_manifest.launchConfig.dataVolumes.push(volume_name + ':/var/www/html');
+
         request.post({
           url: url + '/services',
           json: true,
-          body: {
-            'environmentId': req.body.rancher_environment_id,
-            'name': req.body.name,
-            'startOnCreate': true,
-            'launchConfig': {
-              'imageUuid': 'docker:wordpress',
-              'volumeDriver': 'convoy-efs',
-              'dataVolumes': [
-                'plm:/var/www/html'
-              ],
-              'environment': {
-                'WORDPRESS_DB_HOST': 'hostero.c0dfozdkb1jx.eu-west-1.rds.amazonaws.com',
-                'WORDPRESS_DB_USER': 'root',
-                'WORDPRESS_DB_PASSWORD': 'pisicuta',
-                'WORDPRESS_DB_NAME': 'wordpress'
-              }
-            }
-          }
+          body: create_manifest
         }, function(err, response, body) {
           req.rancher_service_id = body.id;
 
