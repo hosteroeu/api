@@ -48,8 +48,16 @@ var Rancher = function() {
           next(err);
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
-      query: function() {
-        request.get(url).auth(config.rancher.key, config.rancher.secret, false);
+      set_service_links: function(req, res, next) {
+        var create_manifest = require('./../config/manifests/service_links_create.json');
+
+        request.post({
+          url: url + '/services/' + req.rancher_service_id + '?action=setservicelinks',
+          json: true,
+          body: create_manifest
+        }, function(err, response, body) {
+          next(err);
+        }).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
   };
