@@ -63,7 +63,7 @@ var Rancher = function() {
         create_manifest.serviceLink.serviceId = req.rancher_service_id;
         // TODO: retrieve account_name from the Account model
         create_manifest.serviceLink.ports = [
-          req.body.name + '.' + req.body.account_name + '.' + ports_suffix
+          req.body.name + '.' + req.body.account_name + ports_suffix
         ];
 
         request.post({
