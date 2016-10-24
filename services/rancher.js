@@ -61,6 +61,7 @@ var Rancher = function() {
           ports_suffix = '.infrastructure.hoste.ro:80=80';
 
         create_manifest.serviceLink.serviceId = req.rancher_service_id;
+        // TODO: retrieve account_name from the Account model
         create_manifest.serviceLink.ports = [
           req.body.name + '.' + req.body.account_name + '.' + ports_suffix
         ];
