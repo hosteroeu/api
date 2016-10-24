@@ -34,7 +34,9 @@ var Rancher = function() {
 
         create_manifest.environmentId = req.body.rancher_environment_id;
         create_manifest.name = req.body.name;
-        create_manifest.launchConfig.dataVolumes = [volume_name + ':/var/www/html'];
+        create_manifest.launchConfig.dataVolumes = [
+          volume_name + ':/var/www/html'
+        ];
 
         request.post({
           url: url + '/services',
@@ -52,9 +54,33 @@ var Rancher = function() {
     };
   };
 
+  var loadbalancers = function() {
+    return {
+      add_service_link: function(req, res, next) {
+        var create_manifest = require('./../config/manifests/service_link_create.json'),
+          ports_suffix = '.infrastructure.hoste.ro:80=80';
+
+        create_manifest.serviceLink.serviceId = req.rancher_service_id;
+        create_manifest.serviceLink.ports = [
+          req.body.name + '.' + req.body.account_name + '.' + ports_suffix
+        ];
+
+        request.post({
+          url: url + '/loadbalancerservices/' +
+            config.rancher.wordpress_loadbalancer_id + '?action=addservicelink',
+          json: true,
+          body: create_manifest
+        }, function(err, response, body) {
+          next(err);
+        }).auth(config.rancher.key, config.rancher.secret, false);
+      }
+    };
+  };
+
   return {
     environments: environments(),
-    services: services()
+    services: services(),
+    loadbalancers: loadbalancers()
   };
 };
 
