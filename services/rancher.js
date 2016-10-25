@@ -69,7 +69,7 @@ var Rancher = function() {
     return {
       add_service_link: function(req, res, next) {
         var create_manifest = require('./../config/manifests/service_link_create.json'),
-          ports_suffix = '.infrastructure.hoste.ro:80=80';
+          ports_suffix = '.wordpress.hoste.ro:80=80';
 
         create_manifest.serviceLink.serviceId = req.rancher_service_id;
         // TODO: retrieve account_name from the Account model
