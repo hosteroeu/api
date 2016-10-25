@@ -8,10 +8,10 @@ var Sequelize = require('sequelize'),
   files = fs.readdirSync(__dirname),
   sequelize;
 
-sequelize = new Sequelize(config.postgres.connection_string, {
-  logging: console.log,
-  maxConcurrentQueries: config.postgres.max_concurent_queries,
-  pool: config.postgres.pool
+sequelize = new Sequelize(config.mysql.connection_string, {
+  logging: config.mysql.logging,
+  maxConcurrentQueries: config.mysql.max_concurent_queries,
+  pool: config.mysql.pool
 });
 
 files.forEach(function(file) {
