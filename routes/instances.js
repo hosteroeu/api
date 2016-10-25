@@ -1,6 +1,7 @@
 var routers = require('./../middleware').routers,
   instances = require('./../controllers').instances,
-  rancher = require('./../services').Rancher();
+  rancher = require('./../services').Rancher(),
+  mysql = require('./../services').Mysql();
 
 module.exports = function(app, router) {
   router.param('instance_id', routers.param);
@@ -8,6 +9,7 @@ module.exports = function(app, router) {
   router.post(
     '/instances',
     routers.bodyCleanup,
+    mysql.databases.create,
     rancher.services.create,
     rancher.services.set_service_links,
     rancher.loadbalancers.add_service_link,

@@ -37,6 +37,9 @@ var Rancher = function() {
         create_manifest.launchConfig.dataVolumes = [
           volume_name + ':/var/www/html'
         ];
+        create_manifest.launchConfig.environment.WORDPRESS_DB_USER = req.db_user;
+        create_manifest.launchConfig.environment.WORDPRESS_DB_PASSWORD = req.db_password;
+        create_manifest.launchConfig.environment.WORDPRESS_DB_NAME = req.db_name;
 
         request.post({
           url: url + '/services',
