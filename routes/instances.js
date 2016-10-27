@@ -1,7 +1,8 @@
 var routers = require('./../middleware').routers,
   instances = require('./../controllers').instances,
   rancher = require('./../services').Rancher(),
-  mysql = require('./../services').Mysql();
+  mysql = require('./../services').Mysql(),
+  cloudflare = require('./../services').Cloudflare();
 
 module.exports = function(app, router) {
   router.param('instance_id', routers.param);
@@ -13,6 +14,7 @@ module.exports = function(app, router) {
     rancher.services.create,
     rancher.services.set_service_links,
     rancher.loadbalancers.add_service_link,
+    cloudflare.dns.create,
     instances.create
   );
   router.get('/instances/:instance_id(\\d+)', instances.retrieve);
