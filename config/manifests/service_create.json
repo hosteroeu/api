@@ -4,7 +4,7 @@
   "startOnCreate": true,
   "launchConfig": {
     "imageUuid": "docker:wordpress",
-    "volumeDriver": "convoy-efs",
+    "volumeDriver": "rancher-nfs",
     "memory": 134217728,
     "memorySwap": 167772160,
     "cpuShares": 128,

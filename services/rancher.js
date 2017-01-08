@@ -2,6 +2,8 @@ var request = require('request'),
   errors = require('./../errors'),
   config = require('./../config');
 
+require('request-debug')(request);
+
 var Rancher = function() {
   var url = config.rancher.host;
 
@@ -12,7 +14,7 @@ var Rancher = function() {
           url: url + '/environments',
           json: true,
           body: {
-            'name': req.body.name,
+            name: req.body.name,
           }
         }, function(err, response, body) {
           req.rancher_environment_id = body.id;
