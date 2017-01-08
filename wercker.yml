@@ -27,8 +27,8 @@ rancher:
         rancher_url: $RANCHER_URL
         https: false
         tag: $WERCKER_GIT_COMMIT
-        stack_name: API
-        service_name: medusa
+        stack_name: services
+        service_name: api
         docker_org: morion4000
         docker_image: medusa
         use_tag: true
