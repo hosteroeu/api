@@ -1,26 +1,26 @@
 var routers = require('./../middleware').routers,
-  instances = require('./../controllers').instances,
+  sites = require('./../controllers').sites,
   rancher = require('./../services').Rancher(),
   mysql = require('./../services').Mysql(),
   cloudflare = require('./../services').Cloudflare();
 
 module.exports = function(app, router) {
-  router.param('instance_id', routers.param);
+  router.param('site_id', routers.param);
 
   router.post(
-    '/instances',
+    '/sites',
     routers.bodyCleanup,
     mysql.databases.create,
     rancher.services.create,
     rancher.services.set_service_links,
     rancher.loadbalancers.add_service_link,
     cloudflare.dns.create,
-    instances.create
+    sites.create
   );
-  router.get('/instances/:instance_id(\\d+)', instances.retrieve);
-  router.put('/instances/:instance_id(\\d+)', routers.bodyCleanup, instances.update);
-  router.delete('/instances/:instance_id(\\d+)', instances.remove);
+  router.get('/sites/:site_id(\\d+)', sites.retrieve);
+  router.put('/sites/:site_id(\\d+)', routers.bodyCleanup, sites.update);
+  router.delete('/sites/:site_id(\\d+)', sites.remove);
 
   // Collections
-  router.get('/instances', routers.filters, instances.collection);
+  router.get('/sites', routers.filters, sites.collection);
 };

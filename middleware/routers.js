@@ -40,7 +40,7 @@ var bodyCleanup = function(req, res, next) {
 var filters = function(req, res, next) {
   var filters = _.extend(req.query, req.params),
     filters_whitelist = [
-      'instance_id'
+      'site_id'
     ],
     invalid_filters = _.difference(_.keys(filters), filters_whitelist);
 

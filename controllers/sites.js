@@ -1,11 +1,11 @@
-var instance = require('./../models').instance,
+var site = require('./../models').site,
   errors = require('./../errors'),
   config = require('./../config');
 
-var Instances = function() {
+var Sites = function() {
 
   var collection = function(req, res, next) {
-    instance.findAll(req, function(err, result) {
+    site.findAll(req, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -18,7 +18,7 @@ var Instances = function() {
     req.body.user_id = req.user.sub;
     req.body.rancher_service_id = req.rancher_service_id;
 
-    instance.create(req.body, function(err, result) {
+    site.create(req.body, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -29,13 +29,13 @@ var Instances = function() {
   };
 
   var retrieve = function(req, res, next) {
-    instance.find(req, function(err, result) {
+    site.find(req, function(err, result) {
       if (err) {
         return next(err);
       }
 
       if (!result) {
-        return next(new errors.not_found('Instance not found'));
+        return next(new errors.not_found('Site not found'));
       }
 
       res.send(result);
@@ -43,7 +43,7 @@ var Instances = function() {
   };
 
   var update = function(req, res, next) {
-    instance.update(req.body, {
+    site.update(req.body, {
       id: req.id,
       user_id: req.user.sub
     }, function(err, result) {
@@ -57,7 +57,7 @@ var Instances = function() {
   };
 
   var remove = function(req, res, next) {
-    instance.destroy({
+    site.destroy({
       id: req.id,
       user_id: req.user.sub
     }, function(err, result) {
@@ -79,4 +79,4 @@ var Instances = function() {
   };
 };
 
-module.exports = Instances();
+module.exports = Sites();

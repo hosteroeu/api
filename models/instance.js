@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize'),
   _ = require('underscore');
 
-var Instance = function(sequelize) {
+var Site = function(sequelize) {
 
   var fields = [
     'id',
@@ -13,7 +13,7 @@ var Instance = function(sequelize) {
     'updated_at'
   ];
 
-  var instance = sequelize.define('Instance', {
+  var site = sequelize.define('Site', {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
     rancher_service_id: Sequelize.STRING,
@@ -21,11 +21,11 @@ var Instance = function(sequelize) {
     status: Sequelize.ENUM('started', 'stopped')
   }, {
     underscored: true,
-    tableName: 'instances'
+    tableName: 'sites'
   });
 
   var create = function(params, callback) {
-    instance.create(params)
+    site.create(params)
       .then(function(result) {
         callback(null, result);
       })
@@ -35,7 +35,7 @@ var Instance = function(sequelize) {
   };
 
   var update = function(fields, condition, callback) {
-    instance.update(fields, {
+    site.update(fields, {
         where: condition
       })
       .then(function(result) {
@@ -47,7 +47,7 @@ var Instance = function(sequelize) {
   };
 
   var find = function(params, callback) {
-    instance.findOne({
+    site.findOne({
         attributes: fields,
         where: {
           user_id: params.user.sub
@@ -62,7 +62,7 @@ var Instance = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
-    instance.findAll({
+    site.findAll({
         attributes: fields,
         where: {
           user_id: params.user.sub
@@ -77,7 +77,7 @@ var Instance = function(sequelize) {
   };
 
   var destroy = function(condition, callback) {
-    instance.destroy({
+    site.destroy({
         where: condition
       })
       .then(function(result) {
@@ -97,4 +97,4 @@ var Instance = function(sequelize) {
   };
 };
 
-module.exports = Instance;
+module.exports = Site;
