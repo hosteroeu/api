@@ -32,7 +32,7 @@ var Cloudflare = function() {
         var record = {
           type: 'CNAME',
           name: req.body.name + '.' + req.body.account_name + '.wordpress',
-          content: 'rancher-wordpress-slaves-288448428.eu-west-1.elb.amazonaws.com'
+          content: 'hostero-wp-loadbalancer-1331421540.eu-west-1.elb.amazonaws.com'
         };
 
         _request.post({
