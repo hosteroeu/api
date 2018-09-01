@@ -1,27 +1,32 @@
 var Sequelize = require('sequelize'),
   _ = require('underscore');
 
-var Account = function(sequelize) {
+var Miner = function(sequelize) {
 
   var fields = [
     'id',
     'name',
+    'user_id',
+    'status',
+    'host_id',
     'internal_id',
     'created_at',
     'updated_at'
   ];
 
-  var account = sequelize.define('Account', {
+  var miner = sequelize.define('Miner', {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
-    internal_id: Sequelize.STRING
+    status: Sequelize.ENUM('started', 'stopped'),
+    internal_id: Sequelize.STRING,
+    host_id: Sequelize.STRING
   }, {
     underscored: true,
-    tableName: 'accounts'
+    tableName: 'miners'
   });
 
   var create = function(params, callback) {
-    account.create(params)
+    miner.create(params)
       .then(function(result) {
         callback(null, result);
       })
@@ -31,7 +36,7 @@ var Account = function(sequelize) {
   };
 
   var update = function(fields, condition, callback) {
-    account.update(fields, {
+    miner.update(fields, {
         where: condition
       })
       .then(function(result) {
@@ -43,7 +48,7 @@ var Account = function(sequelize) {
   };
 
   var find = function(params, callback) {
-    account.findOne({
+    miner.findOne({
         attributes: fields,
         where: {
           user_id: params.user.sub
@@ -58,7 +63,7 @@ var Account = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
-    account.findAll({
+    miner.findAll({
         attributes: fields,
         where: {
           user_id: params.user.sub
@@ -73,7 +78,7 @@ var Account = function(sequelize) {
   };
 
   var destroy = function(condition, callback) {
-    account.destroy({
+    miner.destroy({
         where: condition
       })
       .then(function(result) {
@@ -93,4 +98,4 @@ var Account = function(sequelize) {
   };
 };
 
-module.exports = Account;
+module.exports = Miner;

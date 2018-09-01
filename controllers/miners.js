@@ -1,11 +1,11 @@
-var account = require('./../models').account,
+var miner = require('./../models').miner,
   errors = require('./../errors'),
   config = require('./../config');
 
-var Accounts = function() {
+var Miners = function() {
 
   var collection = function(req, res, next) {
-    account.findAll(req, function(err, result) {
+    miner.findAll(req, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -16,9 +16,9 @@ var Accounts = function() {
 
   var create = function(req, res, next) {
     req.body.user_id = req.user.sub;
-    req.body.internal_id = req.rancher_environment_id;
+    req.body.rancher_service_id = req.rancher_service_id;
 
-    account.create(req.body, function(err, result) {
+    miner.create(req.body, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -29,13 +29,13 @@ var Accounts = function() {
   };
 
   var retrieve = function(req, res, next) {
-    account.find(req, function(err, result) {
+    miner.find(req, function(err, result) {
       if (err) {
         return next(err);
       }
 
       if (!result) {
-        return next(new errors.not_found('Account not found'));
+        return next(new errors.not_found('Miner not found'));
       }
 
       res.send(result);
@@ -43,7 +43,7 @@ var Accounts = function() {
   };
 
   var update = function(req, res, next) {
-    account.update(req.body, {
+    miner.update(req.body, {
       id: req.id,
       user_id: req.user.sub
     }, function(err, result) {
@@ -57,7 +57,7 @@ var Accounts = function() {
   };
 
   var remove = function(req, res, next) {
-    account.destroy({
+    miner.destroy({
       id: req.id,
       user_id: req.user.sub
     }, function(err, result) {
@@ -70,31 +70,13 @@ var Accounts = function() {
     });
   };
 
-  var sync = function(req, res, next) {
-    account.findAll(req, function(err, result) {
-      if (err) {
-        return next(err);
-      }
-
-      if (result.length > 0) {
-        // Each account has only one environment attached, currently
-        return res.send(result[0]);
-      }
-
-      req.body.name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
-
-      next();
-    });
-  };
-
   return {
     collection: collection,
     create: create,
     retrieve: retrieve,
     update: update,
-    remove: remove,
-    sync: sync
+    remove: remove
   };
 };
 
-module.exports = Accounts();
+module.exports = Miners();

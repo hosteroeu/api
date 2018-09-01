@@ -5,13 +5,11 @@ var request = require('request'),
 require('request-debug')(request);
 
 var Rancher = function() {
-  var url = config.rancher.host;
-
   var environments = function() {
     return {
       create: function(req, res, next) {
         request.post({
-          url: url + '/environments',
+          url: config.rancher.project + '/environments',
           json: true,
           body: {
             name: req.body.name,
@@ -44,7 +42,7 @@ var Rancher = function() {
         create_manifest.launchConfig.environment.WORDPRESS_DB_NAME = req.db_name;
 
         request.post({
-          url: url + '/services',
+          url: config.rancher.project + '/services',
           json: true,
           body: create_manifest
         }, function(err, response, body) {
@@ -57,7 +55,7 @@ var Rancher = function() {
         var create_manifest = require('./../config/manifests/service_links_create.json');
 
         request.post({
-          url: url + '/services/' + req.rancher_service_id + '?action=setservicelinks',
+          url: config.rancher.host + '/services/' + req.rancher_service_id + '?action=setservicelinks',
           json: true,
           body: create_manifest
         }, function(err, response, body) {
@@ -80,7 +78,7 @@ var Rancher = function() {
         ];
 
         request.post({
-          url: url + '/loadbalancerservices/' +
+          url: config.rancher.host + '/loadbalancerservices/' +
             config.rancher.wordpress_loadbalancer_id + '?action=addservicelink',
           json: true,
           body: create_manifest
@@ -91,10 +89,19 @@ var Rancher = function() {
     };
   };
 
+  var hosts = function() {
+    return {
+      query: function(callback) {
+        request.get(config.rancher.project + '/hosts', callback).auth(config.rancher.key, config.rancher.secret, false);
+      }
+    };
+  };
+
   return {
     environments: environments(),
     services: services(),
-    loadbalancers: loadbalancers()
+    loadbalancers: loadbalancers(),
+    hosts: hosts(),
   };
 };
 

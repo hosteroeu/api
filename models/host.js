@@ -1,31 +1,48 @@
 var Sequelize = require('sequelize'),
   _ = require('underscore');
 
-var Site = function(sequelize) {
+var Host = function(sequelize) {
 
   var fields = [
     'id',
     'name',
+    'user_id',
     'status',
-    'scale',
-    'rancher_service_id',
+    'internal_id',
+    'internal_created',
+    'hostname',
+    'docker_version',
+    'os',
+    'os_kernel',
+    'memory_total',
+    'cpu_count',
+    'cpu_mhz',
+    'cpu_model',
     'created_at',
     'updated_at'
   ];
 
-  var site = sequelize.define('Site', {
+  var host = sequelize.define('Host', {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
-    rancher_service_id: Sequelize.STRING,
-    scale: Sequelize.INTEGER,
-    status: Sequelize.ENUM('started', 'stopped')
+    status: Sequelize.ENUM('started', 'stopped'),
+    internal_id: Sequelize.STRING,
+    internal_created: Sequelize.STRING,
+    hostname: Sequelize.STRING,
+    docker_version: Sequelize.STRING,
+    os: Sequelize.STRING,
+    os_kernel: Sequelize.STRING,
+    memory_total: Sequelize.STRING,
+    cpu_count: Sequelize.STRING,
+    cpu_mhz: Sequelize.STRING,
+    cpu_model: Sequelize.STRING
   }, {
     underscored: true,
-    tableName: 'sites'
+    tableName: 'hosts'
   });
 
   var create = function(params, callback) {
-    site.create(params)
+    host.create(params)
       .then(function(result) {
         callback(null, result);
       })
@@ -35,7 +52,7 @@ var Site = function(sequelize) {
   };
 
   var update = function(fields, condition, callback) {
-    site.update(fields, {
+    host.update(fields, {
         where: condition
       })
       .then(function(result) {
@@ -47,7 +64,7 @@ var Site = function(sequelize) {
   };
 
   var find = function(params, callback) {
-    site.findOne({
+    host.findOne({
         attributes: fields,
         where: {
           user_id: params.user.sub
@@ -62,7 +79,7 @@ var Site = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
-    site.findAll({
+    host.findAll({
         attributes: fields,
         where: {
           user_id: params.user.sub
@@ -77,7 +94,7 @@ var Site = function(sequelize) {
   };
 
   var destroy = function(condition, callback) {
-    site.destroy({
+    host.destroy({
         where: condition
       })
       .then(function(result) {
@@ -89,6 +106,7 @@ var Site = function(sequelize) {
   };
 
   return {
+    model: host,
     create: create,
     update: update,
     find: find,
@@ -97,4 +115,4 @@ var Site = function(sequelize) {
   };
 };
 
-module.exports = Site;
+module.exports = Host;

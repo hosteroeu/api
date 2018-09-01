@@ -15,9 +15,14 @@ sequelize = new Sequelize(config.mysql.connection_string, {
 });
 
 files.forEach(function(file) {
-  var adapter = sequelize,
-    file_name = file.match(/(.*).js/)[1],
-    file_path = path.join(__dirname, file);
+  var adapter = sequelize;
+
+  try {
+    var file_name = file.match(/(.*).js/)[1];
+    var file_path = path.join(__dirname, file);
+  } catch(e) {
+    return;
+  }
 
   if (file_name === 'index') {
     return;
