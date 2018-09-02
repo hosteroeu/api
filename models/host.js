@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  account = require('./index').account.model;
 
 var Host = function(sequelize) {
 
@@ -40,6 +41,8 @@ var Host = function(sequelize) {
     underscored: true,
     tableName: 'hosts'
   });
+
+  host.belongsTo(account);
 
   var create = function(params, callback) {
     host.create(params)

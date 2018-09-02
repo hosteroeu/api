@@ -85,6 +85,7 @@ var Account = function(sequelize) {
   };
 
   return {
+    model: account,
     create: create,
     update: update,
     find: find,

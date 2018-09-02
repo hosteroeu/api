@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  host = require('./index').host.model;
 
 var Miner = function(sequelize) {
 
@@ -18,12 +19,20 @@ var Miner = function(sequelize) {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
     status: Sequelize.ENUM('started', 'stopped'),
+    server_port: Sequelize.STRING,
+    mining_pool_url: Sequelize.STRING,
+    domain: Sequelize.STRING,
+    terminal_workers_type: Sequelize.STRING,
+    terminal_workers_cpu_max: Sequelize.STRING,
+    image_uuid: Sequelize.STRING,
+    command: Sequelize.STRING,
     internal_id: Sequelize.STRING,
-    host_id: Sequelize.STRING
   }, {
     underscored: true,
     tableName: 'miners'
   });
+
+  miner.belongsTo(host);
 
   var create = function(params, callback) {
     miner.create(params)
@@ -90,6 +99,7 @@ var Miner = function(sequelize) {
   };
 
   return {
+    model: miner,
     create: create,
     update: update,
     find: find,
