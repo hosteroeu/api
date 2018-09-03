@@ -40,7 +40,11 @@ var bodyCleanup = function(req, res, next) {
 var filters = function(req, res, next) {
   var filters = _.extend(req.query, req.params),
     filters_whitelist = [
-      'site_id'
+      'host_id',
+      'account_id',
+      'miner_id',
+      'wallet_id',
+      'deployment_id',
     ],
     invalid_filters = _.difference(_.keys(filters), filters_whitelist);
 

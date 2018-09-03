@@ -73,7 +73,8 @@ var Host = function(sequelize) {
     host.findOne({
         attributes: fields,
         where: {
-          user_id: params.user.sub
+          user_id: params.user.sub,
+          id: params.params.host_id
         },
         include: [{
           model: account,

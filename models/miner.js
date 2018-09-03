@@ -71,7 +71,8 @@ var Miner = function(sequelize) {
     miner.findOne({
         attributes: fields,
         where: {
-          user_id: params.user.sub
+          user_id: params.user.sub,
+          id: params.params.miner_id
         },
         include: [{
           model: host,
