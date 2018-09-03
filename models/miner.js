@@ -31,7 +31,7 @@ var Miner = function(sequelize) {
     server_port: Sequelize.STRING,
     mining_pool_url: Sequelize.STRING,
     domain: Sequelize.STRING,
-    wallet: Sequelize.STRING,
+    wallet: Sequelize.TEXT,
     wallet_secret_url: Sequelize.STRING,
     terminal_workers_type: Sequelize.STRING,
     terminal_workers_cpu_max: Sequelize.STRING,

@@ -37,9 +37,9 @@ rancher.services.query(function(err, message, body) {
               mining_pool_url: miner.mining_pool_url,
               domain: miner.domain,
               wallet: miner.wallet,
-              wallet_secret_url: miner.secret_wallet_url,
-              terminal_workers_type: miner.secret_wallet_url,
-              terminal_workers_cpu_max: miner.secret_wallet_url,
+              wallet_secret_url: miner.wallet_secret_url,
+              terminal_workers_type: miner.terminal_workers_type,
+              terminal_workers_cpu_max: miner.terminal_workers_cpu_max,
               image_uuid: miner.image_uuid,
               host_id: miner.Host.internal_id,
               host_id2: miner.Host.id
