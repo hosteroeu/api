@@ -8,7 +8,7 @@ function find_host_in_hosts(host, hosts) {
   var found = false;
 
   for (var i = 0, l = hosts.length; i < l; i++) {
-    if (host === hosts[i].rancher_host_id) {
+    if (host.id == hosts[i].internal_id) {
       found = true;
       break;
     }
@@ -25,7 +25,7 @@ rancher.hosts.query(function(err, message, body) {
   for (var i = 0, l = hosts.length; i < l; i++) {
     var host = hosts[i];
 
-    if (host.labels.account) {
+    if (host.agentState == 'active' && host.labels.account) {
       console.log('found rancher host', host.id);
 
       result.push(host);
@@ -46,37 +46,39 @@ rancher.hosts.query(function(err, message, body) {
 
           console.log('adding to mysql', name);
 
-          account_model.findOne({
-              where: {
-                user_id: host.labels.account
-              }
-            })
-            .then(function(account) {
-              console.log('account', account.id);
+          (function(_host) {
+            account_model.findOne({
+                where: {
+                  user_id: _host.labels.account
+                }
+              })
+              .then(function(account) {
+                if (!account) return;
 
-              if (!account) return;
+                console.log('account', account.id);
 
-              host_model.create({
-                  name: name,
-                  user_id: host.labels.account,
-                  account_id: account.id,
-                  status: 'started',
-                  deployed: '0',
-                  internal_id: host.id,
-                  internal_created: host.createdTS,
-                  hostname: host.hostname,
-                  docker_version: host.info.osInfo.dockerVersion,
-                  os: host.info.osInfo.operatingSystem,
-                  os_kernel: host.info.osInfo.kernelVersion,
-                  memory_total: host.info.memoryInfo.memTotal,
-                  cpu_count: host.info.cpuInfo.count,
-                  cpu_mhz: host.info.cpuInfo.mhz,
-                  cpu_model: host.info.cpuInfo.modelName
-                })
-                .then(console.log)
-                .catch(console.error);
-            })
-            .catch(console.error);
+                host_model.create({
+                    name: name,
+                    user_id: _host.labels.account,
+                    account_id: account.id,
+                    status: 'started',
+                    deployed: '0',
+                    internal_id: _host.id,
+                    internal_created: _host.createdTS,
+                    hostname: _host.hostname,
+                    docker_version: _host.info.osInfo.dockerVersion,
+                    os: _host.info.osInfo.operatingSystem,
+                    os_kernel: _host.info.osInfo.kernelVersion,
+                    memory_total: _host.info.memoryInfo.memTotal,
+                    cpu_count: _host.info.cpuInfo.count,
+                    cpu_mhz: _host.info.cpuInfo.mhz,
+                    cpu_model: _host.info.cpuInfo.modelName
+                  })
+                  .then(console.log)
+                  .catch(console.error);
+              })
+              .catch(console.error);
+          })(host);
         }
       }
     })

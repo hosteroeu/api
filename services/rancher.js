@@ -2,7 +2,7 @@ var request = require('request'),
   errors = require('./../errors'),
   config = require('./../config');
 
-require('request-debug')(request);
+//require('request-debug')(request);
 
 var Rancher = function() {
   var environments = function() {

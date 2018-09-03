@@ -41,7 +41,8 @@ rancher.services.query(function(err, message, body) {
               terminal_workers_type: miner.secret_wallet_url,
               terminal_workers_cpu_max: miner.secret_wallet_url,
               image_uuid: miner.image_uuid,
-              host_id: miner.Host.internal_id
+              host_id: miner.Host.internal_id,
+              host_id2: miner.Host.id
             }
           };
 
@@ -60,6 +61,16 @@ rancher.services.query(function(err, message, body) {
                 }, {
                   where: {
                     id: _req.body.id
+                  }
+                })
+                .then(console.log)
+                .catch(console.error);
+
+              host_model.update({
+                  deployed: '1'
+                }, {
+                  where: {
+                    id: _req.body.host_id2
                   }
                 })
                 .then(console.log)
