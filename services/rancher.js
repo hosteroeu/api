@@ -20,8 +20,8 @@ var Rancher = function() {
           next(err);
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
-      query: function() {
-        request.get(url).auth(config.rancher.key, config.rancher.secret, false);
+      query: function(callback) {
+        request.get(url, callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
   };
@@ -29,17 +29,22 @@ var Rancher = function() {
   var services = function() {
     return {
       create: function(req, res, next) {
-        var create_manifest = require('./../config/manifests/service_create.json'),
-          volume_name = req.body.rancher_environment_id + '_' + req.body.name;
+        var create_manifest = require('./../config/manifests/service_create.json');
 
-        create_manifest.environmentId = req.body.rancher_environment_id;
-        create_manifest.name = req.body.name;
-        create_manifest.launchConfig.dataVolumes = [
-          volume_name + ':/var/www/html'
-        ];
-        create_manifest.launchConfig.environment.WORDPRESS_DB_USER = req.db_user;
-        create_manifest.launchConfig.environment.WORDPRESS_DB_PASSWORD = req.db_password;
-        create_manifest.launchConfig.environment.WORDPRESS_DB_NAME = req.db_name;
+        create_manifest.environmentId = config.rancher.stack_id;
+        create_manifest.name = req.body.host_id + '-' + req.body.id;
+
+        create_manifest.launchConfig.requestedHostId = req.body.host_id;
+        create_manifest.launchConfig.imageUuid = req.body.image_uuid;
+        create_manifest.launchConfig.labels.account = req.body.user_id;
+        create_manifest.launchConfig.labels.name = req.body.name;
+        create_manifest.launchConfig.environment.SERVER_PORT = req.body.server_port;
+        create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
+        create_manifest.launchConfig.environment.DOMAIN = req.body.domain;
+        create_manifest.launchConfig.environment.WALLET = req.body.wallet;
+        create_manifest.launchConfig.environment.WALLET_SECRET_URL = req.body.wallet_secret_url;
+        create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = req.body.terminal_workers_type;
+        create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.terminal_workers_cpu_max;
 
         request.post({
           url: config.rancher.project + '/services',
@@ -48,17 +53,6 @@ var Rancher = function() {
         }, function(err, response, body) {
           req.rancher_service_id = body.id;
 
-          next(err);
-        }).auth(config.rancher.key, config.rancher.secret, false);
-      },
-      set_service_links: function(req, res, next) {
-        var create_manifest = require('./../config/manifests/service_links_create.json');
-
-        request.post({
-          url: config.rancher.host + '/services/' + req.rancher_service_id + '?action=setservicelinks',
-          json: true,
-          body: create_manifest
-        }, function(err, response, body) {
           next(err);
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
