@@ -25,7 +25,7 @@ rancher.hosts.query(function(err, message, body) {
   for (var i = 0, l = hosts.length; i < l; i++) {
     var host = hosts[i];
 
-    if (host.agentState == 'active' && host.labels.account) {
+    if (host.agentState !== 'disconnected' && host.labels.account) {
       console.log('found rancher host', host.id);
 
       result.push(host);
