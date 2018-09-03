@@ -61,6 +61,7 @@ rancher.hosts.query(function(err, message, body) {
                   user_id: host.labels.account,
                   account_id: account.id,
                   status: 'started',
+                  deployed: '0',
                   internal_id: host.id,
                   internal_created: host.createdTS,
                   hostname: host.hostname,

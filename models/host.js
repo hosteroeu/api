@@ -8,6 +8,8 @@ var Host = function(sequelize) {
     'id',
     'name',
     'user_id',
+    'deployed',
+    'account_id',
     'status',
     'internal_id',
     'internal_created',
@@ -26,6 +28,7 @@ var Host = function(sequelize) {
   var host = sequelize.define('Host', {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
+    deployed: Sequelize.STRING,
     status: Sequelize.ENUM('started', 'stopped'),
     internal_id: Sequelize.STRING,
     internal_created: Sequelize.STRING,
@@ -71,7 +74,10 @@ var Host = function(sequelize) {
         attributes: fields,
         where: {
           user_id: params.user.sub
-        }
+        },
+        include: [{
+          model: account,
+        }]
       })
       .then(function(result) {
         callback(null, result);
@@ -86,7 +92,10 @@ var Host = function(sequelize) {
         attributes: fields,
         where: {
           user_id: params.user.sub
-        }
+        },
+        include: [{
+          model: account,
+        }]
       })
       .then(function(result) {
         callback(null, result);

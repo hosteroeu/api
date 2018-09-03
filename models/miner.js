@@ -10,6 +10,15 @@ var Miner = function(sequelize) {
     'user_id',
     'status',
     'host_id',
+    'server_port',
+    'mining_pool_url',
+    'domain',
+    'wallet',
+    'wallet_secret_url',
+    'terminal_workers_type',
+    'terminal_workers_cpu_max',
+    'image_uuid',
+    'command',
     'internal_id',
     'created_at',
     'updated_at'
@@ -22,6 +31,8 @@ var Miner = function(sequelize) {
     server_port: Sequelize.STRING,
     mining_pool_url: Sequelize.STRING,
     domain: Sequelize.STRING,
+    wallet: Sequelize.STRING,
+    wallet_secret_url: Sequelize.STRING,
     terminal_workers_type: Sequelize.STRING,
     terminal_workers_cpu_max: Sequelize.STRING,
     image_uuid: Sequelize.STRING,
@@ -61,7 +72,10 @@ var Miner = function(sequelize) {
         attributes: fields,
         where: {
           user_id: params.user.sub
-        }
+        },
+        include: [{
+          model: host,
+        }]
       })
       .then(function(result) {
         callback(null, result);
@@ -76,7 +90,10 @@ var Miner = function(sequelize) {
         attributes: fields,
         where: {
           user_id: params.user.sub
-        }
+        },
+        include: [{
+          model: host,
+        }]
       })
       .then(function(result) {
         callback(null, result);
