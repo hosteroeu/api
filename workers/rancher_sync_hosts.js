@@ -42,7 +42,7 @@ rancher.hosts.query(function(err, message, body) {
         var host = result[i];
 
         if (!find_host_in_hosts(host, hosts)) {
-          console.log('adding to mysql', name);
+          console.log('adding to mysql', host.hostname);
 
           (function(_host) {
             account_model.findOne({
