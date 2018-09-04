@@ -42,8 +42,6 @@ rancher.hosts.query(function(err, message, body) {
         var host = result[i];
 
         if (!find_host_in_hosts(host, hosts)) {
-          var name = host.name || host.hostname;
-
           console.log('adding to mysql', name);
 
           (function(_host) {
@@ -58,7 +56,7 @@ rancher.hosts.query(function(err, message, body) {
                 console.log('account', account.id);
 
                 host_model.create({
-                    name: name,
+                    name: host.name || host.hostname,
                     user_id: account.user_id,
                     account_id: account.id,
                     status: 'started',
