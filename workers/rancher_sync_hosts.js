@@ -49,7 +49,7 @@ rancher.hosts.query(function(err, message, body) {
           (function(_host) {
             account_model.findOne({
                 where: {
-                  user_id: _host.labels.account
+                  name: _host.labels.account
                 }
               })
               .then(function(account) {

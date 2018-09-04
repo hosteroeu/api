@@ -16,7 +16,6 @@ var Hosts = function() {
 
   var create = function(req, res, next) {
     req.body.user_id = req.user.sub;
-    req.body.rancher_service_id = req.rancher_service_id;
 
     host.create(req.body, function(err, result) {
       if (err) {

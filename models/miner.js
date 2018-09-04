@@ -38,6 +38,7 @@ var Miner = function(sequelize) {
     image_uuid: Sequelize.STRING,
     command: Sequelize.STRING,
     internal_id: Sequelize.STRING,
+    //TODO: Add internal_created, like hosts
   }, {
     underscored: true,
     tableName: 'miners'
