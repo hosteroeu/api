@@ -59,7 +59,7 @@ rancher.hosts.query(function(err, message, body) {
 
                 host_model.create({
                     name: name,
-                    user_id: _host.labels.account,
+                    user_id: account.user_id,
                     account_id: account.id,
                     status: 'started',
                     deployed: '0',
