@@ -42,43 +42,55 @@ rancher.services.query(function(err, message, body) {
               terminal_workers_cpu_max: miner.terminal_workers_cpu_max,
               image_uuid: miner.image_uuid,
               host_id: miner.Host.internal_id,
-              host_id2: miner.Host.id
+              host_id2: miner.Host.id,
+              host_account_id: miner.Host.account_id,
             }
           };
 
           (function(_req) {
-            rancher.services.create(_req, {}, function(err) {
-              if (err) {
-                console.err(err);
-                return;
-              }
+            account_model.findOne({
+                where: {
+                  id: _req.body.host_account_id
+                }
+              })
+              .then(function(account) {
+                if (!account) return;
 
-              console.log('deployed', _req.rancher_service_id);
+                console.log('account', account.internal_id);
 
-              miner_model.update({
-                  status: 'started',
-                  internal_id: _req.rancher_service_id
-                }, {
-                  where: {
-                    id: _req.body.id
+                _req.body.stack_id = account.internal_id;
+
+                rancher.services.create(_req, {}, function(err) {
+                  if (err) {
+                    console.err(err);
+                    return;
                   }
-                })
-                .then(console.log)
-                .catch(console.error);
 
-              host_model.update({
-                  deployed: '1'
-                }, {
-                  where: {
-                    id: _req.body.host_id2
-                  }
-                })
-                .then(console.log)
-                .catch(console.error);
-            });
+                  console.log('deployed', _req.rancher_service_id);
+
+                  miner_model.update({
+                      status: 'started',
+                      internal_id: _req.rancher_service_id
+                    }, {
+                      where: {
+                        id: _req.body.id
+                      }
+                    })
+                    .then(console.log)
+                    .catch(console.error);
+
+                  host_model.update({
+                      deployed: '1'
+                    }, {
+                      where: {
+                        id: _req.body.host_id2
+                      }
+                    })
+                    .then(console.log)
+                    .catch(console.error);
+                });
+              });
           })(req);
-
-          break;
         }
       }
     })

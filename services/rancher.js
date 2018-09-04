@@ -31,7 +31,7 @@ var Rancher = function() {
       create: function(req, res, next) {
         var create_manifest = require('./../config/manifests/service_create.json');
 
-        create_manifest.environmentId = config.rancher.stack_id;
+        create_manifest.environmentId = req.body.stack_id;
         create_manifest.name = req.body.host_id + '-' + req.body.id;
 
         create_manifest.launchConfig.requestedHostId = req.body.host_id;
@@ -57,7 +57,7 @@ var Rancher = function() {
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
       query: function(callback) {
-        request.get(config.rancher.stack + '/services', callback).auth(config.rancher.key, config.rancher.secret, false);
+        request.get(config.rancher.project + '/services', callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
   };
