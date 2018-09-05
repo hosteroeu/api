@@ -6,6 +6,10 @@ var Account = function(sequelize) {
   var fields = [
     'id',
     'name',
+    'email',
+    'full_name',
+    'wallet',
+    'mining_pool_url',
     'internal_id',
     'created_at',
     'updated_at'
@@ -13,6 +17,9 @@ var Account = function(sequelize) {
 
   var account = sequelize.define('Account', {
     name: Sequelize.STRING,
+    email: Sequelize.STRING,
+    wallet: Sequelize.TEXT,
+    mining_pool_url: Sequelize.STRING,
     user_id: Sequelize.STRING,
     internal_id: Sequelize.STRING
   }, {
