@@ -34,12 +34,13 @@ var Rancher = function() {
         var create_manifest = require('./../config/manifests/service_create.json');
 
         create_manifest.environmentId = req.body.stack_id;
-        create_manifest.name = req.body.host_id + '-' + req.body.id;
+        create_manifest.name = req.body.name;
 
         create_manifest.launchConfig.requestedHostId = req.body.host_id;
         create_manifest.launchConfig.imageUuid = req.body.image_uuid;
-        create_manifest.launchConfig.labels.account = req.body.user_id;
+        create_manifest.launchConfig.labels.account = req.body.stack_id;
         create_manifest.launchConfig.labels.name = req.body.name;
+        create_manifest.launchConfig.labels.id = req.body.id;
         create_manifest.launchConfig.environment.SERVER_PORT = req.body.server_port;
         create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
         create_manifest.launchConfig.environment.DOMAIN = req.body.domain;

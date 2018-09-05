@@ -17,6 +17,7 @@ var Account = function(sequelize) {
 
   var account = sequelize.define('Account', {
     name: Sequelize.STRING,
+    full_name: Sequelize.STRING,
     email: Sequelize.STRING,
     wallet: Sequelize.TEXT,
     mining_pool_url: Sequelize.STRING,
