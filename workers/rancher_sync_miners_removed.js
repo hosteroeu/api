@@ -22,6 +22,10 @@ miner_model.findAll({})
     console.log('found miners', miners.length);
 
     rancher.services.query(function(err, message, body) {
+        if (err) {
+          return;
+        }
+
         var data = JSON.parse(body);
         var result = data.data;
 

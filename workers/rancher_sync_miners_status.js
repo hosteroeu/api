@@ -16,6 +16,10 @@ function find_miner_in_miners(miner, miners) {
 }
 
 rancher.services.query(function(err, message, body) {
+  if (err) {
+    return;
+  }
+
   var data = JSON.parse(body);
   var result = data.data;
 

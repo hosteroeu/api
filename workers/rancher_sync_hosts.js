@@ -18,6 +18,10 @@ function find_host_in_hosts(host, hosts) {
 }
 
 rancher.hosts.query(function(err, message, body) {
+  if (err) {
+    return;
+  }
+
   var data = JSON.parse(body);
   var hosts = data.data;
   var result = [];
