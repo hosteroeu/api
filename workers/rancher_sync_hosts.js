@@ -56,7 +56,7 @@ rancher.hosts.query(function(err, message, body) {
                 console.log('account', account.id);
 
                 host_model.create({
-                    name: host.name || host.hostname,
+                    name: _host.name || _host.hostname,
                     user_id: account.user_id,
                     account_id: account.id,
                     status: 'started',
