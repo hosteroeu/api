@@ -21,7 +21,9 @@ var Rancher = function() {
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
       query: function(callback) {
-        request.get(url, callback).auth(config.rancher.key, config.rancher.secret, false);
+        request.get(url, {
+          timeout: 10 * 1000
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
   };
@@ -57,7 +59,9 @@ var Rancher = function() {
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
       query: function(callback) {
-        request.get(config.rancher.project + '/services', callback).auth(config.rancher.key, config.rancher.secret, false);
+        request.get(config.rancher.project + '/services', {
+          timeout: 10 * 1000
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
   };
@@ -65,7 +69,9 @@ var Rancher = function() {
   var hosts = function() {
     return {
       query: function(callback) {
-        request.get(config.rancher.project + '/hosts', callback).auth(config.rancher.key, config.rancher.secret, false);
+        request.get(config.rancher.project + '/hosts', {
+          timeout: 10 * 1000
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
   };

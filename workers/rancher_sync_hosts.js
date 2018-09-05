@@ -34,7 +34,6 @@ rancher.hosts.query(function(err, message, body) {
 
   console.log('rancher hosts', result.length);
 
-
   host_model.findAll({})
     .then(function(data) {
       var hosts = data;
