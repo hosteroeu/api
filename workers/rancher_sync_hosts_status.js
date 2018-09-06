@@ -4,6 +4,8 @@ var config = require('./../config');
 var host_model = require('./../models').host.model;
 var account_model = require('./../models').account.model;
 
+setTimeout(process.exit, 50 * 1000);
+
 function find_host_in_hosts(host, hosts) {
   for (var i = 0, l = hosts.length; i < l; i++) {
     if (host.id == hosts[i].internal_id) {
