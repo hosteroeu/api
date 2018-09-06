@@ -6,6 +6,7 @@
     "imageUuid": "",
     "dataVolumes": [],
     "environment": {},
+    "networkMode": "host",
     "labels": {
       "purpose": "webdollar",
       "io.rancher.container.pull_image": "always"
