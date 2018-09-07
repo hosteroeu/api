@@ -26,6 +26,8 @@ client.schema('hostero_hosts', fieldSchema, tagSchema, {
 
 //client.createDatabase().then(console.log).catch(console.error);return;
 
+setTimeout(process.exit, 50 * 1000);
+
 request.get(config.rancher.project + '/hosts?limit=1000', {
   timeout: 10 * 1000
 }, function(err, message, body) {
