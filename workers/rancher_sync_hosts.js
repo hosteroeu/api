@@ -1,6 +1,7 @@
 var rancher = require('./../services').Rancher();
 var config = require('./../config');
 
+var miner_model = require('./../models').miner.model;
 var host_model = require('./../models').host.model;
 var account_model = require('./../models').account.model;
 
@@ -61,12 +62,14 @@ rancher.hosts.query(function(err, message, body) {
 
                 console.log('account', account.id);
 
+                var auto_deploy = account.auto_deploy === true && account.mining_pool_url && account.wallet;
+
                 host_model.create({
                     name: _host.name || _host.hostname,
                     user_id: account.user_id,
                     account_id: account.id,
                     status: 'started',
-                    deployed: '0',
+                    deployed: auto_deploy ? '2' : '0',
                     internal_id: _host.id,
                     internal_created: _host.createdTS,
                     hostname: _host.hostname,
@@ -78,7 +81,29 @@ rancher.hosts.query(function(err, message, body) {
                     cpu_mhz: _host.info.cpuInfo.mhz,
                     cpu_model: _host.info.cpuInfo.modelName
                   })
-                  .then(console.log)
+                  .then(function(data) {
+                    if (auto_deploy) {
+                      var host = data;
+
+                      miner_model.create({
+                          name: 'webd-miner-' + host.id,
+                          status: 'stopped',
+                          server_port: '8000',
+                          mining_pool_url: account.mining_pool_url,
+                          domain: 'wd.hoste.ro',
+                          wallet: account.wallet,
+                          terminal_workers_type: 'cpu-cpp',
+                          terminal_workers_cpu_max: host.cpu_count || '0',
+                          image_uuid: 'docker:morion4000/node:pool_miner_cpp',
+                          command: 'sh start_pool_mining.sh',
+                          wallet_secret_url: '7e5d522a70ce4c455f6875d01c22727e',
+                          host_id: host.id,
+                          user_id: account.user_id
+                        })
+                        .then(console.log)
+                        .catch(console.error);
+                    }
+                  })
                   .catch(console.error);
               })
               .catch(console.error);
