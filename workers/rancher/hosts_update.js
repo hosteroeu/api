@@ -1,8 +1,8 @@
-var rancher = require('./../services').Rancher();
-var config = require('./../config');
+var rancher = require('./../../services').Rancher();
+var config = require('./../../config');
 
-var host_model = require('./../models').host.model;
-var account_model = require('./../models').account.model;
+var host_model = require('./../../models').host.model;
+var account_model = require('./../../models').account.model;
 
 function find_host_in_hosts(host, hosts) {
   for (var i = 0, l = hosts.length; i < l; i++) {
@@ -15,7 +15,7 @@ function find_host_in_hosts(host, hosts) {
 }
 
 rancher.hosts.query(function(err, message, body) {
-  if (err.connect === true) {
+  if (err && err.connect === true) {
     process.exit(0);
   }
 

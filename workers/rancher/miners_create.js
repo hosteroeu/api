@@ -1,9 +1,9 @@
-var rancher = require('./../services').Rancher();
-var config = require('./../config');
+var rancher = require('./../../services').Rancher();
+var config = require('./../../config');
 
-var miner_model = require('./../models').miner.model;
-var host_model = require('./../models').host.model;
-var account_model = require('./../models').account.model;
+var miner_model = require('./../../models').miner.model;
+var host_model = require('./../../models').host.model;
+var account_model = require('./../../models').account.model;
 
 miner_model.findAll({
     include: [{

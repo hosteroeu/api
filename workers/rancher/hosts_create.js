@@ -1,9 +1,9 @@
-var rancher = require('./../services').Rancher();
-var config = require('./../config');
+var rancher = require('./../../services').Rancher();
+var config = require('./../../config');
 
-var miner_model = require('./../models').miner.model;
-var host_model = require('./../models').host.model;
-var account_model = require('./../models').account.model;
+var miner_model = require('./../../models').miner.model;
+var host_model = require('./../../models').host.model;
+var account_model = require('./../../models').account.model;
 
 function find_host_in_hosts(host, hosts) {
   var found = false;
@@ -19,7 +19,7 @@ function find_host_in_hosts(host, hosts) {
 }
 
 rancher.hosts.query(function(err, message, body) {
-  if (err.connect === true) {
+  if (err && err.connect === true) {
     process.exit(0);
   }
 

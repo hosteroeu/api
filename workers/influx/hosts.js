@@ -1,6 +1,6 @@
 var Influx = require('influxdb-nodejs');
 var request = require('request');
-var config = require('./../config');
+var config = require('./../../config');
 var client = new Influx('http://206.189.250.118:8086/webdollar_private');
 
 var fieldSchema = {
@@ -29,7 +29,7 @@ client.schema('hostero_hosts', fieldSchema, tagSchema, {
 request.get(config.rancher.project + '/hosts?limit=1000', {
   timeout: 5000
 }, function(err, message, body) {
-  if (err.connect === true) {
+  if (err && err.connect === true) {
     process.exit(0);
   }
 

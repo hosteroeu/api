@@ -2,7 +2,7 @@ var request = require('request'),
   errors = require('./../errors'),
   config = require('./../config');
 
-require('request-debug')(request);
+//require('request-debug')(request);
 
 var Cloudflare = function() {
   var url = 'https://api.cloudflare.com/client/v4/',
