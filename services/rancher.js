@@ -22,7 +22,7 @@ var Rancher = function() {
       },
       query: function(callback) {
         request.get(url + '?limit=1000', {
-          timeout: 10 * 1000
+          timeout: 5000
         }, callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
@@ -61,7 +61,7 @@ var Rancher = function() {
       },
       query: function(callback) {
         request.get(config.rancher.project + '/services?limit=1000', {
-          timeout: 10 * 1000
+          timeout: 5000
         }, callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
@@ -71,7 +71,7 @@ var Rancher = function() {
     return {
       query: function(callback) {
         request.get(config.rancher.project + '/hosts?limit=1000', {
-          timeout: 10 * 1000
+          timeout: 5000
         }, callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };

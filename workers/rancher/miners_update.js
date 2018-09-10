@@ -5,8 +5,6 @@ var miner_model = require('./../models').miner.model;
 var host_model = require('./../models').host.model;
 var account_model = require('./../models').account.model;
 
-setTimeout(process.exit, 50 * 1000);
-
 function find_miner_in_miners(miner, miners) {
   for (var i = 0, l = miners.length; i < l; i++) {
     if (miner.id == miners[i].internal_id) {
@@ -18,8 +16,8 @@ function find_miner_in_miners(miner, miners) {
 }
 
 rancher.services.query(function(err, message, body) {
-  if (err) {
-    return;
+  if (err.connect === true) {
+    process.exit(0);
   }
 
   var data = JSON.parse(body);

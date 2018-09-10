@@ -5,8 +5,6 @@ var miner_model = require('./../models').miner.model;
 var host_model = require('./../models').host.model;
 var account_model = require('./../models').account.model;
 
-setTimeout(process.exit, 50 * 1000);
-
 miner_model.findAll({
     include: [{
       model: host_model

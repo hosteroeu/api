@@ -4,8 +4,6 @@ var config = require('./../config');
 var host_model = require('./../models').host.model;
 var account_model = require('./../models').account.model;
 
-setTimeout(process.exit, 50 * 1000);
-
 function find_host_in_hosts(host, hosts) {
   for (var i = 0, l = hosts.length; i < l; i++) {
     if (host.internal_id == hosts[i].id) {
@@ -23,8 +21,8 @@ host_model.findAll({})
     console.log('found hosts', hosts.length);
 
     rancher.hosts.query(function(err, message, body) {
-        if (err) {
-          return;
+        if (err.connect === true) {
+          process.exit(0);
         }
 
         var data = JSON.parse(body);
