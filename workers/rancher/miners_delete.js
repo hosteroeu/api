@@ -1,54 +1,25 @@
-var rancher = require('./../../services').Rancher();
-var config = require('./../../config');
+var request = require('request');
 
-var miner_model = require('./../../models').miner.model;
-var host_model = require('./../../models').host.model;
-var account_model = require('./../../models').account.model;
+var config = require('./rancher_credentials.json');
+var key = config.WEBDOLLAR_OLD.key;
+var secret = config.WEBDOLLAR_OLD.secret;
+var url = config.WEBDOLLAR_OLD.url;
 
-function find_miner_in_miners(miner, miners) {
-  for (var i = 0, l = miners.length; i < l; i++) {
-    if (miner.internal_id == miners[i].id) {
-      return miners[i];
+//require('request-debug')(request);
+
+request.get(url + '/services?name_prefix=webd&healthState=unhealthy', function(err, message, body) {
+  var data = JSON.parse(body);
+  var services = data.data;
+
+  console.log(services.length, 'services unhealthy');
+
+  for (var i = 0, l = services.length; i < l; i++) {
+    var service = services[i];
+
+    // Delete just services which are not stopped manually
+    if (service.state !== 'active') {
+      console.log('deleting', service.name);
+      request.post(url + '/services/' + service.id + '/?action=remove', console.log).auth(key, secret, false);
     }
   }
-
-  return null;
-}
-
-miner_model.findAll({})
-  .then(function(data) {
-    var miners = data;
-
-    console.log('found miners', miners.length);
-
-    rancher.services.query(function(err, message, body) {
-      if (err && err.connect === true) {
-        process.exit(0);
-      }
-
-      var data = JSON.parse(body);
-      var result = data.data;
-
-      console.log('found services', result.length);
-
-      for (var i = 0, l = miners.length; i < l; i++) {
-        var miner = miners[i];
-
-        var service_miner = find_miner_in_miners(miner, result);
-
-        if (!service_miner) {
-          console.log('removed miner', miner.name);
-
-          miner_model.update({
-              status: 'stopped',
-            }, {
-              where: {
-                id: miner.id
-              }
-            })
-            .then(console.log)
-            .catch(console.error);
-        }
-      }
-    });
-  });
+}).auth(key, secret, false);

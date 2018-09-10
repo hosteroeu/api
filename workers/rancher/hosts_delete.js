@@ -1,53 +1,35 @@
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
-var host_model = require('./../../models').host.model;
-var account_model = require('./../../models').account.model;
+var config = require('./rancher_credentials.json');
+var key = config.WEBDOLLAR_OLD.key;
+var secret = config.WEBDOLLAR_OLD.secret;
+var url = config.WEBDOLLAR_OLD.url;
+var url2 = config.MASTER_OLD.url;
 
-function find_host_in_hosts(host, hosts) {
+//require('request-debug')(request);
+
+request.get(url + '/hosts', function(err, message, body) {
+  var data = JSON.parse(body);
+  var hosts = data.data;
+  var result = [];
+  var candidates = 0;
+
+  console.log(hosts.length, 'hosts');
+
   for (var i = 0, l = hosts.length; i < l; i++) {
-    if (host.internal_id == hosts[i].id) {
-      return hosts[i];
+    var host = hosts[i];
+
+    if (host.state == 'inactive') {
+      request.delete(url2 + '/hosts/' + host.id, console.log).auth(key, secret, false);
+
+      continue;
+    }
+
+    if (host.agentState == 'disconnected') {
+      request.post(url2 + '/hosts/' + host.id + '/?action=deactivate', console.log).auth(key, secret, false);
+
+      continue;
     }
   }
-
-  return null;
-}
-
-host_model.findAll({})
-  .then(function(data) {
-    var hosts = data;
-
-    console.log('found hosts', hosts.length);
-
-    rancher.hosts.query(function(err, message, body) {
-      if (err && err.connect === true) {
-        process.exit(0);
-      }
-
-      var data = JSON.parse(body);
-      var result = data.data;
-
-      console.log('found services', result.length);
-
-      for (var i = 0, l = hosts.length; i < l; i++) {
-        var host = hosts[i];
-
-        var service_host = find_host_in_hosts(host, result);
-
-        if (!service_host) {
-          console.log('removed host', host.name);
-
-          host_model.update({
-              status: 'stopped',
-            }, {
-              where: {
-                id: host.id
-              }
-            })
-            .then(console.log)
-            .catch(console.error);
-        }
-      }
-    });
-  });
+}).auth(key, secret, false);
