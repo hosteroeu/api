@@ -94,7 +94,7 @@ rancher.hosts.query(function(err, message, body) {
                           wallet: account.wallet,
                           terminal_workers_type: 'cpu-cpp',
                           terminal_workers_cpu_max: host.cpu_count || '0',
-                          image_uuid: 'docker:morion4000/node:pool_miner_cpp',
+                          image_uuid: 'docker:morion4000/node:v2',
                           command: 'sh start_pool_mining.sh',
                           wallet_secret_url: '7e5d522a70ce4c455f6875d01c22727e',
                           host_id: host.id,
