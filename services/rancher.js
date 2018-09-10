@@ -63,7 +63,15 @@ var Rancher = function() {
         request.get(config.rancher.project + '/services?limit=1000', {
           timeout: 5000
         }, callback).auth(config.rancher.key, config.rancher.secret, false);
-      }
+      },
+      query_unhealthy: function(callback) {
+        request.get(config.rancher.project + '/services?limit=1000&name_prefix=webd&healthState=unhealthy', {
+          timeout: 5000
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
+      remove: function(id, callback) {
+        request.post(config.rancher.project + '/services/' + id + '/?action=remove', callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
     };
   };
 
@@ -73,6 +81,12 @@ var Rancher = function() {
         request.get(config.rancher.project + '/hosts?limit=1000', {
           timeout: 5000
         }, callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
+      remove: function(id, callback) {
+        request.delete(config.rancher.host + '/hosts/' + id, callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
+      deactivate: function(id, callback) {
+        request.post(config.rancher.host + '/hosts/' + id + '/?action=deactivate', callback).auth(config.rancher.key, config.rancher.secret, false);
       }
     };
   };

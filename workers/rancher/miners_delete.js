@@ -1,13 +1,7 @@
-var request = require('request');
+var rancher = require('./../../services').Rancher();
+var config = require('./../../config');
 
-var config = require('./rancher_credentials.json');
-var key = config.WEBDOLLAR_OLD.key;
-var secret = config.WEBDOLLAR_OLD.secret;
-var url = config.WEBDOLLAR_OLD.url;
-
-//require('request-debug')(request);
-
-request.get(url + '/services?name_prefix=webd&healthState=unhealthy', function(err, message, body) {
+rancher.services.query_unhealthy(function(err, message, body) {
   var data = JSON.parse(body);
   var services = data.data;
 
@@ -19,7 +13,7 @@ request.get(url + '/services?name_prefix=webd&healthState=unhealthy', function(e
     // Delete just services which are not stopped manually
     if (service.state !== 'active') {
       console.log('deleting', service.name);
-      request.post(url + '/services/' + service.id + '/?action=remove', console.log).auth(key, secret, false);
+      rancher.services.remove(service.id);
     }
   }
-}).auth(key, secret, false);
+});
