@@ -20,6 +20,7 @@ var Miner = function(sequelize) {
     'image_uuid',
     'command',
     'internal_id',
+    'internal_created',
     'created_at',
     'updated_at'
   ];
@@ -38,7 +39,7 @@ var Miner = function(sequelize) {
     image_uuid: Sequelize.STRING,
     command: Sequelize.STRING,
     internal_id: Sequelize.STRING,
-    //TODO: Add internal_created, like hosts
+    internal_created: Sequelize.STRING,
   }, {
     underscored: true,
     tableName: 'miners'

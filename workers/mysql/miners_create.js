@@ -64,7 +64,8 @@ miner_model.findAll({
 
                 miner_model.update({
                     status: 'started',
-                    internal_id: _req.rancher_service_id
+                    internal_id: _req.rancher_service_id,
+                    internal_created: _req.rancher_service_created
                   }, {
                     where: {
                       id: _req.body.id

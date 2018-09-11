@@ -55,6 +55,7 @@ var Rancher = function() {
           body: create_manifest
         }, function(err, response, body) {
           req.rancher_service_id = body.id;
+          req.rancher_service_created = body.createdTS;
 
           next(err);
         }).auth(config.rancher.key, config.rancher.secret, false);
