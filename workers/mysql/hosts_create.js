@@ -77,7 +77,8 @@ rancher.hosts.query(function(err, message, body) {
                     memory_total: _host.info.memoryInfo.memTotal,
                     cpu_count: _host.info.cpuInfo.count,
                     cpu_mhz: _host.info.cpuInfo.mhz,
-                    cpu_model: _host.info.cpuInfo.modelName
+                    cpu_model: _host.info.cpuInfo.modelName,
+                    agent_ip: _host.agentIpAddress,
                   })
                   .then(function(data) {
                     if (auto_deploy) {
