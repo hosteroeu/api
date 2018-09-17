@@ -20,8 +20,8 @@ request.get(url + '/services?limit=1000', function(err, message, body) {
       if (service.name.indexOf('webd') === -1) return;
 
       console.log(service.name);
-
-      service.launchConfig.imageUuid = 'docker:morion4000/node:v2';
+      //service.launchConfig.imageUuid = 'docker:morion4000/node:v2';
+      service.service.launchConfig.mining_pool_url = 'https://mine.webdollarminingpool.com/pool/1/WMP/0.02/ac2b5a547a8069454f6092cde6f9ecd6a273932b45ccbcce7538ca512e80b6fe/https:$$pool.webdollarminingpool.com:443';
 
       request.post({
         url: url + '/services/' + service.id + '?action=upgrade',

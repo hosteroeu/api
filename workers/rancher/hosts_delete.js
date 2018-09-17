@@ -2,6 +2,10 @@ var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
 rancher.hosts.query(function(err, message, body) {
+  if (err && err.connect === true) {
+    process.exit(0);
+  }
+
   var data = JSON.parse(body);
   var hosts = data.data;
   var result = [];
