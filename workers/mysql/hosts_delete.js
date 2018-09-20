@@ -35,7 +35,7 @@ host_model.findAll({})
 
         var service_host = find_host_in_hosts(host, result);
 
-        if (!service_host) {
+        if (!service_host && host.status === 'started') {
           console.log('removed host', host.name);
 
           host_model.update({
