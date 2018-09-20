@@ -36,7 +36,7 @@ miner_model.findAll({})
 
         var service_miner = find_miner_in_miners(miner, result);
 
-        if (!service_miner) {
+        if (!service_miner && miner.status === 'started') {
           console.log('removed miner', miner.name);
 
           miner_model.update({
