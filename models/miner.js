@@ -8,6 +8,7 @@ var Miner = function(sequelize) {
     'id',
     'name',
     'user_id',
+    'deployed',
     'status',
     'host_id',
     'server_port',
@@ -28,6 +29,7 @@ var Miner = function(sequelize) {
   var miner = sequelize.define('Miner', {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
+    deployed: Sequelize.STRING,
     status: Sequelize.ENUM('started', 'stopped'),
     server_port: Sequelize.STRING,
     mining_pool_url: Sequelize.STRING,
