@@ -87,6 +87,7 @@ rancher.hosts.query(function(err, message, body) {
                       miner_model.create({
                           name: 'webd-miner-' + host.id,
                           status: 'stopped',
+                          deployed: '2',
                           server_port: '8000',
                           mining_pool_url: account.mining_pool_url,
                           domain: 'wd.hoste.ro',

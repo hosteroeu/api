@@ -36,12 +36,11 @@ miner_model.findAll({})
 
         var service_miner = find_miner_in_miners(miner, result);
 
-        if (!service_miner && miner.status === 'started') {
+        // Do not delete miners which are being deployed
+        if (!service_miner && miner.deployed != '2') {
           console.log('removed miner', miner.name);
 
-          miner_model.update({
-              status: 'stopped',
-            }, {
+          miner_model.destroy({
               where: {
                 id: miner.id
               }

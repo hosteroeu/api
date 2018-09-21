@@ -64,6 +64,7 @@ miner_model.findAll({
 
                 miner_model.update({
                     status: 'started',
+                    deployed: '1',
                     internal_id: _req.rancher_service_id,
                     internal_created: _req.rancher_service_created
                   }, {
