@@ -1,6 +1,8 @@
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
+// Disconnected hosts are removed automatically after 1 hour
+
 rancher.hosts.query(function(err, message, body) {
   if (err && err.connect === true) {
     process.exit(0);
