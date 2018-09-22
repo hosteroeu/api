@@ -61,6 +61,7 @@ rancher.hosts.query(function(err, message, body) {
 
           host_model.update({
               status: status,
+              deployed: '0'
             }, {
               where: {
                 id: db_host.id
