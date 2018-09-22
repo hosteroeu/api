@@ -69,12 +69,37 @@ var Hosts = function() {
     });
   };
 
+  var stats = function(req, res, next) {
+    host.find(req, function(err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!result) {
+        return next(new errors.not_found('Host not found'));
+      }
+
+      rancher.hosts.stats(result.internal_id, function(err, message, body) {
+        if (err && err.connect === true) {
+          return next(err);
+        }
+
+        var data = JSON.parse(body);
+
+        res.send({
+          ws: data.url + '?token=' + data.token
+        });
+      });
+    });
+  };
+
   return {
     collection: collection,
     create: create,
     retrieve: retrieve,
     update: update,
-    remove: remove
+    remove: remove,
+    stats: stats
   };
 };
 

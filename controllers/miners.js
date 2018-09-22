@@ -1,4 +1,5 @@
 var miner = require('./../models').miner,
+  rancher = require('./../services').Rancher(),
   errors = require('./../errors'),
   config = require('./../config');
 
@@ -69,12 +70,76 @@ var Miners = function() {
     });
   };
 
+  var stats = function(req, res, next) {
+    miner.find(req, function(err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!result) {
+        return next(new errors.not_found('Miner not found'));
+      }
+
+      rancher.services.stats(result.internal_id, function(err, message, body) {
+        if (err && err.connect === true) {
+          return next(err);
+        }
+
+        var data = JSON.parse(body);
+
+        res.send({
+          ws: data.url + '?token=' + data.token
+        });
+      });
+    });
+  };
+
+  var logs = function(req, res, next) {
+    miner.find(req, function(err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!result) {
+        return next(new errors.not_found('Miner not found'));
+      }
+
+      rancher.services.get(result.internal_id, function(err, message, body) {
+        if (err && err.connect === true) {
+          return next(err);
+        }
+
+        var data;
+        var container_id;
+
+        try {
+          data = JSON.parse(body);
+          container_id = data.instanceIds[0];
+        } catch(e) {
+          return next(e);
+        }
+
+        rancher.services.logs(container_id, function(err, message, body) {
+          if (err && err.connect === true) {
+            return next(err);
+          }
+
+          res.send({
+            ws: body.url + '?token=' + body.token
+          });
+        });
+      });
+    });
+  };
+
   return {
     collection: collection,
     create: create,
     retrieve: retrieve,
     update: update,
-    remove: remove
+    remove: remove,
+    stats: stats,
+    logs: logs
   };
 };
 

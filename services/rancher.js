@@ -60,6 +60,11 @@ var Rancher = function() {
           next(err);
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
+      get: function(id, callback) {
+        request.get(config.rancher.project + '/services/' + id, {
+          timeout: 5000
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
       query: function(callback) {
         request.get(config.rancher.project + '/services?limit=1000', {
           timeout: 5000
@@ -72,6 +77,21 @@ var Rancher = function() {
       },
       remove: function(id, callback) {
         request.post(config.rancher.project + '/services/' + id + '/?action=remove', callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
+      stats: function(id, callback) {
+        request.get(config.rancher.project + '/services/' + id + '/containerstats', {
+          timeout: 5000
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
+      logs: function(id, callback) {
+        request.post({
+          url: config.rancher.project + '/containers/' + id + '/?action=logs',
+          json: true,
+          body: {
+            follow: true,
+            lines: 500
+          }
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
       },
     };
   };
@@ -88,7 +108,12 @@ var Rancher = function() {
       },
       deactivate: function(id, callback) {
         request.post(config.rancher.host + '/hosts/' + id + '/?action=deactivate', callback).auth(config.rancher.key, config.rancher.secret, false);
-      }
+      },
+      stats: function(id, callback) {
+        request.get(config.rancher.project + '/hosts/' + id + '/hoststats', {
+          timeout: 5000
+        }, callback).auth(config.rancher.key, config.rancher.secret, false);
+      },
     };
   };
 

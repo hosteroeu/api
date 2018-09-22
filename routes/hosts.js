@@ -7,6 +7,7 @@ module.exports = function(app, router) {
 
   router.post('/hosts', routers.bodyCleanup, hosts.create);
   router.get('/hosts/:host_id(\\d+)', hosts.retrieve);
+  router.get('/hosts/:host_id(\\d+)/stats', hosts.stats);
   router.put('/hosts/:host_id(\\d+)', routers.bodyCleanup, hosts.update);
   router.delete('/hosts/:host_id(\\d+)', hosts.remove);
 
