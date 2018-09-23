@@ -1,4 +1,5 @@
 var host = require('./../models').host,
+  rancher = require('./../services').Rancher(),
   errors = require('./../errors'),
   config = require('./../config');
 
