@@ -41,6 +41,8 @@ request.get(config.rancher.project + '/hosts?limit=1000', {
   for (var i = 0, l = hosts.length; i < l; i++) {
     var host = hosts[i];
 
+    console.log('host', host.id);
+
     client.write('hostero_hosts')
       .tag({
         host: host.id,
