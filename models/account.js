@@ -11,6 +11,7 @@ var Account = function(sequelize) {
     'auto_deploy',
     'wallet',
     'mining_pool_url',
+    'plan_hosts',
     'internal_id',
     'created_at',
     'updated_at'
@@ -24,7 +25,8 @@ var Account = function(sequelize) {
     wallet: Sequelize.TEXT,
     mining_pool_url: Sequelize.STRING,
     user_id: Sequelize.STRING,
-    internal_id: Sequelize.STRING
+    internal_id: Sequelize.STRING,
+    plan_hosts: Sequelize.STRING,
   }, {
     underscored: true,
     tableName: 'accounts'
