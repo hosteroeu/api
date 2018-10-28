@@ -58,7 +58,12 @@ request.get(config.rancher.project + '/hosts?limit=1000', {
         load_avg_15: host.info.cpuInfo.loadAvg[2],
         cpu_count: host.info.cpuInfo.count
       })
-      .then(console.log)
-      .catch(console.error);
+      .queue();
+
+    if (client.writeQueueLength >= 10) {
+      client.syncWrite()
+        .then(console.log)
+        .catch(console.error);
+    }
   }
 }).auth(config.rancher.key, config.rancher.secret);
