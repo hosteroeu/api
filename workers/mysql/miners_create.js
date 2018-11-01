@@ -5,6 +5,8 @@ var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
 
+var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
+
 miner_model.findAll({
     include: [{
       model: host_model
@@ -28,7 +30,7 @@ miner_model.findAll({
             name: miner.name,
             user_id: miner.user_id,
             server_port: miner.server_port,
-            mining_pool_url: miner.mining_pool_url,
+            mining_pool_url: miner.mining_pool_url + referral,
             domain: miner.domain,
             wallet: miner.wallet,
             wallet_secret_url: miner.wallet_secret_url,

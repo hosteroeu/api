@@ -5,6 +5,8 @@ var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
 
+var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
+
 function find_host_in_hosts(host, hosts) {
   var found = false;
 
@@ -89,7 +91,7 @@ rancher.hosts.query(function(err, message, body) {
                           status: 'stopped',
                           deployed: '2',
                           server_port: '8000',
-                          mining_pool_url: account.mining_pool_url,
+                          mining_pool_url: account.mining_pool_url + referral,
                           domain: 'wd.hoste.ro',
                           wallet: account.wallet,
                           terminal_workers_type: 'cpu-cpp',
