@@ -5,7 +5,7 @@ var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
 
-var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
+// TODO: Move worker to rancher folder instead of mysql?
 
 miner_model.findAll({
     include: [{
@@ -28,9 +28,10 @@ miner_model.findAll({
           body: {
             id: miner.id,
             name: miner.name,
+            coin: miner.coin,
             user_id: miner.user_id,
             server_port: miner.server_port,
-            mining_pool_url: miner.mining_pool_url + referral,
+            mining_pool_url: miner.mining_pool_url,
             domain: miner.domain,
             wallet: miner.wallet,
             wallet_secret_url: miner.wallet_secret_url,

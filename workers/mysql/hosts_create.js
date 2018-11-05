@@ -5,8 +5,6 @@ var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
 
-var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
-
 function find_host_in_hosts(host, hosts) {
   var found = false;
 
@@ -62,7 +60,40 @@ rancher.hosts.query(function(err, message, body) {
 
                 console.log('account', account.id);
 
-                var auto_deploy = account.auto_deploy === true && account.mining_pool_url_webdollar && account.wallet_webdollar;
+                var auto_deploy = false;
+                var new_miner = {
+                  coin: account.auto_deploy_coin,
+                  status: 'stopped',
+                  deployed: '2',
+                  user_id: account.user_id
+                };
+
+                if (account.auto_deploy) {
+                  switch (account.auto_deploy_coin) {
+                    case 'webdollar':
+                      if (account.mining_pool_url_webdollar && account.wallet_webdollar) {
+                        auto_deploy = true;
+
+                        new_miner.server_port = '8000';
+                        new_miner.mining_pool_url = account.mining_pool_url_webdollar;
+                        new_miner.domain = 'wd.hoste.ro';
+                        new_miner.wallet = account.wallet_webdollar;
+                        new_miner.image_uuid = 'docker:morion4000/node:v2';
+                        new_miner.command = 'sh start_pool_mining.sh';
+                        new_miner.wallet_secret_url = '7e5d522a70ce4c455f6875d01c22727e';
+                      }
+                      break;
+
+                    case 'nerva':
+                      if (account.wallet_nerva) {
+                        auto_deploy = true;
+
+                        new_miner.wallet = account.wallet_nerva;
+                        new_miner.image_uuid = 'docker:morion4000/nerva';
+                      }
+                      break;
+                  }
+                }
 
                 host_model.create({
                     name: _host.name || _host.hostname,
@@ -86,21 +117,11 @@ rancher.hosts.query(function(err, message, body) {
                     if (auto_deploy) {
                       var host = data;
 
-                      miner_model.create({
-                          name: 'webd-miner-' + host.id,
-                          status: 'stopped',
-                          deployed: '2',
-                          server_port: '8000',
-                          mining_pool_url: account.mining_pool_url_webdollar + referral,
-                          domain: 'wd.hoste.ro',
-                          wallet: account.wallet_webdollar,
-                          threads: host.cpu_count || '0',
-                          image_uuid: 'docker:morion4000/node:v2',
-                          command: 'sh start_pool_mining.sh',
-                          wallet_secret_url: '7e5d522a70ce4c455f6875d01c22727e',
-                          host_id: host.id,
-                          user_id: account.user_id
-                        })
+                      new_miner.name = 'miner-' + host.id;
+                      new_miner.threads = host.cpu_count || '0';
+                      new_miner.host_id = host.id;
+
+                      miner_model.create(new_miner)
                         .then(console.log)
                         .catch(console.error);
                     }
