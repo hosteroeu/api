@@ -54,7 +54,7 @@ rancher.hosts.query(function(err, message, body) {
           (function(_host) {
             account_model.findOne({
                 where: {
-                  name: _host.labels.account
+                  account_name: _host.labels.account
                 }
               })
               .then(function(account) {
@@ -62,7 +62,7 @@ rancher.hosts.query(function(err, message, body) {
 
                 console.log('account', account.id);
 
-                var auto_deploy = account.auto_deploy === true && account.mining_pool_url && account.wallet;
+                var auto_deploy = account.auto_deploy === true && account.mining_pool_url_webdollar && account.wallet_webdollar;
 
                 host_model.create({
                     name: _host.name || _host.hostname,
@@ -91,9 +91,9 @@ rancher.hosts.query(function(err, message, body) {
                           status: 'stopped',
                           deployed: '2',
                           server_port: '8000',
-                          mining_pool_url: account.mining_pool_url + referral,
+                          mining_pool_url: account.mining_pool_url_webdollar + referral,
                           domain: 'wd.hoste.ro',
-                          wallet: account.wallet,
+                          wallet: account.wallet_webdollar,
                           threads: host.cpu_count || '0',
                           image_uuid: 'docker:morion4000/node:v2',
                           command: 'sh start_pool_mining.sh',

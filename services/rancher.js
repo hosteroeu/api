@@ -12,7 +12,7 @@ var Rancher = function() {
           url: config.rancher.project + '/environments',
           json: true,
           body: {
-            name: req.body.name,
+            name: req.body.account_name,
           }
         }, function(err, response, body) {
           req.rancher_environment_id = body.id;
@@ -37,17 +37,28 @@ var Rancher = function() {
         create_manifest.name = req.body.name;
 
         create_manifest.launchConfig.requestedHostId = req.body.host_id;
-        create_manifest.launchConfig.imageUuid = req.body.image_uuid;
-        create_manifest.launchConfig.labels.account = req.body.stack_id;
-        create_manifest.launchConfig.labels.name = req.body.name;
         create_manifest.launchConfig.labels.id = req.body.id;
-        create_manifest.launchConfig.environment.SERVER_PORT = req.body.server_port;
-        create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
-        create_manifest.launchConfig.environment.DOMAIN = req.body.domain;
+        create_manifest.launchConfig.imageUuid = req.body.image_uuid;
         create_manifest.launchConfig.environment.WALLET = req.body.wallet;
-        create_manifest.launchConfig.environment.WALLET_SECRET_URL = req.body.wallet_secret_url;
-        create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
-        create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
+        create_manifest.launchConfig.labels.purpose = req.body.coin;
+
+        switch (req.body.coin) {
+          case 'webdollar':
+            create_manifest.launchConfig.command = [
+              'sh',
+              'start_pool_mining.sh'
+            ];
+            create_manifest.launchConfig.environment.SERVER_PORT = req.body.server_port;
+            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
+            create_manifest.launchConfig.environment.DOMAIN = req.body.domain;
+            create_manifest.launchConfig.environment.WALLET_SECRET_URL = req.body.wallet_secret_url;
+            create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
+            create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
+            break;
+          case 'nerva':
+            create_manifest.launchConfig.environment.THREADS = req.body.threads;
+            break;
+        }
 
         request.post({
           url: config.rancher.project + '/services',

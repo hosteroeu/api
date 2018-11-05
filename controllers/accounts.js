@@ -81,7 +81,7 @@ var Accounts = function() {
         return res.send(result[0]);
       }
 
-      req.body.name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
+      req.body.account_name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
 
       next();
     });

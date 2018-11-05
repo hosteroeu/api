@@ -5,27 +5,29 @@ var Account = function(sequelize) {
 
   var fields = [
     'id',
-    'name',
+    'internal_id',
+    'internal_name',
     'email',
     'full_name',
     'auto_deploy',
-    'wallet',
-    'mining_pool_url',
+    'auto_deploy_coin',
+    'wallet_webdollar',
+    'mining_pool_url_webdollar',
     'plan_hosts',
-    'internal_id',
     'created_at',
     'updated_at'
   ];
 
   var account = sequelize.define('Account', {
-    name: Sequelize.STRING,
+    internal_name: Sequelize.STRING,
+    internal_id: Sequelize.STRING,
+    user_id: Sequelize.STRING,
     full_name: Sequelize.STRING,
     email: Sequelize.STRING,
     auto_deploy: Sequelize.BOOLEAN,
-    wallet: Sequelize.TEXT,
-    mining_pool_url: Sequelize.STRING,
-    user_id: Sequelize.STRING,
-    internal_id: Sequelize.STRING,
+    auto_deploy_coin: Sequelize.ENUM('webdollar', 'nerva'),
+    wallet_webdollar: Sequelize.TEXT,
+    mining_pool_url_webdollar: Sequelize.STRING,
     plan_hosts: Sequelize.STRING,
   }, {
     underscored: true,

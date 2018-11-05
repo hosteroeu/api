@@ -8,12 +8,9 @@
     "environment": {},
     "networkMode": "host",
     "labels": {
-      "purpose": "webdollar",
       "io.rancher.container.pull_image": "always"
     },
-    "command": [
-      "sh", "start_pool_mining.sh"
-    ],
+    "command": [],
     "dns": [
       "8.8.8.8",
       "8.8.4.4"
