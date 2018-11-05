@@ -86,7 +86,7 @@ var Rancher = function() {
         }, callback).auth(config.rancher.key, config.rancher.secret, false);
       },
       query_unhealthy: function(callback) {
-        request.get(config.rancher.project + '/services?limit=1000&name_prefix=webd&healthState=unhealthy', {
+        request.get(config.rancher.project + '/services?limit=1000&healthState=unhealthy', {
           timeout: 5000
         }, callback).auth(config.rancher.key, config.rancher.secret, false);
       },
