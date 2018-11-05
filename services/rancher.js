@@ -46,8 +46,8 @@ var Rancher = function() {
         create_manifest.launchConfig.environment.DOMAIN = req.body.domain;
         create_manifest.launchConfig.environment.WALLET = req.body.wallet;
         create_manifest.launchConfig.environment.WALLET_SECRET_URL = req.body.wallet_secret_url;
-        create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = req.body.terminal_workers_type;
-        create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.terminal_workers_cpu_max;
+        create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
+        create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
 
         request.post({
           url: config.rancher.project + '/services',
