@@ -58,6 +58,7 @@ var Rancher = function() {
             create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
             create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
             break;
+
           case 'nerva':
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
