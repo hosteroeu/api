@@ -12,7 +12,7 @@ var Rancher = function() {
           url: config.rancher.project + '/environments',
           json: true,
           body: {
-            name: req.body.account_name,
+            name: req.body.name,
           }
         }, function(err, response, body) {
           req.rancher_environment_id = body.id;

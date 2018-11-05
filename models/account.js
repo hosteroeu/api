@@ -6,7 +6,7 @@ var Account = function(sequelize) {
   var fields = [
     'id',
     'internal_id',
-    'internal_name',
+    'name',
     'email',
     'full_name',
     'auto_deploy',
@@ -19,7 +19,7 @@ var Account = function(sequelize) {
   ];
 
   var account = sequelize.define('Account', {
-    internal_name: Sequelize.STRING,
+    name: Sequelize.STRING,
     internal_id: Sequelize.STRING,
     user_id: Sequelize.STRING,
     full_name: Sequelize.STRING,
