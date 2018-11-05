@@ -5,12 +5,11 @@
   "launchConfig": {
     "imageUuid": "",
     "dataVolumes": [],
-    "environment": {
-      "type": "miner"
-    },
+    "environment": {},
     "networkMode": "host",
     "tty": true,
     "labels": {
+      "type": "miner",
       "io.rancher.container.pull_image": "always"
     },
     "command": [],
