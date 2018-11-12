@@ -15,6 +15,7 @@ var Account = function(sequelize) {
     'wallet_webdollar',
     'mining_pool_url_webdollar',
     'plan_hosts',
+    'rancher_uri',
     'created_at',
     'updated_at'
   ];
@@ -31,6 +32,7 @@ var Account = function(sequelize) {
     wallet_webdollar: Sequelize.TEXT,
     mining_pool_url_webdollar: Sequelize.STRING,
     plan_hosts: Sequelize.STRING,
+    rancher_uri: Sequelize.STRING
   }, {
     underscored: true,
     tableName: 'accounts'
@@ -76,10 +78,7 @@ var Account = function(sequelize) {
 
   var findAll = function(params, callback) {
     account.findAll({
-        attributes: fields,
-        where: {
-          user_id: params.user.sub
-        }
+        attributes: _.without(fields, 'name', 'email', 'full_name', 'internal_id'),
       })
       .then(function(result) {
         callback(null, result);
