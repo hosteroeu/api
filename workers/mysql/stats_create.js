@@ -113,6 +113,11 @@ miner_model.findAll({})
       end = miners.length;
     }
 
+    if (start >= end) {
+      console.error('Range overflows', start, end);
+      return;
+    }
+
     for (var i = start; i < end; i++) {
       var miner = miners[i];
 
