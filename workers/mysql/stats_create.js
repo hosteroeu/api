@@ -15,6 +15,8 @@ function get_ws_data_for_uri(uri, callback) {
 
   client.on('connectFailed', function(error) {
     console.error('Connect Error: ', error.toString());
+
+    callback(error.toString());
   });
 
   client.on('connect', function(connection) {
