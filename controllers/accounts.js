@@ -1,6 +1,7 @@
 var account = require('./../models').account,
   errors = require('./../errors'),
-  config = require('./../config');
+  config = require('./../config'),
+  _ = require('underscore');
 
 var Accounts = function() {
 
@@ -10,7 +11,12 @@ var Accounts = function() {
         return next(err);
       }
 
-      res.send(result);
+      var curated = _.map(result, function(fields) {
+        return _.omit(fields, 'name', 'email', 'full_name', 'internal_id', 'user_id');
+      });
+
+      // TODO: Curate results, omit certain fields
+      res.send(curated);
     });
   };
 
@@ -76,9 +82,14 @@ var Accounts = function() {
         return next(err);
       }
 
-      if (result.length > 0) {
-        // Each account has only one environment attached, currently
-        return res.send(result[0]);
+      var curated = _.find(result, function(field) {
+        return field.user_id === req.user.sub;
+      });
+
+      if (curated) {
+        return res.send(curated);
+      } else {
+        return next(new errors.not_found('Account not found'));
       }
 
       req.body.name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);

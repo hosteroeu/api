@@ -6,6 +6,7 @@ var Account = function(sequelize) {
   var fields = [
     'id',
     'internal_id',
+    'user_id',
     'name',
     'email',
     'full_name',
@@ -78,7 +79,7 @@ var Account = function(sequelize) {
 
   var findAll = function(params, callback) {
     account.findAll({
-        attributes: _.without(fields, 'name', 'email', 'full_name', 'internal_id'),
+        attributes: fields,
       })
       .then(function(result) {
         callback(null, result);
