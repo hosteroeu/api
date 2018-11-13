@@ -1,46 +1,37 @@
 var Sequelize = require('sequelize'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  account = require('./index').account.model;
 
-var Account = function(sequelize) {
+var Log = function(sequelize) {
 
   var fields = [
     'id',
-    'internal_id',
     'user_id',
-    'name',
-    'email',
-    'full_name',
-    'auto_deploy',
-    'auto_deploy_coin',
-    'wallet_nerva',
-    'wallet_webdollar',
-    'mining_pool_url_webdollar',
-    'plan_hosts',
-    'rancher_uri',
+    'account_id',
+    'entity',
+    'entity_id',
+    'message',
+    'extra_message',
     'created_at',
     'updated_at'
   ];
 
-  var account = sequelize.define('Account', {
-    name: Sequelize.STRING,
-    internal_id: Sequelize.STRING,
+  var log = sequelize.define('Log', {
     user_id: Sequelize.STRING,
-    full_name: Sequelize.STRING,
-    email: Sequelize.STRING,
-    auto_deploy: Sequelize.BOOLEAN,
-    auto_deploy_coin: Sequelize.ENUM('webdollar', 'nerva'),
-    wallet_nerva: Sequelize.TEXT,
-    wallet_webdollar: Sequelize.TEXT,
-    mining_pool_url_webdollar: Sequelize.STRING,
-    plan_hosts: Sequelize.INTEGER,
-    rancher_uri: Sequelize.STRING
+    entity: Sequelize.ENUM('account', 'host', 'miner', 'wallet', 'setting'),
+    entity_id: Sequelize.INTEGER,
+    event: Sequelize.ENUM('create', 'update', 'delete', 'deploy', 'undeploy', 'error'),
+    message: Sequelize.STRING,
+    extra_message: Sequelize.TEXT,
   }, {
     underscored: true,
-    tableName: 'accounts'
+    tableName: 'logs'
   });
 
+  log.belongsTo(account);
+
   var create = function(params, callback) {
-    account.create(params)
+    log.create(params)
       .then(function(result) {
         callback(null, result);
       })
@@ -50,7 +41,7 @@ var Account = function(sequelize) {
   };
 
   var update = function(fields, condition, callback) {
-    account.update(fields, {
+    log.update(fields, {
         where: condition
       })
       .then(function(result) {
@@ -62,12 +53,15 @@ var Account = function(sequelize) {
   };
 
   var find = function(params, callback) {
-    account.findOne({
+    log.findOne({
         attributes: fields,
         where: {
           user_id: params.user.sub,
-          id: params.params.account_id
-        }
+          id: params.params.log_id
+        },
+        include: [{
+          model: account,
+        }]
       })
       .then(function(result) {
         callback(null, result);
@@ -78,8 +72,14 @@ var Account = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
-    account.findAll({
+    log.findAll({
         attributes: fields,
+        where: {
+          user_id: params.user.sub
+        },
+        include: [{
+          model: account,
+        }]
       })
       .then(function(result) {
         callback(null, result);
@@ -90,7 +90,7 @@ var Account = function(sequelize) {
   };
 
   var destroy = function(condition, callback) {
-    account.destroy({
+    log.destroy({
         where: condition
       })
       .then(function(result) {
@@ -102,7 +102,7 @@ var Account = function(sequelize) {
   };
 
   return {
-    model: account,
+    model: log,
     create: create,
     update: update,
     find: find,
@@ -111,4 +111,4 @@ var Account = function(sequelize) {
   };
 };
 
-module.exports = Account;
+module.exports = Log;

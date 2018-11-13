@@ -4,6 +4,7 @@ var config = require('./../../config');
 var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
+var log_model = require('./../../models').log.model;
 
 // TODO: Move worker to rancher folder instead of mysql?
 
@@ -74,7 +75,18 @@ miner_model.findAll({
                       id: _req.body.id
                     }
                   })
-                  .then(console.log)
+                  .then(function(data) {
+                    log_model.create({
+                        user_id: account.user_id,
+                        account_id: account.id,
+                        entity: 'miner',
+                        entity_id: data.id,
+                        event: 'update',
+                        message: 'Updated a miner',
+                        extra_message: JSON.stringify(data)
+                      }).then(console.log)
+                      .catch(console.error);
+                  })
                   .catch(console.error);
 
                 host_model.update({
@@ -84,7 +96,18 @@ miner_model.findAll({
                       id: _req.body.host_id2
                     }
                   })
-                  .then(console.log)
+                  .then(function(data) {
+                    log_model.create({
+                        user_id: account.user_id,
+                        account_id: account.id,
+                        entity: 'host',
+                        entity_id: data.id,
+                        event: 'update',
+                        message: 'Updated a host',
+                        extra_message: JSON.stringify(data)
+                      }).then(console.log)
+                      .catch(console.error);
+                  })
                   .catch(console.error);
               });
             });

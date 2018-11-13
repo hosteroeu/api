@@ -4,6 +4,7 @@ var config = require('./../../config');
 var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
+var log_model = require('./../../models').log.model;
 
 function find_host_in_hosts(host, hosts) {
   var found = false;
@@ -114,6 +115,17 @@ rancher.hosts.query(function(err, message, body) {
                     agent_ip: _host.agentIpAddress,
                   })
                   .then(function(data) {
+                    log_model.create({
+                        user_id: account.user_id,
+                        account_id: account.id,
+                        entity: 'host',
+                        entity_id: data.id,
+                        event: 'create',
+                        message: 'Created a new host',
+                        extra_message: JSON.stringify(data)
+                      }).then(console.log)
+                      .catch(console.error);
+
                     if (auto_deploy) {
                       var host = data;
 
@@ -122,11 +134,44 @@ rancher.hosts.query(function(err, message, body) {
                       new_miner.host_id = host.id;
 
                       miner_model.create(new_miner)
-                        .then(console.log)
-                        .catch(console.error);
+                        .then(function(data) {
+                          log_model.create({
+                              user_id: account.user_id,
+                              account_id: account.id,
+                              entity: 'miner',
+                              entity_id: data.id,
+                              event: 'create',
+                              message: 'Created a new miner',
+                              extra_message: JSON.stringify(data)
+                            }).then(console.log)
+                            .catch(console.error);
+                        })
+                        .catch(function(err) {
+                          log_model.create({
+                              user_id: account.user_id,
+                              account_id: account.id,
+                              entity: 'miner',
+                              entity_id: null,
+                              event: 'error',
+                              message: 'Error creating a new miner',
+                              extra_message: JSON.stringify(err)
+                            }).then(console.log)
+                            .catch(console.error);
+                        });
                     }
                   })
-                  .catch(console.error);
+                  .catch(function(err) {
+                    log_model.create({
+                        user_id: account.user_id,
+                        account_id: account.id,
+                        entity: 'host',
+                        entity_id: null,
+                        event: 'error',
+                        message: 'Error creating a new host',
+                        extra_message: JSON.stringify(err)
+                      }).then(console.log)
+                      .catch(console.error);
+                  });
               })
               .catch(console.error);
           })(host);
