@@ -25,7 +25,7 @@ function get_ws_data_for_uri(uri, callback) {
       connection.close(1000); // WebSocketConnection.CLOSE_REASON_NORMAL
 
       callback(null, 0);
-    }, 10*1000);
+    }, 10 * 1000);
 
     connection.on('error', function(error) {
       console.error('Connection Error: ', error.toString());
@@ -119,9 +119,9 @@ miner_model.findAll({})
       if (miner.status === 'started' && miner.deployed === '1') {
         console.log('getting stats for', miner.internal_id);
 
-        calls[miner.id] = (function(_miner) {
+        calls[miner.id] = (function(_miner, _i) {
           return function(callback) {
-            console.log('got', _miner.id);
+            console.log('got', _miner.id, 'index', _i);
 
             // TODO: Retry
             get_ws_uri_for_miner(_miner.internal_id, function(err, res) {
@@ -142,11 +142,11 @@ miner_model.findAll({})
 
                 setTimeout(function() {
                   callback(null, power);
-                }, 100);
+                }, 200);
               });
             });
           };
-        })(miner);
+        })(miner, i);
       }
     }
 
@@ -155,8 +155,10 @@ miner_model.findAll({})
     async.series(calls, function(err, results) {
       console.timeEnd('get_all_ws_links');
 
+      /*
       _.each(results, function(power, miner) {
         console.log(power, miner);
       });
+      */
     });
   });
