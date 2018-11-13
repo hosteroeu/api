@@ -3,6 +3,7 @@ var config = require('./../../config');
 
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
+var log_model = require('./../../models').log.model;
 
 function find_host_in_hosts(host, hosts) {
   for (var i = 0, l = hosts.length; i < l; i++) {

@@ -3,6 +3,7 @@ var config = require('./../../config');
 
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
+var log_model = require('./../../models').log.model;
 
 function find_host_in_hosts(host, hosts) {
   for (var i = 0, l = hosts.length; i < l; i++) {
@@ -35,7 +36,11 @@ rancher.hosts.query(function(err, message, body) {
 
   console.log('rancher hosts', result.length);
 
-  host_model.findAll({})
+  host_model.findAll({
+      include: [{
+        model: account_model
+      }]
+    })
     .then(function(data) {
       var hosts = data;
 
@@ -66,7 +71,17 @@ rancher.hosts.query(function(err, message, body) {
                 id: db_host.id
               }
             })
-            .then(console.log)
+            .then(function() {
+              log_model.create({
+                user_id: db_host.Account.user_id,
+                account_id: db_host.Account.id,
+                entity: 'host',
+                entity_id: db_host.id,
+                event: 'delete',
+                message: 'Removed a host',
+                extra_message: null
+              });
+            })
             .catch(console.error);
         } else {
           console.log('removed host', host.hostname);
