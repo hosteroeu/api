@@ -14,7 +14,11 @@ function find_host_in_hosts(host, hosts) {
   return null;
 }
 
-host_model.findAll({})
+host_model.findAll({
+    include: [{
+      model: account_model
+    }]
+  })
   .then(function(data) {
     var hosts = data;
 
@@ -43,7 +47,17 @@ host_model.findAll({})
                 id: host.id
               }
             })
-            .then(console.log)
+            .then(function() {
+              log_model.create({
+                user_id: host.Account.user_id,
+                account_id: host.Account.id,
+                entity: 'host',
+                entity_id: host.id,
+                event: 'delete',
+                message: 'Removed a host',
+                extra_message: null
+              });
+            })
             .catch(console.error);
         }
       }

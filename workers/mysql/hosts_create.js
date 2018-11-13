@@ -116,15 +116,14 @@ rancher.hosts.query(function(err, message, body) {
                   })
                   .then(function(data) {
                     log_model.create({
-                        user_id: account.user_id,
-                        account_id: account.id,
-                        entity: 'host',
-                        entity_id: data.id,
-                        event: 'create',
-                        message: 'Created a new host',
-                        extra_message: JSON.stringify(data)
-                      }).then(console.log)
-                      .catch(console.error);
+                      user_id: account.user_id,
+                      account_id: account.id,
+                      entity: 'host',
+                      entity_id: data.id,
+                      event: 'create',
+                      message: 'Created a new host',
+                      extra_message: JSON.stringify(data)
+                    });
 
                     if (auto_deploy) {
                       var host = data;
@@ -136,41 +135,38 @@ rancher.hosts.query(function(err, message, body) {
                       miner_model.create(new_miner)
                         .then(function(data) {
                           log_model.create({
-                              user_id: account.user_id,
-                              account_id: account.id,
-                              entity: 'miner',
-                              entity_id: data.id,
-                              event: 'create',
-                              message: 'Created a new miner',
-                              extra_message: JSON.stringify(data)
-                            }).then(console.log)
-                            .catch(console.error);
+                            user_id: account.user_id,
+                            account_id: account.id,
+                            entity: 'miner',
+                            entity_id: data.id,
+                            event: 'create',
+                            message: 'Created a new miner',
+                            extra_message: JSON.stringify(data)
+                          });
                         })
                         .catch(function(err) {
                           log_model.create({
-                              user_id: account.user_id,
-                              account_id: account.id,
-                              entity: 'miner',
-                              entity_id: null,
-                              event: 'error',
-                              message: 'Error creating a new miner',
-                              extra_message: JSON.stringify(err)
-                            }).then(console.log)
-                            .catch(console.error);
+                            user_id: account.user_id,
+                            account_id: account.id,
+                            entity: 'miner',
+                            entity_id: null,
+                            event: 'error',
+                            message: 'Error creating a new miner',
+                            extra_message: JSON.stringify(err)
+                          });
                         });
                     }
                   })
                   .catch(function(err) {
                     log_model.create({
-                        user_id: account.user_id,
-                        account_id: account.id,
-                        entity: 'host',
-                        entity_id: null,
-                        event: 'error',
-                        message: 'Error creating a new host',
-                        extra_message: JSON.stringify(err)
-                      }).then(console.log)
-                      .catch(console.error);
+                      user_id: account.user_id,
+                      account_id: account.id,
+                      entity: 'host',
+                      entity_id: null,
+                      event: 'error',
+                      message: 'Error creating a new host',
+                      extra_message: JSON.stringify(err)
+                    });
                   });
               })
               .catch(console.error);
