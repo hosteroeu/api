@@ -6,12 +6,15 @@ var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 var miner_model = require('./../../models').miner.model;
 
+var start = process.env.START || 0;
+var end = process.env.END || null;
+
 function get_ws_data_for_uri(uri, callback) {
   var client = new WebSocketClient();
   var timeout;
 
   client.on('connectFailed', function(error) {
-    console.log('Connect Error: ', error.toString());
+    console.error('Connect Error: ', error.toString());
   });
 
   client.on('connect', function(connection) {
@@ -25,7 +28,7 @@ function get_ws_data_for_uri(uri, callback) {
     }, 10*1000);
 
     connection.on('error', function(error) {
-      console.log('Connection Error: ', error.toString());
+      console.error('Connection Error: ', error.toString());
     });
 
     connection.on('close', function() {
@@ -106,7 +109,11 @@ miner_model.findAll({})
 
     var calls = {};
 
-    for (var i = 0, l = miners.length; i < l; i++) {
+    if (!end || end > miners.length) {
+      end = miners.length;
+    }
+
+    for (var i = start; i < end; i++) {
       var miner = miners[i];
 
       if (miner.status === 'started' && miner.deployed === '1') {
