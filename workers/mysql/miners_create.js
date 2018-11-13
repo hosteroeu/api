@@ -80,10 +80,13 @@ miner_model.findAll({
                         user_id: account.user_id,
                         account_id: account.id,
                         entity: 'miner',
-                        entity_id: data.id,
+                        entity_id: _req.body.id,
                         event: 'update',
                         message: 'Updated a miner',
-                        extra_message: JSON.stringify(data)
+                        extra_message: JSON.stringify({
+                          status: 'started',
+                          deployed: '1'
+                        })
                       }).then(console.log)
                       .catch(console.error);
                   })
@@ -101,10 +104,12 @@ miner_model.findAll({
                         user_id: account.user_id,
                         account_id: account.id,
                         entity: 'host',
-                        entity_id: data.id,
+                        entity_id: _req.body.host_id2,
                         event: 'update',
                         message: 'Updated a host',
-                        extra_message: JSON.stringify(data)
+                        extra_message: JSON.stringify({
+                          deployed: '1'
+                        })
                       }).then(console.log)
                       .catch(console.error);
                   })
