@@ -9,6 +9,7 @@ var Miner = function(sequelize) {
     'name',
     'user_id',
     'deployed',
+    'power',
     'status',
     'coin',
     'threads',
@@ -29,6 +30,7 @@ var Miner = function(sequelize) {
   var miner = sequelize.define('Miner', {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
+    power: Sequelize.STRING,
     deployed: Sequelize.STRING,
     status: Sequelize.ENUM('started', 'stopped'),
     coin: Sequelize.ENUM('webdollar', 'nerva'),
