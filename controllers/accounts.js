@@ -1,4 +1,5 @@
 var account = require('./../models').account,
+  log = require('./../models').log,
   errors = require('./../errors'),
   config = require('./../config'),
   _ = require('underscore');
@@ -29,6 +30,16 @@ var Accounts = function() {
         return next(err);
       }
 
+      log.create({
+        user_id: result.user_id,
+        account_id: result.id,
+        entity: 'account',
+        entity_id: result.id,
+        event: 'create',
+        message: 'Created an account',
+        extra_message: JSON.stringify(result)
+      });
+
       res.status(201);
       res.send(result);
     });
@@ -57,6 +68,16 @@ var Accounts = function() {
         return next(err);
       }
 
+      log.create({
+        user_id: req.user.sub,
+        account_id: req.id,
+        entity: 'account',
+        entity_id: req.id,
+        event: 'update',
+        message: 'Updated an account',
+        extra_message: JSON.stringify(req.body)
+      });
+
       res.status(204);
       res.send();
     });
@@ -82,14 +103,12 @@ var Accounts = function() {
         return next(err);
       }
 
-      var curated = _.find(result, function(field) {
+      var found = _.find(result, function(field) {
         return field.user_id === req.user.sub;
       });
 
-      if (curated) {
-        return res.send(curated);
-      } else {
-        return next(new errors.not_found('Account not found'));
+      if (found) {
+        return res.send(found);
       }
 
       req.body.name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
