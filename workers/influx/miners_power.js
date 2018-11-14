@@ -57,11 +57,9 @@ miner_model.findAll({
           cpu_mhz: miner.Host.cpu_mhz
         })
         .queue();
-
-      if (client.writeQueueLength >= 100) {
-        client.syncWrite()
-          .then(console.log)
-          .catch(console.error);
-      }
     }
+
+    client.syncWrite()
+      .then(console.log)
+      .catch(console.error);
   });
