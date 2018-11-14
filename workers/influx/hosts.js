@@ -46,7 +46,7 @@ request.get(config.rancher.project + '/hosts?limit=1000', {
     client.write('hostero_hosts')
       .tag({
         host: host.id,
-        account: host.labels.account,
+        account: host.labels.account || 'missing',
         name: host.name || host.hostname
       })
       .field({
