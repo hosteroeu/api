@@ -79,7 +79,9 @@ var Log = function(sequelize) {
         },
         include: [{
           model: account,
-        }]
+        }],
+        limit: 50,
+        order: [['created_at', 'DESC']]
       })
       .then(function(result) {
         callback(null, result);
