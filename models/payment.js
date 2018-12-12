@@ -2,36 +2,36 @@ var Sequelize = require('sequelize'),
   _ = require('underscore'),
   account = require('./index').account.model;
 
-var Log = function(sequelize) {
+var Payment = function(sequelize) {
 
   var fields = [
     'id',
     'user_id',
-    'account_id',
-    'entity',
-    'entity_id',
+    'gateway',
+    'gateway_internal_id',
+    'amount',
+    'event',
     'message',
-    'extra_message',
     'created_at',
     'updated_at'
   ];
 
-  var log = sequelize.define('Log', {
+  var payment = sequelize.define('Payment', {
     user_id: Sequelize.STRING,
-    entity: Sequelize.ENUM('account', 'host', 'miner', 'wallet', 'setting'),
-    entity_id: Sequelize.INTEGER,
-    event: Sequelize.ENUM('create', 'update', 'delete', 'deploy', 'undeploy', 'error'),
-    message: Sequelize.STRING,
-    extra_message: Sequelize.TEXT,
+    gateway: Sequelize.ENUM('paypal'),
+    gateway_internal_id: Sequelize.STRING,
+    amount: Sequelize.STRING,
+    event: Sequelize.ENUM('create', 'update', 'delete', 'error'),
+    message: Sequelize.TEXT
   }, {
     underscored: true,
-    tableName: 'logs'
+    tableName: 'payments'
   });
 
-  log.belongsTo(account);
+  payment.belongsTo(account);
 
   var create = function(params, callback) {
-    log.create(params)
+    payment.create(params)
       .then(function(result) {
         callback(null, result);
       })
@@ -41,7 +41,7 @@ var Log = function(sequelize) {
   };
 
   var update = function(fields, condition, callback) {
-    log.update(fields, {
+    payment.update(fields, {
         where: condition
       })
       .then(function(result) {
@@ -53,11 +53,11 @@ var Log = function(sequelize) {
   };
 
   var find = function(params, callback) {
-    log.findOne({
+    payment.findOne({
         attributes: fields,
         where: {
           user_id: params.user.sub,
-          id: params.params.log_id
+          id: params.params.payment_id
         },
         include: [{
           model: account,
@@ -72,7 +72,7 @@ var Log = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
-    log.findAll({
+    payment.findAll({
         attributes: fields,
         where: {
           user_id: params.user.sub
@@ -92,7 +92,7 @@ var Log = function(sequelize) {
   };
 
   var destroy = function(condition, callback) {
-    log.destroy({
+    payment.destroy({
         where: condition
       })
       .then(function(result) {
@@ -104,7 +104,7 @@ var Log = function(sequelize) {
   };
 
   return {
-    model: log,
+    model: payment,
     create: create,
     update: update,
     find: find,
@@ -113,4 +113,4 @@ var Log = function(sequelize) {
   };
 };
 
-module.exports = Log;
+module.exports = Payment;
