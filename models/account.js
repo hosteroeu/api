@@ -79,8 +79,7 @@ var Account = function(sequelize) {
 
   var findAll = function(params, callback) {
     account.findAll({
-        attributes: fields
-      }, {
+        attributes: fields,
         where: params
       })
       .then(function(result) {
