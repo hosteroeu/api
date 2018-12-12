@@ -109,9 +109,14 @@ var Payments = function() {
     console.log(req.body);
 
     // Read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
-    req.body.cmd = '_notify-validate';
+    var query = ['cmd=_notify-validate'];
 
-    var body = req.body;
+    for (var key in req.body) {
+      query.push(key + '=' + req.body[key]);
+    }
+
+    var body = query.join('&');
+
     console.log(body);
 
     var options = {
@@ -120,7 +125,7 @@ var Payments = function() {
       headers: {
         'Connection': 'close'
       },
-      body: JSON.stringify(body),
+      body: body,
       strictSSL: true,
       rejectUnauthorized: false,
       requestCert: true,
@@ -148,11 +153,12 @@ var Payments = function() {
       } else {
         //Unexpected response
         console.log('Unexpected response!');
-        console.log(response);
+        //console.log(response);
       }
     });
 
-    next();
+    res.status(200);
+    res.send();
   };
 
   return {
