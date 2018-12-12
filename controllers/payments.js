@@ -151,7 +151,7 @@ var Payments = function() {
                 amount: req.body.mc_gross,
                 event: 'create',
                 message: JSON.stringify(req.body)
-              });
+              }, _.noop);
             } else {
               console.error('Could not find account');
             }
