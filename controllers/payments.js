@@ -145,7 +145,8 @@ var Payments = function() {
               console.log('found account', user_account.id);
 
               payment.create({
-                user_id: account.user_id,
+                user_id: user_account.user_id,
+                account_id: user_account.id,
                 gateway: 'paypal',
                 gateway_internal_id: req.body.txn_id,
                 amount: req.body.mc_gross,
