@@ -4,19 +4,10 @@ var express = require('express'),
   body_parser = require('body-parser'),
   method_override = require('method-override'),
   logger = require('morgan'),
-  jwt = require('express-jwt'),
-  rsaValidation = require('auth0-api-jwt-rsa-validation'),
   config = require('./config'),
   models = require('./models'),
   middleware = require('./middleware'),
   app = express();
-
-var jwtCheck = jwt({
-  secret: rsaValidation(),
-  algorithms: ['RS256'],
-  issuer: 'https://morion4000.auth0.com/',
-  audience: 'E6Zeo9d6DEXfEeFyvBPeYw3tYdtYNVDP'
-});
 
 switch (app.get('env')) {
   case 'production':
@@ -53,8 +44,6 @@ app.use(function(req, res, next) {
 app.options('*', function(req, res) {
   res.send(200);
 });
-
-app.use(jwtCheck);
 
 // Require and init routes
 var routes_path = path.join(__dirname, 'routes');

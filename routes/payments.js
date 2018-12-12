@@ -5,11 +5,11 @@ var routers = require('./../middleware').routers,
 module.exports = function(app, router) {
   router.param('payment_id', routers.param);
 
-  router.post('/payments', routers.bodyCleanup, payments.create);
-  router.get('/payments/:payment_id(\\d+)', payments.retrieve);
-  router.put('/payments/:payment_id(\\d+)', routers.bodyCleanup, payments.update);
-  router.delete('/payments/:payment_id(\\d+)', payments.remove);
+  router.post('/payments', routers.jwtCheck, routers.bodyCleanup, payments.create);
+  router.get('/payments/:payment_id(\\d+)', routers.jwtCheck, payments.retrieve);
+  router.put('/payments/:payment_id(\\d+)', routers.jwtCheck, routers.bodyCleanup, payments.update);
+  router.delete('/payments/:payment_id(\\d+)', routers.jwtCheck, payments.remove);
 
-  router.get('/payments', routers.filters, payments.collection);
+  router.get('/payments', routers.jwtCheck, routers.filters, payments.collection);
   router.get('/payments/ipn', payments.ipn);
 };

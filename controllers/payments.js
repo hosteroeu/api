@@ -106,8 +106,7 @@ var Payments = function() {
     });
     */
 
-    console.log('Received event:', JSON.stringify(req, null, 2));
-
+    console.log(req);
 
     // Read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
     var body = 'cmd=_notify-validate&' + req.body;

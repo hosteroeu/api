@@ -1,4 +1,6 @@
 var _ = require('underscore'),
+  jwt = require('express-jwt'),
+  rsaValidation = require('auth0-api-jwt-rsa-validation'),
   errors = require('./../errors');
 
 var bodyCleanup = function(req, res, next) {
@@ -63,6 +65,14 @@ var param = function(req, res, next, id) {
   next();
 };
 
+var jwtCheck = jwt({
+  secret: rsaValidation(),
+  algorithms: ['RS256'],
+  issuer: 'https://morion4000.auth0.com/',
+  audience: 'E6Zeo9d6DEXfEeFyvBPeYw3tYdtYNVDP'
+});
+
 module.exports.filters = filters;
 module.exports.bodyCleanup = bodyCleanup;
 module.exports.param = param;
+module.exports.jwtCheck = jwtCheck;

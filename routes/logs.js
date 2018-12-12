@@ -5,7 +5,7 @@ var routers = require('./../middleware').routers,
 module.exports = function(app, router) {
   router.param('log_id', routers.param);
 
-  router.post('/logs', routers.bodyCleanup, logs.create);
+  router.post('/logs', routers.jwtCheck, routers.bodyCleanup, logs.create);
 
-  router.get('/logs', routers.filters, logs.collection);
+  router.get('/logs', routers.jwtCheck, routers.filters, logs.collection);
 };
