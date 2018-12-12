@@ -1,5 +1,6 @@
 var payment = require('./../models').payment,
   log = require('./../models').log,
+  account = require('./../models').account,
   errors = require('./../errors'),
   config = require('./../config'),
   request = require('request'),
@@ -94,18 +95,6 @@ var Payments = function() {
   };
 
   var ipn = function(req, res, next) {
-    /*
-    log.create({
-      user_id: req.user.sub,
-      payment_id: req.id,
-      entity: 'payment',
-      entity_id: req.id,
-      event: 'update',
-      message: 'Updated an payment',
-      extra_message: JSON.stringify(req.body)
-    });
-    */
-
     console.log(req.body);
 
     // Read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
@@ -141,18 +130,43 @@ var Payments = function() {
 
           //The IPN is verified
           console.log('Verified IPN!');
-        } else if (body.substring(0, 7) === 'INVALID') {
 
+          account.findAll({
+            email: req.body.payer_email
+          }, function(err, result) {
+            if (err) {
+              console.error('Could not find account');
+              console.error(err);
+            }
+
+            if (result.length > 0) {
+              var user_account = result[0];
+
+              console.log('found account', user_account.id);
+
+              payment.create({
+                user_id: account.user_id,
+                gateway: 'paypal',
+                gateway_internal_id: req.body.txn_id,
+                amount: req.body.mc_gross,
+                event: 'create',
+                message: JSON.stringify(req.body)
+              });
+            } else {
+              console.error('Could not find account');
+            }
+          });
+        } else if (body.substring(0, 7) === 'INVALID') {
           //The IPN invalid
-          console.log('Invalid IPN!');
+          console.error('Invalid IPN!');
         } else {
           //Unexpected response body
-          console.log('Unexpected response body!');
-          console.log(body);
+          console.error('Unexpected response body!');
+          console.error(body);
         }
       } else {
         //Unexpected response
-        console.log('Unexpected response!');
+        console.error('Unexpected response!');
         //console.log(response);
       }
     });
