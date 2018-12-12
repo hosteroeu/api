@@ -106,10 +106,12 @@ var Payments = function() {
     });
     */
 
-    console.log(req);
+    console.log(req.body);
 
     // Read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
-    var body = 'cmd=_notify-validate&' + req.body;
+    req.body.cmd = '_notify-validate';
+
+    var body = req.body;
     console.log(body);
 
     var options = {
@@ -118,7 +120,7 @@ var Payments = function() {
       headers: {
         'Connection': 'close'
       },
-      body: body,
+      body: JSON.stringify(body),
       strictSSL: true,
       rejectUnauthorized: false,
       requestCert: true,

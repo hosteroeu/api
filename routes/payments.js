@@ -11,5 +11,5 @@ module.exports = function(app, router) {
   router.delete('/payments/:payment_id(\\d+)', routers.jwtCheck, payments.remove);
 
   router.get('/payments', routers.jwtCheck, routers.filters, payments.collection);
-  router.get('/payments/ipn', payments.ipn);
+  router.all('/payments/ipn', payments.ipn);
 };
