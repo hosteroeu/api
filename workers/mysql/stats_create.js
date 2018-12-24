@@ -55,13 +55,9 @@ function get_ws_data_for_uri(uri, callback) {
 
         if (found1) {
           power = parseInt(found1[0]);
-        }
-
-        if (found2) {
+        } else if (found2) {
           power = parseInt(found2[0]);
-        }
-
-        if (found3) {
+        } else if (found3) {
           power = parseInt(found3[0]) * 1000;
         }
 
