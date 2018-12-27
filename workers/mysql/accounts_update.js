@@ -46,7 +46,7 @@ account_model.findAll().then(function(data) {
             console.log('payment overdue, downgrading');
 
             account_model.update({
-              plan_hosts: 5
+              plan_hosts: 1
             }, {
               where: {
                 id: _account.id
@@ -61,13 +61,13 @@ account_model.findAll().then(function(data) {
               event: 'update',
               message: 'Downgraded the subscription',
               extra_message: JSON.stringify({
-                miners: 5
+                miners: 1
               })
             });
           } else {
             console.log('payment ok, upgrading');
 
-            var new_plan_hosts = 5;
+            var new_plan_hosts = 1;
 
             switch (payment.amount) {
               case '0.99':
