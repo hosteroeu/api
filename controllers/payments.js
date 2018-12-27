@@ -97,6 +97,46 @@ var Payments = function() {
   var ipn = function(req, res, next) {
     console.log(req.body);
 
+    if (!req.body && !req.body.txn_type && req.body.txn_type !== 'subscr_payment') {
+      console.error('rejected');
+
+      res.status(200);
+      res.send('invalid data');
+
+      return;
+    }
+
+    account.findAll({
+      email: req.body.payer_email
+    }, function(err, result) {
+      if (err) {
+        console.error('could not find account');
+        console.error(err);
+      }
+
+      if (result.length > 0) {
+        var user_account = result[0];
+
+        console.log('found account', user_account.id);
+
+        payment.create({
+          user_id: user_account.user_id,
+          account_id: user_account.id,
+          gateway: 'paypal',
+          gateway_internal_id: req.body.txn_id,
+          amount: req.body.mc_gross,
+          event: 'create',
+          message: JSON.stringify(req.body)
+        }, _.noop);
+      } else {
+        console.error('Could not find account');
+      }
+    });
+
+    // Skip checking the IPN data for now. WARNING: This can be subject to hacks
+    // Disabled the code because transaction events would be invalided for some
+    // reason
+    /*
     // Read the IPN message sent from PayPal and prepend 'cmd=_notify-validate'
     var query = ['cmd=_notify-validate'];
 
@@ -105,8 +145,6 @@ var Payments = function() {
     }
 
     var body = query.join('&');
-
-    console.log(body);
 
     var options = {
       //url: 'https://www.sandbox.paypal.com/cgi-bin/webscr', // old
@@ -133,32 +171,7 @@ var Payments = function() {
           //The IPN is verified
           console.log('Verified IPN!');
 
-          account.findAll({
-            email: req.body.payer_email
-          }, function(err, result) {
-            if (err) {
-              console.error('Could not find account');
-              console.error(err);
-            }
-
-            if (result.length > 0) {
-              var user_account = result[0];
-
-              console.log('found account', user_account.id);
-
-              payment.create({
-                user_id: user_account.user_id,
-                account_id: user_account.id,
-                gateway: 'paypal',
-                gateway_internal_id: req.body.txn_id,
-                amount: req.body.mc_gross,
-                event: 'create',
-                message: JSON.stringify(req.body)
-              }, _.noop);
-            } else {
-              console.error('Could not find account');
-            }
-          });
+          // TODO: Do stuff here
         } else if (body.substring(0, 7) === 'INVALID') {
           //The IPN invalid
           console.error('Invalid IPN!');
@@ -173,6 +186,7 @@ var Payments = function() {
         //console.log(response);
       }
     });
+    */
 
     res.status(200);
     res.send();
