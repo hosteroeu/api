@@ -45,7 +45,8 @@ var Rancher = function() {
 
         switch (req.body.coin) {
           case 'webdollar':
-            var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
+            //var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
+            var referral = '';
 
             create_manifest.launchConfig.command = [
               'sh',
