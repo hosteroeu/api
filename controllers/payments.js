@@ -109,9 +109,9 @@ var Payments = function() {
     console.log(body);
 
     var options = {
-      url: 'https://www.sandbox.paypal.com/cgi-bin/webscr',
-      //https://ipnpb.sandbox.paypal.com/cgi-bin/webscr
-      //https://ipnpb.paypal.com/cgi-bin/webscr
+      //url: 'https://www.sandbox.paypal.com/cgi-bin/webscr', // old
+      //url: 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr',
+      url: 'https://ipnpb.paypal.com/cgi-bin/webscr',
       method: 'POST',
       headers: {
         'Connection': 'close'
