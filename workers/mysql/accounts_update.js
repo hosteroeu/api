@@ -74,7 +74,7 @@ account_model.findAll().then(function(data) {
                 new_plan_hosts = 5;
                 break;
               case '9.99':
-                new_plan_hosts = 50;
+                new_plan_hosts = 20;
                 break;
               case '49.99':
                 new_plan_hosts = 100;
