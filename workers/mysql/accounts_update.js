@@ -70,7 +70,9 @@ account_model.findAll().then(function(data) {
             var new_plan_hosts = 1;
 
             switch (payment.amount) {
+              // old plan
               case '0.99':
+              case '1.99':
                 new_plan_hosts = 5;
                 break;
               case '9.99':
