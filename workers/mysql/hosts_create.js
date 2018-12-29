@@ -32,7 +32,7 @@ rancher.hosts.query(function(err, message, body) {
     var host = hosts[i];
 
     if (host.agentState !== 'disconnected' && host.labels.account) {
-      console.log('found rancher host', host.id);
+      //console.log('found rancher host', host.id);
 
       result.push(host);
     }
@@ -43,6 +43,8 @@ rancher.hosts.query(function(err, message, body) {
   host_model.findAll({})
     .then(function(data) {
       var hosts = data;
+
+      console.log('mysql hosts', hosts.length);
 
       for (var i = 0, l = result.length; i < l; i++) {
         var host = result[i];
@@ -61,47 +63,12 @@ rancher.hosts.query(function(err, message, body) {
 
                 console.log('account', account.id);
 
-                var auto_deploy = false;
-                var new_miner = {
-                  coin: account.auto_deploy_coin,
-                  status: 'stopped',
-                  deployed: '2',
-                  user_id: account.user_id
-                };
-
-                if (account.auto_deploy) {
-                  switch (account.auto_deploy_coin) {
-                    case 'webdollar':
-                      if (account.mining_pool_url_webdollar && account.wallet_webdollar) {
-                        auto_deploy = true;
-
-                        new_miner.server_port = '8000';
-                        new_miner.mining_pool_url = account.mining_pool_url_webdollar;
-                        new_miner.domain = 'wd.hoste.ro';
-                        new_miner.wallet = account.wallet_webdollar;
-                        new_miner.image_uuid = 'docker:morion4000/node:v2';
-                        new_miner.command = 'sh start_pool_mining.sh';
-                        new_miner.wallet_secret_url = '7e5d522a70ce4c455f6875d01c22727e';
-                      }
-                      break;
-
-                    case 'nerva':
-                      if (account.wallet_nerva) {
-                        auto_deploy = true;
-
-                        new_miner.wallet = account.wallet_nerva;
-                        new_miner.image_uuid = 'docker:morion4000/nerva';
-                      }
-                      break;
-                  }
-                }
-
                 host_model.create({
                     name: _host.name || _host.hostname,
                     user_id: account.user_id,
                     account_id: account.id,
                     status: 'started',
-                    deployed: auto_deploy ? '2' : '0',
+                    deployed: '0',
                     internal_id: _host.id,
                     internal_created: _host.createdTS,
                     hostname: _host.hostname,
@@ -124,38 +91,6 @@ rancher.hosts.query(function(err, message, body) {
                       message: 'Created a new host',
                       extra_message: JSON.stringify(data)
                     });
-
-                    if (auto_deploy) {
-                      var host = data;
-
-                      new_miner.name = 'miner-' + host.id;
-                      new_miner.threads = host.cpu_count || '0';
-                      new_miner.host_id = host.id;
-
-                      miner_model.create(new_miner)
-                        .then(function(data) {
-                          log_model.create({
-                            user_id: account.user_id,
-                            account_id: account.id,
-                            entity: 'miner',
-                            entity_id: data.id,
-                            event: 'create',
-                            message: 'Created a new miner',
-                            extra_message: JSON.stringify(data)
-                          });
-                        })
-                        .catch(function(err) {
-                          log_model.create({
-                            user_id: account.user_id,
-                            account_id: account.id,
-                            entity: 'miner',
-                            entity_id: null,
-                            event: 'error',
-                            message: 'Error creating a new miner',
-                            extra_message: JSON.stringify(err)
-                          });
-                        });
-                    }
                   })
                   .catch(function(err) {
                     log_model.create({
