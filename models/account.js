@@ -15,7 +15,7 @@ var Account = function(sequelize) {
     'wallet_nerva',
     'wallet_webdollar',
     'mining_pool_url_webdollar',
-    'plan_hosts',
+    'plan_miners',
     'rancher_uri',
     'created_at',
     'updated_at'
@@ -32,7 +32,7 @@ var Account = function(sequelize) {
     wallet_nerva: Sequelize.TEXT,
     wallet_webdollar: Sequelize.TEXT,
     mining_pool_url_webdollar: Sequelize.STRING,
-    plan_hosts: Sequelize.INTEGER,
+    plan_miners: Sequelize.INTEGER,
     rancher_uri: Sequelize.STRING
   }, {
     underscored: true,

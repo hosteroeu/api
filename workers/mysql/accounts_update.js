@@ -23,7 +23,7 @@ account_model.findAll().then(function(data) {
     var account = accounts[i];
 
     // -1 is account of type unlimited
-    if (account.plan_hosts == '-1') {
+    if (account.plan_miners == '-1') {
       continue;
     }
 
@@ -46,7 +46,7 @@ account_model.findAll().then(function(data) {
             console.log('payment overdue, downgrading');
 
             account_model.update({
-              plan_hosts: 1
+              plan_miners: 1
             }, {
               where: {
                 id: _account.id
@@ -67,28 +67,28 @@ account_model.findAll().then(function(data) {
           } else {
             console.log('payment ok, upgrading');
 
-            var new_plan_hosts = 1;
+            var new_plan_miners = 1;
 
             switch (payment.amount) {
               // old plan
               case '0.99':
               case '1.99':
-                new_plan_hosts = 5;
+                new_plan_miners = 5;
                 break;
               case '9.99':
-                new_plan_hosts = 20;
+                new_plan_miners = 20;
                 break;
               case '49.99':
-                new_plan_hosts = 100;
+                new_plan_miners = 100;
                 break;
             }
 
-            if (_account.plan_hosts === new_plan_hosts) {
+            if (_account.plan_miners === new_plan_miners) {
               continue;
             }
 
             account_model.update({
-              plan_hosts: new_plan_hosts
+              plan_miners: new_plan_miners
             }, {
               where: {
                 id: _account.id
@@ -103,7 +103,7 @@ account_model.findAll().then(function(data) {
               event: 'update',
               message: 'Upgraded the subscription',
               extra_message: JSON.stringify({
-                miners: new_plan_hosts
+                miners: new_plan_miners
               })
             });
           }
