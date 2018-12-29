@@ -74,7 +74,7 @@ var Accounts = function() {
         entity: 'account',
         entity_id: req.id,
         event: 'update',
-        message: 'Updated an account',
+        message: 'Updated your account',
         extra_message: JSON.stringify(req.body)
       });
 

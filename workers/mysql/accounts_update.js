@@ -59,7 +59,7 @@ account_model.findAll().then(function(data) {
               entity: 'account',
               entity_id: _account.id,
               event: 'update',
-              message: 'Downgraded the subscription',
+              message: 'Downgraded your subscription',
               extra_message: JSON.stringify({
                 miners: 1
               })
@@ -101,7 +101,7 @@ account_model.findAll().then(function(data) {
               entity: 'account',
               entity_id: _account.id,
               event: 'update',
-              message: 'Upgraded the subscription',
+              message: 'Upgraded your subscription',
               extra_message: JSON.stringify({
                 miners: new_plan_miners
               })
