@@ -18,6 +18,7 @@ var Miners = function() {
   var create = function(req, res, next) {
     req.body.user_id = req.user.sub;
 
+    // TODO: Limit miner creation based on subscription
     miner.create(req.body, function(err, result) {
       if (err) {
         return next(err);
