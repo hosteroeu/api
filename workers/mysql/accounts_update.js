@@ -65,8 +65,6 @@ account_model.findAll().then(function(data) {
               })
             });
           } else {
-            console.log('payment ok, upgrading');
-
             var new_plan_miners = 1;
 
             switch (payment.amount) {
@@ -86,6 +84,8 @@ account_model.findAll().then(function(data) {
             if (_account.plan_miners === new_plan_miners) {
               continue;
             }
+
+            console.log('payment ok, upgrading');
 
             account_model.update({
               plan_miners: new_plan_miners
