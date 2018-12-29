@@ -49,7 +49,7 @@ host_model.findAll({
               extra_message: JSON.stringify(_host)
             });
 
-            //return;
+            return;
           }
 
           var new_miner = {
