@@ -97,6 +97,7 @@ var Payments = function() {
   var ipn = function(req, res, next) {
     console.log(req.body);
 
+    // TODO: Fix this, use OR
     if (!req.body && !req.body.txn_type && req.body.txn_type !== 'subscr_payment') {
       console.error('rejected');
 
