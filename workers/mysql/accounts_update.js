@@ -1,4 +1,5 @@
 var rancher = require('./../../services').Rancher();
+var mailgun = require('./../../services').Mailgun();
 var config = require('./../../config');
 
 var payment_model = require('./../../models').payment.model;
@@ -64,6 +65,14 @@ account_model.findAll().then(function(data) {
                 miners: 1
               })
             });
+
+            if (_account.email) {
+              mailgun.mail.send({
+                to: _account.email,
+                subject: 'Your subscription was downgraded',
+                body: 'Your Hostero subscription was automatically downgraded.'
+              }, null, console.log);
+            }
           } else {
             var new_plan_miners = 1;
 
@@ -106,6 +115,14 @@ account_model.findAll().then(function(data) {
                 miners: new_plan_miners
               })
             });
+
+            if (_account.email) {
+              mailgun.mail.send({
+                to: _account.email,
+                subject: 'Your subscription was upgraded',
+                body: 'Your Hostero subscription was automatically upgraded.'
+              }, null, console.log);
+            }
           }
         }
       });
