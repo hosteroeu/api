@@ -3,6 +3,7 @@ var payment = require('./../models').payment,
   account = require('./../models').account,
   errors = require('./../errors'),
   config = require('./../config'),
+  mailgun = require('./../services').Mailgun(),
   request = require('request'),
   _ = require('underscore');
 
@@ -97,7 +98,6 @@ var Payments = function() {
   var ipn = function(req, res, next) {
     console.log(req.body);
 
-    // TODO: Fix this, use OR
     if (!req.body && !req.body.txn_type && req.body.txn_type !== 'subscr_payment') {
       console.error('rejected');
 
@@ -130,6 +130,12 @@ var Payments = function() {
           message: JSON.stringify(req.body)
         }, _.noop);
       } else {
+        mailgun.mail.send({
+          to: config.admin.email,
+          subject: '[SYSTEM] Payment account does not match',
+          body: JSON.stringify(req.body)
+        }, null, console.log);
+
         console.error('Could not find account');
       }
     });
