@@ -135,6 +135,11 @@ miner_model.findAll({})
 
                 var power = res;
 
+                // Miner has went to 0 power
+                if (_miner.power > 0 && power === 0) {
+                  // TODO: Send mail to user
+                }
+
                 miner_model.update({
                     power: power,
                   }, {
