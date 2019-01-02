@@ -32,9 +32,10 @@ function find_power(data) {
 }
 
 function find_block(data) {
+  // TODO: Find better way
   var regex1 = /  \d{6}/g; // webdollar
-  var regex2 = /Height: ([0-9.])+/g; // nerva
-  var regex3 = /Height: ([0-9.])+/g; // nerva
+  var regex2 = / \d{6}/g; // nerva
+  var regex3 = / \d{6}/g; // nerva
 
   var found1 = data.match(regex1);
   var found2 = data.match(regex2);
