@@ -13,10 +13,9 @@ var Accounts = function() {
       }
 
       var curated = _.map(result, function(fields) {
-        return _.omit(fields, 'name', 'email', 'full_name', 'internal_id', 'user_id');
+        return _.omit(fields.dataValues, 'name', 'email', 'full_name', 'internal_id', 'user_id');
       });
 
-      // TODO: Curate results, omit certain fields
       res.send(curated);
     });
   };
