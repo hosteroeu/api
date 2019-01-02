@@ -30,6 +30,14 @@ account_model.findAll().then(function(data) {
 
           console.log('ACCOUNT', _account.id, 'MINERS', delta);
 
+          if (_account.email) {
+            mailgun.mail.send({
+              to: _account.email,
+              subject: 'Some miners have been deleted',
+              body: 'Due to unpayment, some of your miners have been deleted.'
+            }, null, console.log);
+          }
+
           for (var j = 0; j < delta; j++) {
             var miner = miners[j];
 
@@ -52,14 +60,6 @@ account_model.findAll().then(function(data) {
               message: 'Deleted miner',
               extra_message: JSON.stringify(miner)
             });
-
-            if (_account.email) {
-              mailgun.mail.send({
-                to: _account.email,
-                subject: 'Some miners have been deleted',
-                body: 'Due to unpayment, some of your miners have been deleted.'
-              }, null, console.log);
-            }
           }
         }
       });
