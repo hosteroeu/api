@@ -7,6 +7,7 @@ var Coin = function(sequelize) {
     'id',
     'name',
     'short_name',
+    'internal_name',
     'color',
     'description',
     'algorithm',
@@ -30,6 +31,7 @@ var Coin = function(sequelize) {
   var coin = sequelize.define('Coin', {
     name: Sequelize.STRING,
     short_name: Sequelize.STRING,
+    internal_name: Sequelize.STRING,
     color: Sequelize.STRING,
     description: Sequelize.TEXT,
     algorithm: Sequelize.STRING,
