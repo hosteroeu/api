@@ -47,6 +47,8 @@ var filters = function(req, res, next) {
       'miner_id',
       'wallet_id',
       'log_id',
+      'coin_id',
+      'payment_id'
     ],
     invalid_filters = _.difference(_.keys(filters), filters_whitelist);
 
