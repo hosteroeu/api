@@ -9,9 +9,56 @@ var miner_model = require('./../../models').miner.model;
 var start = process.env.START || 0;
 var end = process.env.END || null;
 
+function find_power(data) {
+  var regex1 = /([0-9.])+ hashes\/s/g; // webdollar
+  var regex2 = /([0-9.])+ H\/s/g; // nerva
+  var regex3 = /([0-9.])+ kH\/s/g; // nerva
+
+  var found1 = data.match(regex1);
+  var found2 = data.match(regex2);
+  var found3 = data.match(regex3);
+
+  var power = 0;
+
+  if (found1) {
+    power = parseInt(found1[0]);
+  } else if (found2) {
+    power = parseInt(found2[0]);
+  } else if (found3) {
+    power = parseInt(found3[0]) * 1000;
+  }
+
+  return power;
+}
+
+function find_block(data) {
+  var regex1 = /  \d{6}/g; // webdollar
+  var regex2 = /Height: ([0-9.])+/g; // nerva
+  var regex3 = /Height: ([0-9.])+/g; // nerva
+
+  var found1 = data.match(regex1);
+  var found2 = data.match(regex2);
+  var found3 = data.match(regex3);
+
+  var block = 0;
+
+  if (found1) {
+    block = parseInt(found1[0]);
+  } else if (found2) {
+    block = parseInt(found2[0]);
+  } else if (found3) {
+    block = parseInt(found3[0]);
+  }
+
+  return block;
+}
+
 function get_ws_data_for_uri(uri, callback) {
   var client = new WebSocketClient();
   var timeout;
+  var power = 0;
+  var block = 0;
+  var closed = false;
 
   client.on('connectFailed', function(error) {
     console.error('Connect Error: ', error.toString());
@@ -28,7 +75,10 @@ function get_ws_data_for_uri(uri, callback) {
     timeout = setTimeout(function() {
       connection.close(1000); // WebSocketConnection.CLOSE_REASON_NORMAL
 
-      callback(null, 0);
+      callback(null, {
+        power: 0,
+        block: 0
+      });
     }, 10 * 1000);
 
     connection.on('error', function(error) {
@@ -41,32 +91,19 @@ function get_ws_data_for_uri(uri, callback) {
 
     connection.on('message', function(message) {
       if (message.type === 'utf8') {
-        var event = message.utf8Data;
+        power = power || find_power(message.utf8Data);
+        block = block || find_block(message.utf8Data);
 
-        var regex1 = /([0-9.])+ hashes\/s/g;
-        var regex2 = /([0-9.])+ H\/s/g;
-        var regex3 = /([0-9.])+ kH\/s/g;
-
-        var found1 = event.match(regex1);
-        var found2 = event.match(regex2);
-        var found3 = event.match(regex3);
-
-        var power;
-
-        if (found1) {
-          power = parseInt(found1[0]);
-        } else if (found2) {
-          power = parseInt(found2[0]);
-        } else if (found3) {
-          power = parseInt(found3[0]) * 1000;
-        }
-
-        if (power) {
+        if (power && block && !closed) {
+          closed = true;
           connection.close(1000); // WebSocketConnection.CLOSE_REASON_NORMAL
 
           clearTimeout(timeout);
 
-          callback(null, power);
+          callback(null, {
+            power: power,
+            block: block
+          });
         }
       }
     });
@@ -133,7 +170,8 @@ miner_model.findAll({})
               get_ws_data_for_uri(res, function(err, res) {
                 if (err) return callback(err);
 
-                var power = res;
+                var power = res.power;
+                var block = res.block;
 
                 // Miner has went to 0 power
                 if (_miner.power > 0 && power === 0) {
@@ -142,6 +180,7 @@ miner_model.findAll({})
 
                 miner_model.update({
                     power: power,
+                    block: block
                   }, {
                     where: {
                       id: _miner.id
@@ -151,7 +190,10 @@ miner_model.findAll({})
                   .catch(console.error);
 
                 setTimeout(function() {
-                  callback(null, power);
+                  callback(null, {
+                    power: power,
+                    block: block
+                  });
                 }, 200);
               });
             });
@@ -164,11 +206,5 @@ miner_model.findAll({})
 
     async.series(calls, function(err, results) {
       console.timeEnd('get_all_ws_links');
-
-      /*
-      _.each(results, function(power, miner) {
-        console.log(power, miner);
-      });
-      */
     });
   });
