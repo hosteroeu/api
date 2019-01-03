@@ -78,6 +78,15 @@ host_model.findAll({
                 new_miner.image_uuid = 'docker:morion4000/nerva';
               }
               break;
+
+            case 'webchain':
+              if (_account.wallet_webchain) {
+                new_miner.wallet = _account.wallet_webchain;
+                new_miner.password = _account.password_webchain;
+                new_miner.mining_pool_url = _account.mining_pool_url_webchain;
+                new_miner.image_uuid = 'docker:morion4000/webchain';
+              }
+              break;
           }
 
           host_model.update({

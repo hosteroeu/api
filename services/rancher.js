@@ -63,6 +63,12 @@ var Rancher = function() {
           case 'nerva':
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
+
+          case 'webchain':
+            create_manifest.launchConfig.environment.PASSWORD = req.body.password;
+            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.threads;
+            create_manifest.launchConfig.environment.THREADS = req.body.threads;
+            break;
         }
 
         request.post({
