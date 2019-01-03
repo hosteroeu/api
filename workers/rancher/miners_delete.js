@@ -1,5 +1,6 @@
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
+var moment = require('moment');
 
 var miner_model = require('./../../models').miner.model;
 
@@ -31,6 +32,11 @@ rancher.services.query(function(err, message, body) {
 
       for (var i = 0, l = services.length; i < l; i++) {
         var service = services[i];
+
+        // Allow 30 minutes for the service to be created
+        if (moment(service.created).toDate() > moment().subtract(30, 'minutes').toDate()) {
+          continue;
+        }
 
         var miner = find_miner_in_miners(service, miners);
 

@@ -15,7 +15,7 @@ rancher.services.query_unhealthy(function(err, message, body) {
     var service = services[i];
 
     // Delete just services which are not stopped manually
-    if (service.state !== 'active') {
+    if (service.state !== 'active' && service.name !== 'healthcheck') {
       console.log('deleting', service.name);
       rancher.services.remove(service.id);
     }
