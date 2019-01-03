@@ -12,6 +12,7 @@ var Payment = function(sequelize) {
     'amount',
     'event',
     'message',
+    'description',
     'created_at',
     'updated_at'
   ];
@@ -22,7 +23,8 @@ var Payment = function(sequelize) {
     gateway_internal_id: Sequelize.STRING,
     amount: Sequelize.STRING,
     event: Sequelize.ENUM('create', 'update', 'delete', 'error'),
-    message: Sequelize.TEXT
+    message: Sequelize.TEXT,
+    description: Sequelize.TEXT
   }, {
     underscored: true,
     tableName: 'payments'
