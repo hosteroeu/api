@@ -1,3 +1,4 @@
+var moment = require('moment');
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
@@ -8,7 +9,10 @@ var log_model = require('./../../models').log.model;
 
 host_model.findAll({
     where: {
-      deployed: '0'
+      deployed: '0',
+      created_at: {
+        $gte: moment().subtract(1, 'hours').toDate()
+      }
     },
     include: [{
       model: account_model
@@ -25,7 +29,7 @@ host_model.findAll({
 
       if (!auto_deploy) {
         console.log('Host', host.id, 'not auto-deployed, because auto_deploy is not set');
-        return;
+        continue;
       }
 
       (function(_host, _account) {
