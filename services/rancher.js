@@ -66,7 +66,7 @@ var Rancher = function() {
 
           case 'webchain':
             create_manifest.launchConfig.environment.PASSWORD = req.body.password;
-            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.threads;
+            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
         }
