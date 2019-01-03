@@ -38,6 +38,10 @@ rancher.services.query(function(err, message, body) {
           continue;
         }
 
+        if (service.name === 'healthcheck') {
+          continue;
+        }
+
         var miner = find_miner_in_miners(service, miners);
 
         if (!miner) {
