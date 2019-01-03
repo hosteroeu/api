@@ -11,7 +11,7 @@ var end = process.env.END || null;
 
 function find_power(data) {
   var regex1 = /([0-9.])+ hashes\/s/g; // webdollar
-  var regex2 = /([0-9.])+ H\/s/g; // nerva
+  var regex2 = /([0-9.])+ H\/s/g; // nerva, webchain
   var regex3 = /([0-9.])+ kH\/s/g; // nerva
 
   var found1 = data.match(regex1);
