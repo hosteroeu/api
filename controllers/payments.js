@@ -108,7 +108,11 @@ var Payments = function() {
     }
 
     account.findAll({
-      email: req.body.payer_email
+      $or: [{
+        email: req.body.payer_email
+      }, {
+        paypal_email: req.body.payer_email
+      }]
     }, function(err, result) {
       if (err) {
         console.error('could not find account');
