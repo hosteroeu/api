@@ -33,6 +33,7 @@ miner_model.findAll({
             user_id: miner.user_id,
             server_port: miner.server_port,
             mining_pool_url: miner.mining_pool_url,
+            password: miner.password,
             domain: miner.domain,
             wallet: miner.wallet,
             wallet_secret_url: miner.wallet_secret_url,
