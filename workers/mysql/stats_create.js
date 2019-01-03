@@ -77,8 +77,8 @@ function get_ws_data_for_uri(uri, callback) {
       connection.close(1000); // WebSocketConnection.CLOSE_REASON_NORMAL
 
       callback(null, {
-        power: 0,
-        block: 0
+        power: power,
+        block: block
       });
     }, 10 * 1000);
 
