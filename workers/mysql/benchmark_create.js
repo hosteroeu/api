@@ -17,17 +17,18 @@ miner_model.findAll({
 
     for (var i = 0; i < miners.length; i++) {
       var miner = miners[i];
+      var index = miner.coin + ' ' + miner.Host.cpu_model;
 
       // TODO: Do average, not max
-      if (indexed[miner.Host.cpu_model] && indexed[miner.Host.cpu_model].power > miner.power) {
+      if (indexed[index] && indexed[index].power > miner.power) {
         continue;
       }
 
-      indexed[miner.Host.cpu_model] = miner;
+      indexed[index] = miner;
     }
 
     for (var index in indexed) {
-      console.log('CPU', index);
+      console.log(index);
 
       var miner = indexed[index];
 
@@ -43,7 +44,7 @@ miner_model.findAll({
           docker_version: miner.Host.docker_version,
           memory_total: miner.Host.memory_total
         })
-        .then(console.log)
+        .then(_.noop)
         .catch(console.error);
     }
   });
