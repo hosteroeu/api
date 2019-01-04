@@ -18,6 +18,11 @@ miner_model.findAll({
     for (var i = 0; i < miners.length; i++) {
       var miner = miners[i];
 
+      // TODO: Do average, not max
+      if (indexed[miner.Host.cpu_model] && indexed[miner.Host.cpu_model].power > miner.power) {
+        continue;
+      }
+
       indexed[miner.Host.cpu_model] = miner;
     }
 
