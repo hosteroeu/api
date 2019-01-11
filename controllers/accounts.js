@@ -2,6 +2,7 @@ var account = require('./../models').account,
   log = require('./../models').log,
   errors = require('./../errors'),
   config = require('./../config'),
+  mailgun = require('./../services').Mailgun(),
   _ = require('underscore');
 
 var Accounts = function() {
@@ -38,6 +39,12 @@ var Accounts = function() {
         message: 'Created an account',
         extra_message: JSON.stringify(result)
       });
+
+      mailgun.mail.send({
+        to: config.admin.email,
+        subject: '[SYSTEM] New account',
+        body: JSON.stringify(result)
+      }, null, console.log);
 
       res.status(201);
       res.send(result);
@@ -110,6 +117,7 @@ var Accounts = function() {
         return res.send(found);
       }
 
+      // TODO: Longer ids?
       req.body.name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
 
       next();
