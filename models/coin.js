@@ -8,6 +8,7 @@ var Coin = function(sequelize) {
     'name',
     'short_name',
     'internal_name',
+    'on_hostero',
     'color',
     'description',
     'algorithm',
@@ -24,6 +25,7 @@ var Coin = function(sequelize) {
     'calculator_url',
     'mining_pools_url',
     'exchange_url',
+    'logo_url',
     'created_at',
     'updated_at'
   ];
@@ -32,6 +34,7 @@ var Coin = function(sequelize) {
     name: Sequelize.STRING,
     short_name: Sequelize.STRING,
     internal_name: Sequelize.STRING,
+    on_hostero: Sequelize.BOOLEAN,
     color: Sequelize.STRING,
     description: Sequelize.TEXT,
     algorithm: Sequelize.STRING,
@@ -47,7 +50,8 @@ var Coin = function(sequelize) {
     statistics_url: Sequelize.STRING,
     calculator_url: Sequelize.STRING,
     mining_pools_url: Sequelize.STRING,
-    exchange_url: Sequelize.STRING
+    exchange_url: Sequelize.STRING,
+    logo_url: Sequelize.STRING
   }, {
     underscored: true,
     tableName: 'coins'
