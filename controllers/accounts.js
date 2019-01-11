@@ -3,6 +3,7 @@ var account = require('./../models').account,
   errors = require('./../errors'),
   config = require('./../config'),
   mailgun = require('./../services').Mailgun(),
+  mailchimp = require('./../services').Mailchimp(),
   _ = require('underscore');
 
 var Accounts = function() {
@@ -83,6 +84,15 @@ var Accounts = function() {
         message: 'Updated your account',
         extra_message: JSON.stringify(req.body)
       });
+
+      // After the account is created, email is being sent
+      if (_.has(req.body, 'email')) {
+        mailchimp.lists.subscribe({
+          email: req.body.email,
+          first_name: req.body.full_name || '',
+          last_name: ''
+        }, null, console.log);
+      }
 
       res.status(204);
       res.send();
