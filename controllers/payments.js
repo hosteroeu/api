@@ -36,7 +36,7 @@ var Payments = function() {
         event: 'create',
         message: 'Created an payment',
         extra_message: JSON.stringify(result)
-      });
+      }, _.noop);
 
       res.status(201);
       res.send(result);
@@ -74,7 +74,7 @@ var Payments = function() {
         event: 'update',
         message: 'Updated an payment',
         extra_message: JSON.stringify(req.body)
-      });
+      }, _.noop);
 
       res.status(204);
       res.send();

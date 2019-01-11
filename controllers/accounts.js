@@ -39,7 +39,7 @@ var Accounts = function() {
         event: 'create',
         message: 'Created an account',
         extra_message: JSON.stringify(result)
-      });
+      }, _.noop);
 
       mailgun.mail.send({
         to: config.admin.email,
@@ -83,7 +83,7 @@ var Accounts = function() {
         event: 'update',
         message: 'Updated your account',
         extra_message: JSON.stringify(req.body)
-      });
+      }, _.noop);
 
       // After the account is created, email is being sent
       if (_.has(req.body, 'email')) {
