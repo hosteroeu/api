@@ -24,9 +24,10 @@ account_model.findAll().then(function(data) {
         }
       }).then(function(data) {
         var miners = data;
+        var account_miners = _account.plan_miners + _account.bonus_miners;
 
-        if (miners.length > _account.plan_miners) {
-          var delta = miners.length - _account.plan_miners;
+        if (miners.length > account_miners) {
+          var delta = miners.length - account_miners;
 
           console.log('ACCOUNT', _account.id, 'MINERS', delta);
 

@@ -20,6 +20,7 @@ var Account = function(sequelize) {
     'password_webchain',
     'mining_pool_url_webchain',
     'plan_miners',
+    'bonus_miners',
     'rancher_uri',
     'created_at',
     'updated_at'
@@ -41,6 +42,7 @@ var Account = function(sequelize) {
     password_webchain: Sequelize.STRING,
     mining_pool_url_webchain: Sequelize.STRING,
     plan_miners: Sequelize.INTEGER,
+    bonus_miners: Sequelize.INTEGER,
     rancher_uri: Sequelize.STRING
   }, {
     underscored: true,
