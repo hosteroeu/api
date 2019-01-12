@@ -41,12 +41,6 @@ var Accounts = function() {
         extra_message: JSON.stringify(result)
       }, _.noop);
 
-      mailgun.mail.send({
-        to: config.admin.email,
-        subject: '[SYSTEM] New account',
-        body: JSON.stringify(result)
-      }, null, console.log);
-
       res.status(201);
       res.send(result);
     });
@@ -87,6 +81,12 @@ var Accounts = function() {
 
       // After the account is created, email is being sent
       if (_.has(req.body, 'email')) {
+        mailgun.mail.send({
+          to: config.admin.email,
+          subject: '[SYSTEM] New account',
+          body: JSON.stringify(req.body)
+        }, null, console.log);
+
         mailchimp.lists.subscribe({
           email: req.body.email,
           first_name: req.body.full_name || '',
