@@ -96,7 +96,8 @@ var Coin = function(sequelize) {
 
   var findAll = function(params, callback) {
     coin.findAll({
-        attributes: fields
+        attributes: fields,
+        where: params.filters,
       })
       .then(function(result) {
         callback(null, result);
