@@ -4,6 +4,7 @@ var config = require('./../../config');
 var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
+var log_model = require('./../../models').log.model;
 
 function find_miner_in_miners(miner, miners) {
   for (var i = 0, l = miners.length; i < l; i++) {
@@ -27,7 +28,10 @@ rancher.services.query(function(err, message, body) {
 
   miner_model.findAll({
       include: [{
-        model: host_model
+        model: host_model,
+        include: [{
+          model: account_model
+        }]
       }]
     })
     .then(function(data) {
@@ -68,8 +72,20 @@ rancher.services.query(function(err, message, body) {
             })
             .then(console.log)
             .catch(console.error);
+
+          log_model.create({
+            user_id: db_miner.Host.Account.user_id,
+            account_id: db_miner.Host.Account.id,
+            entity: 'miner',
+            entity_id: db_miner.id,
+            event: 'update',
+            message: 'Updated a miner',
+            extra_message: JSON.stringify({
+              status: status
+            })
+          });
         } else {
-          console.log('removed miner', miner.name);
+          console.log('Miner not in MySQL', miner.name);
         }
       }
     })
