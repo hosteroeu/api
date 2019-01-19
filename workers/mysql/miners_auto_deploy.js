@@ -92,6 +92,15 @@ host_model.findAll({
                 new_miner.image_uuid = 'docker:morion4000/webchain';
               }
               break;
+
+            case 'veruscoin':
+              if (_account.wallet_veruscoin) {
+                new_miner.wallet = _account.wallet_veruscoin;
+                new_miner.password = _account.password_veruscoin;
+                new_miner.mining_pool_url = _account.mining_pool_url_veruscoin;
+                new_miner.image_uuid = 'docker:morion4000/veruscoin';
+              }
+              break;
           }
 
           host_model.update({
