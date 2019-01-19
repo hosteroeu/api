@@ -13,10 +13,12 @@ function find_power(data) {
   var regex1 = /([0-9.])+ hashes\/s/g; // webdollar
   var regex2 = /([0-9.])+ H\/s/g; // nerva, webchain
   var regex3 = /([0-9.])+ kH\/s/g; // nerva
+  var regex4 = /([0-9.])+ MH\/s/g; // veruscoin
 
   var found1 = data.match(regex1);
   var found2 = data.match(regex2);
   var found3 = data.match(regex3);
+  var found4 = data.match(regex4);
 
   var power = 0;
 
@@ -26,6 +28,8 @@ function find_power(data) {
     power = parseInt(found2[0]);
   } else if (found3) {
     power = parseInt(found3[0]) * 1000;
+  } else if (found4) {
+    power = parseInt(found4[0]) * 1000 * 1000;
   }
 
   return power;
