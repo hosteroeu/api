@@ -34,7 +34,7 @@ var Account = function(sequelize) {
     email: Sequelize.STRING,
     paypal_email: Sequelize.STRING,
     auto_deploy: Sequelize.BOOLEAN,
-    auto_deploy_coin: Sequelize.ENUM('webdollar', 'nerva', 'webchain'),
+    auto_deploy_coin: Sequelize.STRING,
     wallet_nerva: Sequelize.TEXT,
     wallet_webdollar: Sequelize.TEXT,
     mining_pool_url_webdollar: Sequelize.STRING,

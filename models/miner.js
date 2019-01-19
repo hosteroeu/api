@@ -36,7 +36,7 @@ var Miner = function(sequelize) {
     block: Sequelize.INTEGER,
     deployed: Sequelize.STRING,
     status: Sequelize.ENUM('started', 'stopped'),
-    coin: Sequelize.ENUM('webdollar', 'nerva', 'webchain'),
+    coin: Sequelize.STRING,
     threads: Sequelize.STRING,
     server_port: Sequelize.STRING,
     mining_pool_url: Sequelize.STRING,
