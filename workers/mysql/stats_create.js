@@ -32,7 +32,7 @@ function find_power(data) {
     power = parseFloat(found4[0]) * 1000 * 1000;
   }
 
-  return power;
+  return power.toFixed(2);
 }
 
 function find_block(data) {
