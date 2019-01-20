@@ -23,13 +23,13 @@ function find_power(data) {
   var power = 0;
 
   if (found1) {
-    power = parseInt(found1[0]);
+    power = parseFloat(found1[0]);
   } else if (found2) {
-    power = parseInt(found2[0]);
+    power = parseFloat(found2[0]);
   } else if (found3) {
-    power = parseInt(found3[0]) * 1000;
+    power = parseFloat(found3[0]) * 1000;
   } else if (found4) {
-    power = parseInt(found4[0]) * 1000 * 1000;
+    power = parseFloat(found4[0]) * 1000 * 1000;
   }
 
   return power;
