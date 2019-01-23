@@ -38,7 +38,7 @@ miner_model.findAll({
           threads: miner.threads,
           cpu_count: miner.Host.cpu_count,
           cpu_mhz: miner.Host.cpu_mhz,
-          cpu_model: miner.Host.cpu_model,
+          cpu_model: miner.Host.cpu_model.replace(/\s+/g, " "),
           os: miner.Host.os,
           os_kernel: miner.Host.os_kernel,
           docker_version: miner.Host.docker_version,
