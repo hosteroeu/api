@@ -49,7 +49,8 @@ var filters = function(req, res, next) {
       'log_id',
       'coin_id',
       'payment_id',
-      'on_hostero'
+      'on_hostero',
+      'coin'
     ],
     invalid_filters = _.difference(_.keys(filters), filters_whitelist);
 

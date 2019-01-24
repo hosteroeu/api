@@ -61,7 +61,6 @@ var Benchmark = function(sequelize) {
     benchmark.findOne({
         attributes: fields,
         where: {
-          user_id: params.user.sub,
           id: params.params.benchmark_id
         },
         include: [{
@@ -79,12 +78,7 @@ var Benchmark = function(sequelize) {
   var findAll = function(params, callback) {
     benchmark.findAll({
         attributes: fields,
-        where: {
-          user_id: params.user.sub
-        },
-        include: [{
-          model: account,
-        }]
+        where: params.filters
       })
       .then(function(result) {
         callback(null, result);
