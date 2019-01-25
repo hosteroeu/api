@@ -11,9 +11,11 @@ var log_model = require('./../../models').log.model;
 host_model.findAll({
     where: {
       deployed: '0',
+      ///*
       created_at: {
         $gte: moment().subtract(1, 'hours').toDate()
       }
+      //*/
     },
     include: [{
       model: account_model
