@@ -48,7 +48,7 @@ var Rancher = function() {
             var referral = '';
             var wallet_template = {
               version: '0.1',
-              address: req.body.wallet, // TODO: decodeURIComponent ?
+              address: req.body.wallet,
               publicKey: '01',
               privateKey: '02'
             };
