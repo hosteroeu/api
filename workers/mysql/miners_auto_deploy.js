@@ -93,6 +93,14 @@ host_model.findAll({
                 new_miner.mining_pool_url = _account.mining_pool_url_veruscoin;
               }
               break;
+
+            case 'credits':
+              if (_account.wallet_credits) {
+                new_miner.wallet = _account.wallet_credits;
+                new_miner.password = _account.password_credits;
+                new_miner.mining_pool_url = _account.mining_pool_url_credits;
+              }
+              break;
           }
 
           host_model.update({

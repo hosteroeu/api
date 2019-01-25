@@ -28,6 +28,10 @@ var Miner = function() {
           case 'veruscoin':
             new_miner.image_uuid = 'docker:morion4000/veruscoin';
             break;
+
+          case 'credits':
+            new_miner.image_uuid = 'docker:morion4000/credits:3.8.3.3';
+            break;
         }
 
         return new_miner;
