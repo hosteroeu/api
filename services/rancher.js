@@ -40,32 +40,43 @@ var Rancher = function() {
         create_manifest.launchConfig.labels.id = req.body.id;
         create_manifest.launchConfig.labels.coin = req.body.coin;
         create_manifest.launchConfig.imageUuid = req.body.image_uuid;
-        create_manifest.launchConfig.environment.WALLET = req.body.wallet;
         create_manifest.launchConfig.labels.purpose = req.body.coin;
 
         switch (req.body.coin) {
           case 'webdollar':
             //var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
             var referral = '';
+            var wallet_template = {
+              version: '0.1',
+              address: req.body.wallet, // TODO: decodeURIComponent ?
+              publicKey: '01',
+              privateKey: '02'
+            };
 
             create_manifest.launchConfig.command = [
               'sh',
               'start_pool_mining.sh'
             ];
-            create_manifest.launchConfig.environment.SERVER_PORT = req.body.server_port;
+
             create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
-            create_manifest.launchConfig.environment.DOMAIN = req.body.domain;
-            create_manifest.launchConfig.environment.WALLET_SECRET_URL = req.body.wallet_secret_url;
             create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
             create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
+            create_manifest.launchConfig.environment.WALLET = JSON.stringify(wallet_template);
+
+            // TODO: Legacy stuff, remove soon (after updating the webdollar:v2 docker image)
+            create_manifest.launchConfig.environment.WALLET_SECRET_URL = '1234';
+            create_manifest.launchConfig.environment.SERVER_PORT = 8000;
+            create_manifest.launchConfig.environment.DOMAIN = 'wd.hoste.ro';
             break;
 
           case 'nerva':
+            create_manifest.launchConfig.environment.WALLET = req.body.wallet;
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
 
           case 'webchain':
           case 'veruscoin':
+            create_manifest.launchConfig.environment.WALLET = req.body.wallet;
             create_manifest.launchConfig.environment.PASSWORD = req.body.password;
             create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
