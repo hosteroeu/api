@@ -1,5 +1,7 @@
-var miner = require('./../models').miner,
+var _ = require('underscore'),
+  miner = require('./../models').miner,
   rancher = require('./../services').Rancher(),
+  miner_util = require('./../utils').Miner(),
   errors = require('./../errors'),
   config = require('./../config');
 
@@ -16,7 +18,10 @@ var Miners = function() {
   };
 
   var create = function(req, res, next) {
-    req.body.user_id = req.user.sub;
+    var template = miner_util.template.create(req.body.coin);
+    template.user_id = req.user.sub;
+
+    req.body = _.extend(req.body, template);
 
     // TODO: Limit miner creation based on subscription
     miner.create(req.body, function(err, result) {
@@ -116,7 +121,7 @@ var Miners = function() {
         try {
           data = JSON.parse(body);
           container_id = data.instanceIds[0];
-        } catch(e) {
+        } catch (e) {
           return next(e);
         }
 

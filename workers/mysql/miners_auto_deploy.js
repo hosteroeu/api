@@ -1,5 +1,6 @@
 var moment = require('moment');
 var rancher = require('./../../services').Rancher();
+var miner_util = require('./../../utils').Miner();
 var config = require('./../../config');
 
 var miner_model = require('./../../models').miner.model;
@@ -57,30 +58,21 @@ host_model.findAll({
             return;
           }
 
-          var new_miner = {
-            coin: _account.auto_deploy_coin,
-            status: 'stopped',
-            deployed: '2',
-            user_id: _account.user_id
-          };
+          var new_miner = miner_util.template.create(_account.auto_deploy_coin);
+
+          new_miner.user_id = _account.user_id;
 
           switch (_account.auto_deploy_coin) {
             case 'webdollar':
               if (_account.mining_pool_url_webdollar && _account.wallet_webdollar) {
-                new_miner.server_port = '8000';
                 new_miner.mining_pool_url = _account.mining_pool_url_webdollar;
-                new_miner.domain = 'wd.hoste.ro';
                 new_miner.wallet = _account.wallet_webdollar;
-                new_miner.image_uuid = 'docker:morion4000/node:v2';
-                new_miner.command = 'sh start_pool_mining.sh';
-                new_miner.wallet_secret_url = '7e5d522a70ce4c455f6875d01c22727e';
               }
               break;
 
             case 'nerva':
               if (_account.wallet_nerva) {
                 new_miner.wallet = _account.wallet_nerva;
-                new_miner.image_uuid = 'docker:morion4000/nerva';
               }
               break;
 
@@ -89,7 +81,6 @@ host_model.findAll({
                 new_miner.wallet = _account.wallet_webchain;
                 new_miner.password = _account.password_webchain;
                 new_miner.mining_pool_url = _account.mining_pool_url_webchain;
-                new_miner.image_uuid = 'docker:morion4000/webchain';
               }
               break;
 
@@ -98,7 +89,6 @@ host_model.findAll({
                 new_miner.wallet = _account.wallet_veruscoin;
                 new_miner.password = _account.password_veruscoin;
                 new_miner.mining_pool_url = _account.mining_pool_url_veruscoin;
-                new_miner.image_uuid = 'docker:morion4000/veruscoin';
               }
               break;
           }
