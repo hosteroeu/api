@@ -32,9 +32,13 @@ var Rancher = function() {
     return {
       create: function(req, res, next) {
         var create_manifest = require('./../config/manifests/service_create.json');
+        var random = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
 
         create_manifest.environmentId = req.body.stack_id;
-        create_manifest.name = req.body.name;
+        // Cannot deploy multiple services with the same name. This causes a bug
+        // when services are re-deployed and the new service is being deployed
+        // before the old one is deleted.
+        create_manifest.name = req.body.name + '-' + random;
 
         create_manifest.launchConfig.requestedHostId = req.body.host_id;
         create_manifest.launchConfig.labels.id = req.body.id;
