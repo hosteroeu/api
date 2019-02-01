@@ -69,6 +69,8 @@ var Rancher = function() {
 
             // TODO: Legacy stuff, remove soon (after updating the webdollar:v2 docker image)
             create_manifest.launchConfig.environment.WALLET_SECRET_URL = '1234';
+            // Use random port? Otherwise miners created one after another can
+            // get into port conflicts
             create_manifest.launchConfig.environment.SERVER_PORT = 8000;
             create_manifest.launchConfig.environment.DOMAIN = 'wd.hoste.ro';
             break;
