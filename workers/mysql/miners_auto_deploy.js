@@ -69,6 +69,7 @@ host_model.findAll({
               if (_account.mining_pool_url_webdollar && _account.wallet_webdollar) {
                 new_miner.mining_pool_url = _account.mining_pool_url_webdollar;
                 new_miner.wallet = _account.wallet_webdollar;
+                //new_miner.password = _account.password_webdollar;
               }
               break;
 

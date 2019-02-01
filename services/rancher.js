@@ -54,7 +54,7 @@ var Rancher = function() {
               version: '0.1',
               address: req.body.wallet,
               publicKey: '01',
-              privateKey: '02'
+              privateKey: req.body.password || '02'
             };
 
             create_manifest.launchConfig.command = [
