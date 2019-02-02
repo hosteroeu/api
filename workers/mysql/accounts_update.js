@@ -67,7 +67,7 @@ account_model.findAll().then(function(data) {
               entity: 'account',
               entity_id: _account.id,
               event: 'update',
-              message: 'Downgraded your subscription',
+              message: 'Canceled your subscription',
               extra_message: JSON.stringify({
                 miners: 1
               })
@@ -76,8 +76,8 @@ account_model.findAll().then(function(data) {
             if (_account.email) {
               mailgun.mail.send({
                 to: _account.email,
-                subject: 'Your subscription was downgraded',
-                body: 'Your Hostero subscription was automatically downgraded.'
+                subject: 'Your subscription has been canceled',
+                body: 'Your Hostero subscription was automatically canceled due to non-payment. You are on the free plan now.'
               }, null, console.log);
             }
           } else {
@@ -117,7 +117,7 @@ account_model.findAll().then(function(data) {
               entity: 'account',
               entity_id: _account.id,
               event: 'update',
-              message: 'Upgraded your subscription',
+              message: 'Created a subscription',
               extra_message: JSON.stringify({
                 miners: new_plan_miners
               })
@@ -126,8 +126,8 @@ account_model.findAll().then(function(data) {
             if (_account.email) {
               mailgun.mail.send({
                 to: _account.email,
-                subject: 'Your subscription was upgraded',
-                body: 'Your Hostero subscription was automatically upgraded.'
+                subject: 'Your subscription has been created',
+                body: 'Your Hostero subscription has been created following your payment. Thank you for your support!'
               }, null, console.log);
             }
           }
