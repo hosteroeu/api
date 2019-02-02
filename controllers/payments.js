@@ -98,7 +98,9 @@ var Payments = function() {
   var ipn = function(req, res, next) {
     console.log(req.body);
 
-    if (!req.body && !req.body.txn_type && req.body.txn_type !== 'subscr_payment') {
+    if (!req.body && !req.body.txn_type &&
+      req.body.txn_type !== 'subscr_payment' &&
+      req.body.transaction_subject !== 'Hostero') {
       console.error('rejected');
 
       res.status(200);
