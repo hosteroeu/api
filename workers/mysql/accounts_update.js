@@ -44,6 +44,10 @@ account_model.findAll().then(function(data) {
           var payment = payments[j];
 
           if (Date.parse(payment.created_at) <= Date.parse(last_month_date)) {
+            if (_account.plan_miners === 1) {
+              continue;
+            }
+
             console.log('payment overdue, downgrading');
 
             account_model.update({
