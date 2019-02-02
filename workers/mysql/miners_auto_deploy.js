@@ -39,7 +39,8 @@ host_model.findAll({
         miner_model.findAll({
           where: {
             user_id: _account.user_id
-          }
+          },
+          logging: false
         }).then(function(data) {
           var miners = data;
           var account_miners = _account.plan_miners + _account.bonus_miners;
