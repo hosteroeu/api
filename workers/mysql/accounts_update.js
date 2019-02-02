@@ -29,10 +29,13 @@ account_model.findAll().then(function(data) {
     }
 
     (function(_account) {
+      // Get the last payment only
       payment_model.findAll({
         where: {
           account_id: _account.id
-        }
+        },
+        limit: 1,
+        order: [['created_at', 'DESC']]
       }).then(function(data) {
         var payments = data;
 
