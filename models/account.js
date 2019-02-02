@@ -25,6 +25,8 @@ var Account = function(sequelize) {
     'wallet_credits',
     'password_credits',
     'mining_pool_url_credits',
+    'wallet_myriad',
+    'mining_pool_url_myriad',
     'plan_miners',
     'bonus_miners',
     'rancher_uri',
@@ -53,6 +55,8 @@ var Account = function(sequelize) {
     wallet_credits: Sequelize.STRING,
     password_credits: Sequelize.STRING,
     mining_pool_url_credits: Sequelize.STRING,
+    wallet_myriad: Sequelize.STRING,
+    mining_pool_url_myriad: Sequelize.STRING,
     plan_miners: Sequelize.INTEGER,
     bonus_miners: Sequelize.INTEGER,
     rancher_uri: Sequelize.STRING

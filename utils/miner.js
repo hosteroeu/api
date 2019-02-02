@@ -32,6 +32,10 @@ var Miner = function() {
           case 'credits':
             new_miner.image_uuid = 'docker:morion4000/credits:3.8.3.3';
             break;
+
+          case 'myriad':
+            new_miner.image_uuid = 'docker:morion4000/myriad:3.8.3.3';
+            break;
         }
 
         return new_miner;

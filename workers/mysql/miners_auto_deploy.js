@@ -102,6 +102,13 @@ host_model.findAll({
                 new_miner.mining_pool_url = _account.mining_pool_url_credits;
               }
               break;
+
+            case 'myriad':
+              if (_account.wallet_myriad) {
+                new_miner.wallet = _account.wallet_myriad;
+                new_miner.mining_pool_url = _account.mining_pool_url_myriad;
+              }
+              break;
           }
 
           host_model.update({

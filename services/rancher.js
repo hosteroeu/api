@@ -88,6 +88,12 @@ var Rancher = function() {
             create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
+
+          case 'myriad':
+            create_manifest.launchConfig.environment.WALLET = req.body.wallet;
+            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
+            create_manifest.launchConfig.environment.THREADS = req.body.threads;
+            break;
         }
 
         request.post({
