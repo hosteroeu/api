@@ -38,7 +38,7 @@ var Miner = function() {
             break;
 
           case 'yenten':
-            new_miner.image_uuid = 'docker:morion4000/cpuminer-opt:3.8.3.3';
+            new_miner.image_uuid = 'docker:morion4000/cpuminer-opt:3.8.8.1';
             new_miner.command = '-a yescryptr16 -o $MINING_POOL_URL -u $WALLET -p $PASSWORD -t $THREADS';
             break;
         }
