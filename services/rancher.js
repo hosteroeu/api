@@ -39,7 +39,6 @@ var Rancher = function() {
         // when services are re-deployed and the new service is being deployed
         // before the old one is deleted.
         create_manifest.name = req.body.name + '-' + random;
-
         create_manifest.launchConfig.requestedHostId = req.body.host_id;
         create_manifest.launchConfig.labels.id = req.body.id;
         create_manifest.launchConfig.labels.coin = req.body.coin;
@@ -83,7 +82,6 @@ var Rancher = function() {
           case 'webchain':
           case 'veruscoin':
           case 'credits':
-          case 'yenten':
             create_manifest.launchConfig.environment.WALLET = req.body.wallet;
             create_manifest.launchConfig.environment.PASSWORD = req.body.password;
             create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
@@ -94,6 +92,16 @@ var Rancher = function() {
             create_manifest.launchConfig.environment.WALLET = req.body.wallet;
             create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
+            break;
+
+          case 'yenten':
+            create_manifest.launchConfig.command = [
+              '-a yescryptr16',
+              '-o ' + req.body.mining_pool_url,
+              '-u ' + req.body.wallet,
+              '-p ' + req.body.password,
+              '-t ' + req.body.threads
+            ];
             break;
         }
 
