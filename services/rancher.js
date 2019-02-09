@@ -83,6 +83,7 @@ var Rancher = function() {
           case 'webchain':
           case 'veruscoin':
           case 'credits':
+          case 'yenten':
             create_manifest.launchConfig.environment.WALLET = req.body.wallet;
             create_manifest.launchConfig.environment.PASSWORD = req.body.password;
             create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;

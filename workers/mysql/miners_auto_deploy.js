@@ -110,6 +110,14 @@ host_model.findAll({
                 new_miner.mining_pool_url = _account.mining_pool_url_myriad;
               }
               break;
+
+            case 'yenten':
+              if (_account.wallet_credits) {
+                new_miner.wallet = _account.wallet_yenten;
+                new_miner.password = _account.password_yenten;
+                new_miner.mining_pool_url = _account.mining_pool_url_yenten;
+              }
+              break;
           }
 
           host_model.update({
