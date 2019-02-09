@@ -95,12 +95,10 @@ var Rancher = function() {
             break;
 
           case 'yenten':
-            create_manifest.launchConfig.command = [
-              '-a yescryptr16 -o ' + req.body.mining_pool_url +
+            create_manifest.launchConfig.command = '-a yescryptr16 -o ' + req.body.mining_pool_url +
               ' -u ' + req.body.wallet +
               ' -p ' + req.body.password +
-              ' -t ' + req.body.threads
-            ];
+              ' -t ' + req.body.threads;
             break;
         }
 
