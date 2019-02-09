@@ -11,11 +11,11 @@ var log_model = require('./../../models').log.model;
 host_model.findAll({
     where: {
       deployed: '0',
-      ///*
+      /*
       created_at: {
         $gte: moment().subtract(1, 'hours').toDate()
       }
-      //*/
+      */
     },
     include: [{
       model: account_model
@@ -112,7 +112,7 @@ host_model.findAll({
               break;
 
             case 'yenten':
-              if (_account.wallet_credits) {
+              if (_account.wallet_yenten) {
                 new_miner.wallet = _account.wallet_yenten;
                 new_miner.password = _account.password_yenten;
                 new_miner.mining_pool_url = _account.mining_pool_url_yenten;
