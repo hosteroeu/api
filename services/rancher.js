@@ -106,7 +106,7 @@ var Rancher = function() {
               req.body.password,
               '-t',
               req.body.threads,
-              ' -q'
+              '-q'
             ];
             break;
         }
