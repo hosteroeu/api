@@ -98,10 +98,16 @@ var Payments = function() {
   var ipn = function(req, res, next) {
     console.log(req.body);
 
-    if (!req.body && !req.body.txn_type &&
-      req.body.txn_type !== 'subscr_payment' &&
+    if (!req.body || !req.body.txn_type ||
+      req.body.txn_type !== 'subscr_payment' ||
       req.body.transaction_subject !== 'Hostero') {
       console.error('rejected');
+
+      mailgun.mail.send({
+        to: config.admin.email,
+        subject: '[SYSTEM] Payment was rejected',
+        body: JSON.stringify(req.body)
+      }, null, console.log);
 
       res.status(200);
       res.send('invalid data');
