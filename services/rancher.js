@@ -98,7 +98,8 @@ var Rancher = function() {
             create_manifest.launchConfig.command = '-a yescryptr16 -o ' + req.body.mining_pool_url +
               ' -u ' + req.body.wallet +
               ' -p ' + req.body.password +
-              ' -t ' + req.body.threads;
+              ' -t ' + req.body.threads +
+              ' -q';
             break;
         }
 
