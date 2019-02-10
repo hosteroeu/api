@@ -32,6 +32,11 @@ miner_model.findAll({
 
       var miner = indexed[index];
 
+      if (miner.power === 0) {
+        console.log('skipped');
+        continue;
+      }
+
       benchmark_model.create({
           coin: miner.coin,
           power: miner.power,
