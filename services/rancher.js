@@ -33,6 +33,7 @@ var Rancher = function() {
       create: function(req, res, next) {
         var create_manifest = require('./../config/manifests/service_create.json');
         var random = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
+        var cpuminer_path = './cpuminer-avx2';
 
         create_manifest.environmentId = req.body.stack_id;
         // Cannot deploy multiple services with the same name. This causes a bug
@@ -44,6 +45,10 @@ var Rancher = function() {
         create_manifest.launchConfig.labels.coin = req.body.coin;
         create_manifest.launchConfig.imageUuid = req.body.image_uuid;
         create_manifest.launchConfig.labels.purpose = req.body.coin;
+
+        if (req.body.processor === 'sse2') {
+          cpuminer_path = './cpuminer-sse2';
+        }
 
         switch (req.body.coin) {
           case 'webdollar':
@@ -89,7 +94,7 @@ var Rancher = function() {
 
           case 'credits':
             create_manifest.launchConfig.command = [
-              './cpuminer-avx2',
+              cpuminer_path,
               '-a',
               'argon2d-crds',
               '-o',
@@ -107,7 +112,7 @@ var Rancher = function() {
           case 'myriad':
           case 'yenten':
             create_manifest.launchConfig.command = [
-              './cpuminer-avx2',
+              cpuminer_path,
               '-a',
               'yescryptr16',
               '-o',
@@ -124,7 +129,7 @@ var Rancher = function() {
 
           case 'globalboost':
             create_manifest.launchConfig.command = [
-              './cpuminer-avx2',
+              cpuminer_path,
               '-a',
               'yescrypt',
               '-o',

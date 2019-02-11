@@ -38,6 +38,7 @@ miner_model.findAll({
             wallet: miner.wallet,
             wallet_secret_url: miner.wallet_secret_url,
             threads: miner.threads,
+            processor: miner.processor,
             image_uuid: miner.image_uuid,
             host_id: miner.Host.internal_id,
             host_id2: miner.Host.id,
