@@ -35,6 +35,18 @@ function find_power(data) {
   return power;
 }
 
+function find_pos(data) {
+  var regex = /blocks: \d{6} POS/g; // webdollar
+  var found = data.match(regex);
+  var pos = false;
+
+  if (found) {
+    pos = true;
+  }
+
+  return pos;
+}
+
 function find_block(data) {
   // TODO: Find better way
   var regex1 = /  \d{6}/g; // webdollar
@@ -63,6 +75,7 @@ function get_ws_data_for_uri(uri, callback) {
   var timeout;
   var power = 0;
   var block = 0;
+  var pos = false;
   var closed = false;
 
   client.on('connectFailed', function(error) {
@@ -82,7 +95,8 @@ function get_ws_data_for_uri(uri, callback) {
 
       callback(null, {
         power: power,
-        block: block
+        block: block,
+        pos: pos
       });
     }, 10 * 1000);
 
@@ -98,6 +112,7 @@ function get_ws_data_for_uri(uri, callback) {
       if (message.type === 'utf8') {
         power = power || find_power(message.utf8Data);
         block = block || find_block(message.utf8Data);
+        pos = pos || find_pos(message.utf8Data);
 
         if (power && block && !closed) {
           closed = true;
@@ -107,7 +122,8 @@ function get_ws_data_for_uri(uri, callback) {
 
           callback(null, {
             power: power,
-            block: block
+            block: block,
+            pos: pos
           });
         }
       }
@@ -177,22 +193,28 @@ miner_model.findAll({})
 
                 var power = res.power;
                 var block = res.block;
+                var pos = res.pos;
 
-                // Miner has went to 0 power
-                if (_miner.power > 0 && power === 0) {
-                  // TODO: Send mail to user
+                // If pos, don't update power
+                if (!pos) {
+                  // Miner has went to 0 power
+                  if (_miner.power > 0 && power === 0) {
+                    // TODO: Send mail to user
+                  }
+
+                  miner_model.update({
+                      power: power,
+                      block: block
+                    }, {
+                      where: {
+                        id: _miner.id
+                      }
+                    })
+                    .then(console.log)
+                    .catch(console.error);
+                } else {
+                  console.log('skipped. POS rounds');
                 }
-
-                miner_model.update({
-                    power: power,
-                    block: block
-                  }, {
-                    where: {
-                      id: _miner.id
-                    }
-                  })
-                  .then(console.log)
-                  .catch(console.error);
 
                 setTimeout(function() {
                   callback(null, {
