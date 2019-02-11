@@ -109,7 +109,6 @@ var Rancher = function() {
             ];
             break;
 
-          case 'myriad':
           case 'yenten':
             create_manifest.launchConfig.command = [
               cpuminer_path,
@@ -127,6 +126,7 @@ var Rancher = function() {
             ];
             break;
 
+          case 'myriad':
           case 'globalboost':
             create_manifest.launchConfig.command = [
               cpuminer_path,
