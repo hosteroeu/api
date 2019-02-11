@@ -118,6 +118,14 @@ host_model.findAll({
                 new_miner.mining_pool_url = _account.mining_pool_url_yenten;
               }
               break;
+
+            case 'globalboost':
+              if (_account.wallet_globalboost) {
+                new_miner.wallet = _account.wallet_globalboost;
+                new_miner.password = _account.password_globalboost;
+                new_miner.mining_pool_url = _account.mining_pool_url_globalboost;
+              }
+              break;
           }
 
           host_model.update({

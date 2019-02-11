@@ -37,6 +37,7 @@ var Miner = function() {
             break;
 
           case 'yenten':
+          case 'globalboost':
             new_miner.image_uuid = 'docker:morion4000/cpuminer-opt:3.8.8.1';
             break;
         }

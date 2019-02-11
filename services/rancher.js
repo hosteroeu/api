@@ -109,6 +109,22 @@ var Rancher = function() {
               '-q'
             ];
             break;
+
+          case 'globalboost':
+            create_manifest.launchConfig.command = [
+              '-a',
+              'yescrypt',
+              '-o',
+              req.body.mining_pool_url,
+              '-u',
+              req.body.wallet,
+              '-p',
+              req.body.password,
+              '-t',
+              req.body.threads,
+              '-q'
+            ];
+            break;
         }
 
         request.post({
