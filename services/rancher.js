@@ -81,21 +81,33 @@ var Rancher = function() {
 
           case 'webchain':
           case 'veruscoin':
-          case 'credits':
             create_manifest.launchConfig.environment.WALLET = req.body.wallet;
             create_manifest.launchConfig.environment.PASSWORD = req.body.password;
             create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
             create_manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
 
-          case 'myriad':
-            create_manifest.launchConfig.environment.WALLET = req.body.wallet;
-            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
-            create_manifest.launchConfig.environment.THREADS = req.body.threads;
+          case 'credits':
+            create_manifest.launchConfig.command = [
+              './cpuminer-avx2',
+              '-a',
+              'argon2d-crds',
+              '-o',
+              req.body.mining_pool_url,
+              '-u',
+              req.body.wallet,
+              '-p',
+              req.body.password,
+              '-t',
+              req.body.threads,
+              '-q'
+            ];
             break;
 
+          case 'myriad':
           case 'yenten':
             create_manifest.launchConfig.command = [
+              './cpuminer-avx2',
               '-a',
               'yescryptr16',
               '-o',
@@ -112,6 +124,7 @@ var Rancher = function() {
 
           case 'globalboost':
             create_manifest.launchConfig.command = [
+              './cpuminer-avx2',
               '-a',
               'yescrypt',
               '-o',

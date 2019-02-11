@@ -29,16 +29,10 @@ var Miner = function() {
             break;
 
           case 'credits':
-            new_miner.image_uuid = 'docker:morion4000/credits:3.8.3.3';
-            break;
-
           case 'myriad':
-            new_miner.image_uuid = 'docker:morion4000/myriad:3.8.3.3';
-            break;
-
           case 'yenten':
           case 'globalboost':
-            new_miner.image_uuid = 'docker:morion4000/cpuminer-opt:3.8.8.1';
+            new_miner.image_uuid = 'docker:morion4000/cpuminer-argon2:3.8.3.3';
             break;
         }
 
