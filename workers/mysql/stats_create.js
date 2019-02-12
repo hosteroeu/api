@@ -161,7 +161,11 @@ function get_ws_uri_for_miner(internal_id, callback) {
   });
 }
 
-miner_model.findAll({})
+miner_model.findAll({
+  where: {
+    temporary: 0
+  }
+})
   .then(function(miners) {
     console.log('found miners', miners.length);
 
