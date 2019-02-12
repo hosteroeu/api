@@ -53,12 +53,12 @@ miner_model.findAll({
         (function(_req) {
           rancher.services.create(_req, {}, function(err, body) {
             if (err) {
-              console.err(err);
+              console.error(err);
               return;
             }
 
             if (body.type === 'error') {
-              console.err(body.code);
+              console.error(body.code);
               return;
             }
 
