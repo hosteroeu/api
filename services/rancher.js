@@ -40,7 +40,7 @@ var Rancher = function() {
         // when services are re-deployed and the new service is being deployed
         // before the old one is deleted.
         create_manifest.name = req.body.name + '-' + random;
-        create_manifest.launchConfig.requestedHostId = req.body.host_id;
+        create_manifest.launchConfig.requestedHostId = req.body.rancher_host_id;
         create_manifest.launchConfig.labels.id = req.body.id;
         create_manifest.launchConfig.labels.coin = req.body.coin;
         create_manifest.launchConfig.imageUuid = req.body.image_uuid;
@@ -153,7 +153,7 @@ var Rancher = function() {
           req.rancher_service_id = body.id;
           req.rancher_service_created = body.createdTS;
 
-          next(err);
+          next(err, body);
         }).auth(config.rancher.key, config.rancher.secret, false);
       },
       get: function(id, callback) {

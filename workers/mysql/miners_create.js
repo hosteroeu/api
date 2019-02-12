@@ -36,26 +36,29 @@ miner_model.findAll({
             name: miner.name,
             coin: miner.coin,
             user_id: miner.user_id,
-            server_port: miner.server_port,
             mining_pool_url: miner.mining_pool_url,
             password: miner.password,
             domain: miner.domain,
             wallet: miner.wallet,
-            wallet_secret_url: miner.wallet_secret_url,
             threads: miner.threads,
             processor: miner.processor,
             image_uuid: miner.image_uuid,
-            host_id: miner.Host.internal_id,
-            host_id2: miner.Host.id,
-            host_account_id: miner.Host.account_id,
+            rancher_host_id: miner.Host.internal_id,
+            host_id: miner.Host.id,
+            account_id: miner.Host.account_id,
             stack_id: account.internal_id
           }
         };
 
         (function(_req) {
-          rancher.services.create(_req, {}, function(err) {
+          rancher.services.create(_req, {}, function(err, body) {
             if (err) {
               console.err(err);
+              return;
+            }
+
+            if (body.type === 'error') {
+              console.err(body.code);
               return;
             }
 
@@ -92,7 +95,7 @@ miner_model.findAll({
                 miners: miner.Host.miners + 1
               }, {
                 where: {
-                  id: _req.body.host_id2
+                  id: miner.Host.id
                 }
               })
               .then(function(data) {
@@ -100,7 +103,7 @@ miner_model.findAll({
                   user_id: account.user_id,
                   account_id: account.id,
                   entity: 'host',
-                  entity_id: _req.body.host_id2,
+                  entity_id: miner.Host.id,
                   event: 'update',
                   message: 'Updated a host',
                   extra_message: JSON.stringify({
