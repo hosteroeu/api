@@ -106,19 +106,19 @@ request.get(url, function(err, message, body) {
         for (var i = 0, l = miners.length; i < l; i++) {
           var miner = miners[i];
 
-          miner_model.destroy({
-              where: {
-                id: miner.id
-              }
-            })
-            .then(_.noop)
-            .catch(console.error);
-
           host_model.update({
               miners: miner.Host.miners - 1
             }, {
               where: {
                 id: miner.Host.id
+              }
+            })
+            .then(_.noop)
+            .catch(console.error);
+
+          miner_model.destroy({
+              where: {
+                id: miner.id
               }
             })
             .then(_.noop)
