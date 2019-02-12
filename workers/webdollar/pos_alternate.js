@@ -38,10 +38,12 @@ request.get(url, function(err, message, body) {
 
         for (var i = 0, l = miners.length; i < l; i++) {
           var miner = miners[i];
-          var _host = miner.Host;
-          var _account = miner.Host.Account;
 
-          if (!_account.auto_deploy_idle || !_account.auto_deploy_coin_idle) {
+          if (!miner.Host || !miner.Host.Account) {
+            continue;
+          }
+
+          if (!miner.Host.Account.auto_deploy_idle || !miner.Host.Account.auto_deploy_coin_idle) {
             continue;
           }
 
@@ -53,6 +55,8 @@ request.get(url, function(err, message, body) {
             continue;
           }
 
+          var _host = miner.Host;
+          var _account = miner.Host.Account;
           var new_miner = miner_util.template.create(_account.auto_deploy_coin);
 
           new_miner.user_id = _account.user_id;
