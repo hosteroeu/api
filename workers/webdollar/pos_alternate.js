@@ -93,16 +93,6 @@ request.get(url, function(err, message, body) {
             })
             .then(_.noop)
             .catch(console.error);
-
-          log_model.create({
-            user_id: _account.user_id,
-            account_id: _account.id,
-            entity: 'miner',
-            entity_id: data.id,
-            event: 'create',
-            message: 'Created a temporary miner',
-            extra_message: JSON.stringify(data)
-          });
         }
       })
       .catch(console.error);
