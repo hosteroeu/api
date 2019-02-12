@@ -8,7 +8,10 @@ var benchmark_model = require('./../../models').benchmark.model;
 miner_model.findAll({
     include: [{
       model: host_model
-    }]
+    }],
+    where: {
+      temporary: 0
+    }
   })
   .then(function(miners) {
     console.log('found miners', miners.length);
