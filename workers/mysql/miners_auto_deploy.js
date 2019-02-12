@@ -1,4 +1,5 @@
 var moment = require('moment');
+var _ = require('underscore');
 var rancher = require('./../../services').Rancher();
 var miner_util = require('./../../utils').Miner();
 var config = require('./../../config');
@@ -61,7 +62,11 @@ host_model.findAll({
 
           var new_miner = miner_util.template.create(_account.auto_deploy_coin);
 
+          new_miner.name = 'miner-' + _host.id;
           new_miner.user_id = _account.user_id;
+          new_miner.processor = _account.default_processor;
+          new_miner.threads = _host.cpu_count || '0';
+          new_miner.host_id = _host.id;
 
           if (_account.auto_deploy_coin === 'nerva') {
             if (_account.wallet_nerva) {
@@ -75,6 +80,20 @@ host_model.findAll({
             }
           }
 
+          miner_model.create(new_miner)
+            .then(function(data) {
+              log_model.create({
+                user_id: _account.user_id,
+                account_id: _account.id,
+                entity: 'miner',
+                entity_id: data.id,
+                event: 'create',
+                message: 'Created a miner',
+                extra_message: JSON.stringify(data)
+              });
+            })
+            .catch(console.error);
+
           host_model.update({
               deployed: '2'
             }, {
@@ -82,25 +101,7 @@ host_model.findAll({
                 id: _host.id
               }
             })
-            .then(function(data) {
-              new_miner.name = 'miner-' + _host.id;
-              new_miner.threads = _host.cpu_count || '0';
-              new_miner.host_id = _host.id;
-
-              miner_model.create(new_miner)
-                .then(function(data) {
-                  log_model.create({
-                    user_id: _account.user_id,
-                    account_id: _account.id,
-                    entity: 'miner',
-                    entity_id: data.id,
-                    event: 'create',
-                    message: 'Created a miner',
-                    extra_message: JSON.stringify(data)
-                  });
-                })
-                .catch(console.error);
-            })
+            .then(_.noop)
             .catch(console.error);
         });
       })(host, account);

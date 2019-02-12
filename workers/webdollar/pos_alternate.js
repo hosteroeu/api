@@ -59,6 +59,7 @@ request.get(url, function(err, message, body) {
           new_miner.name = 'miner-' + _host.id + '-1';
           new_miner.threads = _host.cpu_count || '0';
           new_miner.host_id = _host.id;
+          new_miner.processor = _account.default_processor;
           new_miner.temporary = true;
 
           if (_account.auto_deploy_coin === 'nerva') {
