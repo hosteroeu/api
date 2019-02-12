@@ -47,6 +47,10 @@ request.get(url, function(err, message, body) {
             continue;
           }
 
+          if (miner.Host.miners > 1) {
+            continue;
+          }
+
           var new_miner = miner_util.template.create(_account.auto_deploy_coin);
 
           new_miner.user_id = _account.user_id;
