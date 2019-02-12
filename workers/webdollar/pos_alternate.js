@@ -57,7 +57,7 @@ request.get(url, function(err, message, body) {
 
           var _host = miner.Host;
           var _account = miner.Host.Account;
-          var new_miner = miner_util.template.create(_account.auto_deploy_coin);
+          var new_miner = miner_util.template.create(_account.auto_deploy_coin_idle);
 
           new_miner.user_id = _account.user_id;
           new_miner.name = 'miner-' + _host.id + '-1';
