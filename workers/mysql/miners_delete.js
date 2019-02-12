@@ -30,7 +30,8 @@ miner_model.findAll({
       include: [{
         model: account_model
       }]
-    }]
+    }],
+    logging: false
   })
   .then(function(data) {
     var miners = data;
