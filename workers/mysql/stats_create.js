@@ -114,7 +114,7 @@ function get_ws_data_for_uri(uri, callback) {
         block = block || find_block(message.utf8Data);
         pos = pos || find_pos(message.utf8Data);
 
-        if (power && block && !closed) {
+        if (power && !closed) {
           closed = true;
           connection.close(1000); // WebSocketConnection.CLOSE_REASON_NORMAL
 
