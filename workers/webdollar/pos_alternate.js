@@ -16,6 +16,8 @@ request.get(url, function(err, message, body) {
 
   console.log('is_pos', is_pos);
 
+  //is_pos = true;
+
   if (is_pos) {
     miner_model.findAll({
         include: [{
@@ -103,11 +105,20 @@ request.get(url, function(err, message, body) {
 
         for (var i = 0, l = miners.length; i < l; i++) {
           var miner = miners[i];
-          var _host = miner.Host;
 
           miner_model.destroy({
               where: {
                 id: miner.id
+              }
+            })
+            .then(_.noop)
+            .catch(console.error);
+
+          host_model.update({
+              miners: miner.Host.miners - 1
+            }, {
+              where: {
+                id: miner.Host.id
               }
             })
             .then(_.noop)
