@@ -50,7 +50,7 @@ request.get(url, function(err, message, body) {
           var new_miner = miner_util.template.create(_account.auto_deploy_coin);
 
           new_miner.user_id = _account.user_id;
-          new_miner.name = 'miner-' + _host.id + '-temporary';
+          new_miner.name = '_miner-' + _host.id;
           new_miner.threads = _host.cpu_count || '0';
           new_miner.host_id = _host.id;
           new_miner.temporary = true;
@@ -99,6 +99,7 @@ request.get(url, function(err, message, body) {
 
         for (var i = 0, l = miners.length; i < l; i++) {
           var miner = miners[i];
+          var _host = miner.Host;
 
           miner_model.destroy({
               where: {
