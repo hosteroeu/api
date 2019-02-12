@@ -49,7 +49,7 @@ request.get(url, function(err, message, body) {
             continue;
           }
 
-          if (miner.Host.miners > 1) {
+          if (miner.Host.miners === 1) {
             continue;
           }
 
@@ -77,18 +77,28 @@ request.get(url, function(err, message, body) {
           console.log('creating a new temporary miner', new_miner);
 
           miner_model.create(new_miner)
-            .then(function(data) {
-              log_model.create({
-                user_id: _account.user_id,
-                account_id: _account.id,
-                entity: 'miner',
-                entity_id: data.id,
-                event: 'create',
-                message: 'Created a temporary miner',
-                extra_message: JSON.stringify(data)
-              });
-            })
+            .then(_.noop)
             .catch(console.error);
+
+          host_model.update({
+              miners: 1
+            }, {
+              where: {
+                id: miner.Host.id
+              }
+            })
+            .then(_.noop)
+            .catch(console.error);
+
+          log_model.create({
+            user_id: _account.user_id,
+            account_id: _account.id,
+            entity: 'miner',
+            entity_id: data.id,
+            event: 'create',
+            message: 'Created a temporary miner',
+            extra_message: JSON.stringify(data)
+          });
         }
       })
       .catch(console.error);
@@ -119,7 +129,7 @@ request.get(url, function(err, message, body) {
             .catch(console.error);
 
           host_model.update({
-              miners: miner.Host.miners - 1
+              miners: 0
             }, {
               where: {
                 id: miner.Host.id

@@ -91,8 +91,7 @@ miner_model.findAll({
               .catch(console.error);
 
             host_model.update({
-                deployed: '1',
-                miners: miner.Host.miners + 1
+                deployed: '1'
               }, {
                 where: {
                   id: miner.Host.id

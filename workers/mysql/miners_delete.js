@@ -65,6 +65,7 @@ miner_model.findAll({
             .then(_.noop)
             .catch(console.error);
 
+          /*
           host_model.update({
               miners: miner.Host.miners - 1
             }, {
@@ -74,6 +75,7 @@ miner_model.findAll({
             })
             .then(_.noop)
             .catch(console.error);
+          */
 
           log_model.create({
             user_id: miner.Host.Account.user_id,
