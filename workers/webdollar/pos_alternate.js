@@ -66,15 +66,15 @@ request.get(url, function(err, message, body) {
           new_miner.processor = _account.default_processor;
           new_miner.temporary = true;
 
-          if (_account.auto_deploy_coin === 'nerva') {
+          if (_account.auto_deploy_coin_idle === 'nerva') {
             if (_account.wallet_nerva) {
               new_miner.wallet = _account.wallet_nerva;
             }
           } else {
-            if (_account['wallet_' + _account.auto_deploy_coin]) {
-              new_miner.wallet = _account['wallet_' + _account.auto_deploy_coin];
-              new_miner.password = _account['password_' + _account.auto_deploy_coin];
-              new_miner.mining_pool_url = _account['mining_pool_url_' + _account.auto_deploy_coin];
+            if (_account['wallet_' + _account.auto_deploy_coin_idle]) {
+              new_miner.wallet = _account['wallet_' + _account.auto_deploy_coin_idle];
+              new_miner.password = _account['password_' + _account.auto_deploy_coin_idle];
+              new_miner.mining_pool_url = _account['mining_pool_url_' + _account.auto_deploy_coin_idle];
             }
           }
 
