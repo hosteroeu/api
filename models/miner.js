@@ -23,6 +23,7 @@ var Miner = function(sequelize) {
     'command',
     'internal_id',
     'internal_created',
+    'temporary',
     'created_at',
     'updated_at'
   ];
@@ -44,6 +45,7 @@ var Miner = function(sequelize) {
     command: Sequelize.STRING,
     internal_id: Sequelize.STRING,
     internal_created: Sequelize.STRING,
+    temporary: Sequelize.BOOLEAN,
   }, {
     underscored: true,
     tableName: 'miners'
