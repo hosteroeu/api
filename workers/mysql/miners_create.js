@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
@@ -30,27 +31,27 @@ miner_model.findAll({
         // TODO: Make sure is not already deployed
         console.log('deploying miner', miner.id, account.internal_id);
 
-        var req = {
-          body: {
-            id: miner.id,
-            name: miner.name,
-            coin: miner.coin,
-            user_id: miner.user_id,
-            wallet: miner.wallet || '',
-            mining_pool_url: miner.mining_pool_url || '',
-            password: miner.password || '',
-            threads: miner.threads,
-            processor: miner.processor,
-            image_uuid: miner.image_uuid,
-            rancher_host_id: miner.Host.internal_id,
-            host_id: miner.Host.id,
-            account_id: miner.Host.account_id,
-            stack_id: account.internal_id
-          }
-        };
+        (function(_miner, _account) {
+          var req = {
+            body: {
+              id: _miner.id,
+              name: _miner.name,
+              coin: _miner.coin,
+              user_id: _miner.user_id,
+              wallet: _miner.wallet || '',
+              mining_pool_url: _miner.mining_pool_url || '',
+              password: _miner.password || '',
+              threads: _miner.threads,
+              processor: _miner.processor,
+              image_uuid: _miner.image_uuid,
+              rancher_host_id: _miner.Host.internal_id,
+              host_id: _miner.Host.id,
+              account_id: _miner.Host.account_id,
+              stack_id: _account.internal_id
+            }
+          };
 
-        (function(_req) {
-          rancher.services.create(_req, {}, function(err, body) {
+          rancher.services.create(req, {}, function(err, body) {
             if (err) {
               console.error(err);
               return;
@@ -61,57 +62,57 @@ miner_model.findAll({
               return;
             }
 
-            console.log('deployed', _req.rancher_service_id);
+            console.log('deployed', req.rancher_service_id);
 
             miner_model.update({
                 status: 'started',
                 deployed: '1',
-                internal_id: _req.rancher_service_id,
-                internal_created: _req.rancher_service_created
+                internal_id: req.rancher_service_id,
+                internal_created: req.rancher_service_created
               }, {
                 where: {
-                  id: _req.body.id
+                  id: _miner.id
                 }
               })
-              .then(function(data) {
-                log_model.create({
-                  user_id: account.user_id,
-                  account_id: account.id,
-                  entity: 'miner',
-                  entity_id: _req.body.id,
-                  event: 'update',
-                  message: 'Updated a miner',
-                  extra_message: JSON.stringify({
-                    status: 'started',
-                    deployed: '1'
-                  })
-                });
-              })
+              .then(_.noop)
               .catch(console.error);
+
+            log_model.create({
+              user_id: _account.user_id,
+              account_id: _account.id,
+              entity: 'miner',
+              entity_id: _miner.id,
+              event: 'update',
+              message: 'Updated a miner',
+              extra_message: JSON.stringify({
+                status: 'started',
+                deployed: '1'
+              })
+            });
 
             host_model.update({
                 deployed: '1'
               }, {
                 where: {
-                  id: miner.Host.id
+                  id: _miner.Host.id
                 }
               })
-              .then(function(data) {
-                log_model.create({
-                  user_id: account.user_id,
-                  account_id: account.id,
-                  entity: 'host',
-                  entity_id: miner.Host.id,
-                  event: 'update',
-                  message: 'Updated a host',
-                  extra_message: JSON.stringify({
-                    deployed: '1'
-                  })
-                });
-              })
+              .then(_.noop)
               .catch(console.error);
+
+            log_model.create({
+              user_id: _account.user_id,
+              account_id: _account.id,
+              entity: 'host',
+              entity_id: _miner.Host.id,
+              event: 'update',
+              message: 'Updated a host',
+              extra_message: JSON.stringify({
+                deployed: '1'
+              })
+            });
           });
-        })(req);
+        })(miner, account);
       }
     }
   })
