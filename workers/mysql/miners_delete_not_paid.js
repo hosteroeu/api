@@ -48,7 +48,8 @@ account_model.findAll().then(function(data) {
 
         miner_model.findAll({
           where: {
-            user_id: _account.user_id
+            user_id: _account.user_id,
+            temporary: 0
           },
           logging: false
         }).then(function(data) {
