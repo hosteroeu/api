@@ -22,7 +22,8 @@ miner_model.findAll({
     where: {
       created_at: {
         $lte: moment().subtract(2, 'minutes').toDate()
-      }
+      },
+      status: 'started'
     },
     include: [{
       model: host_model,
