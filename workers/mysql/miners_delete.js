@@ -1,4 +1,5 @@
 var moment = require('moment');
+var _ = require('underscore');
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
@@ -59,7 +60,17 @@ miner_model.findAll({
                 id: miner.id
               }
             })
-            .then(console.log)
+            .then(_.noop)
+            .catch(console.error);
+
+          host_model.update({
+              miners: miner.Host.miners - 1
+            }, {
+              where: {
+                id: miner.Host.id
+              }
+            })
+            .then(_.noop)
             .catch(console.error);
 
           log_model.create({
