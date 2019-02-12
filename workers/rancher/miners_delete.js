@@ -33,8 +33,8 @@ rancher.services.query(function(err, message, body) {
       for (var i = 0, l = services.length; i < l; i++) {
         var service = services[i];
 
-        // Allow 30 minutes for the service to be created
-        if (moment(service.created).toDate() > moment().subtract(30, 'minutes').toDate()) {
+        // Allow time for the service to be created
+        if (moment(service.created).toDate() > moment().subtract(2, 'minutes').toDate()) {
           continue;
         }
 

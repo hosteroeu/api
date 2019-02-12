@@ -20,7 +20,7 @@ function find_miner_in_miners(miner, miners) {
 miner_model.findAll({
     where: {
       created_at: {
-        $lte: moment().subtract(10, 'minutes').toDate()
+        $lte: moment().subtract(2, 'minutes').toDate()
       }
     },
     include: [{
