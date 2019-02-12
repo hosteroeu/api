@@ -32,7 +32,10 @@ miner_model.findAll({
       include: [{
         model: account_model
       }]
-    }]
+    }],
+    where: {
+      temporary: 0
+    }
   })
   .then(function(data) {
     var miners = data;
