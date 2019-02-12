@@ -14,7 +14,7 @@ account_model.update({
     auto_deploy_coin: 'webdollar',
     auto_deploy_idle: 1,
     auto_deploy_coin_idle: 'globalboost',
-    default_processor: 'avx2',
+    default_processor: 'sse2',
     wallet_nerva: 'NV1LLwjyTdbSr6xqU9pHoddTdzFvXd4Mk86xgZ6d2bzoJBokGBun9pQYxAgB2PJ23nVZ4zF414pVHggeVLRWJC8S1Yaadwyce',
     wallet_webdollar: 'WEBD$gCET26qgUFLE5dNUo8aGrn0ZPGQQueFYuj$',
     mining_pool_url_webdollar: 'https://webdmine.io/pool/1/BACMpool/0.01/21dc1f57cb7338963ea159877b4ade97b71dd11ac17292e3852bdc33a26a17e4/https:$$pool.bacm.ro:443',
