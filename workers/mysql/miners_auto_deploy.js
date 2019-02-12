@@ -65,67 +65,16 @@ host_model.findAll({
 
           new_miner.user_id = _account.user_id;
 
-          switch (_account.auto_deploy_coin) {
-            case 'webdollar':
-              if (_account.mining_pool_url_webdollar && _account.wallet_webdollar) {
-                new_miner.mining_pool_url = _account.mining_pool_url_webdollar;
-                new_miner.wallet = _account.wallet_webdollar;
-                //new_miner.password = _account.password_webdollar;
-              }
-              break;
-
-            case 'nerva':
-              if (_account.wallet_nerva) {
-                new_miner.wallet = _account.wallet_nerva;
-              }
-              break;
-
-            case 'webchain':
-              if (_account.wallet_webchain) {
-                new_miner.wallet = _account.wallet_webchain;
-                new_miner.password = _account.password_webchain;
-                new_miner.mining_pool_url = _account.mining_pool_url_webchain;
-              }
-              break;
-
-            case 'veruscoin':
-              if (_account.wallet_veruscoin) {
-                new_miner.wallet = _account.wallet_veruscoin;
-                new_miner.password = _account.password_veruscoin;
-                new_miner.mining_pool_url = _account.mining_pool_url_veruscoin;
-              }
-              break;
-
-            case 'credits':
-              if (_account.wallet_credits) {
-                new_miner.wallet = _account.wallet_credits;
-                new_miner.password = _account.password_credits;
-                new_miner.mining_pool_url = _account.mining_pool_url_credits;
-              }
-              break;
-
-            case 'myriad':
-              if (_account.wallet_myriad) {
-                new_miner.wallet = _account.wallet_myriad;
-                new_miner.mining_pool_url = _account.mining_pool_url_myriad;
-              }
-              break;
-
-            case 'yenten':
-              if (_account.wallet_yenten) {
-                new_miner.wallet = _account.wallet_yenten;
-                new_miner.password = _account.password_yenten;
-                new_miner.mining_pool_url = _account.mining_pool_url_yenten;
-              }
-              break;
-
-            case 'globalboost':
-              if (_account.wallet_globalboost) {
-                new_miner.wallet = _account.wallet_globalboost;
-                new_miner.password = _account.password_globalboost;
-                new_miner.mining_pool_url = _account.mining_pool_url_globalboost;
-              }
-              break;
+          if (_account.auto_deploy_coin === 'nerva') {
+            if (_account.wallet_nerva) {
+              new_miner.wallet = _account.wallet_nerva;
+            }
+          } else {
+            if (_account['wallet_' + _account.auto_deploy_coin]) {
+              new_miner.wallet = _account['wallet_' + _account.auto_deploy_coin];
+              new_miner.password = _account['password_' + _account.auto_deploy_coin];
+              new_miner.mining_pool_url = _account['mining_pool_url_' + _account.auto_deploy_coin];
+            }
           }
 
           host_model.update({
