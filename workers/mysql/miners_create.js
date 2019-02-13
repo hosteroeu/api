@@ -18,9 +18,7 @@ miner_model.findAll({
     }],
     logging: false
   })
-  .then(function(data) {
-    var miners = data;
-
+  .then(function(miners) {
     console.log('found miners', miners.length);
 
     for (var i = 0, l = miners.length; i < l; i++) {
@@ -28,11 +26,10 @@ miner_model.findAll({
       var account = miner.Host.Account;
 
       if (!miner.internal_id) {
-        // TODO: Make sure is not already deployed
         console.log('deploying miner', miner.id, account.internal_id);
 
         (function(_miner, _account) {
-          var req = {
+          rancher.services.create({
             body: {
               id: _miner.id,
               name: _miner.name,
@@ -49,9 +46,7 @@ miner_model.findAll({
               account_id: _miner.Host.account_id,
               stack_id: _account.internal_id
             }
-          };
-
-          rancher.services.create(req, {}, function(err, body) {
+          }, {}, function(err, body) {
             if (err) {
               console.error(err);
               return;
@@ -62,13 +57,13 @@ miner_model.findAll({
               return;
             }
 
-            console.log('deployed', req.rancher_service_id);
+            console.log('deployed', body.id);
 
             miner_model.update({
                 status: 'started',
                 deployed: '1',
-                internal_id: req.rancher_service_id,
-                internal_created: req.rancher_service_created
+                internal_id: body.id,
+                internal_created: body.createdTS
               }, {
                 where: {
                   id: _miner.id
