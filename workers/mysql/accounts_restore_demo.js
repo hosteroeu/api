@@ -13,7 +13,7 @@ account_model.update({
     auto_deploy: 1,
     auto_deploy_coin: 'webdollar',
     auto_deploy_idle: 1,
-    auto_deploy_coin_idle: 'globalboost',
+    auto_deploy_coin_idle: 'yenten',
     default_processor: 'sse2',
     wallet_nerva: 'NV1LLwjyTdbSr6xqU9pHoddTdzFvXd4Mk86xgZ6d2bzoJBokGBun9pQYxAgB2PJ23nVZ4zF414pVHggeVLRWJC8S1Yaadwyce',
     wallet_webdollar: 'WEBD$gCET26qgUFLE5dNUo8aGrn0ZPGQQueFYuj$',
