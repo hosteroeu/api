@@ -37,6 +37,7 @@ var Rancher = function() {
         var random = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
         var cpuminer_path = './cpuminer-avx2';
 
+        // TODO: reset manifest, or create_manifest?
         _.extend(manifest, create_manifest);
 
         manifest.environmentId = req.body.stack_id;
