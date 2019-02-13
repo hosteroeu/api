@@ -31,9 +31,7 @@ request.get(url, function(err, message, body) {
         },
         logging: false
       })
-      .then(function(data) {
-        var miners = data;
-
+      .then(function(miners) {
         console.log('found miners', miners.length);
 
         for (var i = 0, l = miners.length; i < l; i++) {
@@ -106,9 +104,7 @@ request.get(url, function(err, message, body) {
         },
         logging: false
       })
-      .then(function(data) {
-        var miners = data;
-
+      .then(function(miners) {
         console.log('found temporary miners', miners.length);
 
         for (var i = 0, l = miners.length; i < l; i++) {

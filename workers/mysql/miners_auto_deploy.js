@@ -19,9 +19,7 @@ host_model.findAll({
     include: [{
       model: account_model
     }]
-  }).then(function(data) {
-    var hosts = data;
-
+  }).then(function(hosts) {
     console.log('Hosts not deployed found', hosts.length);
 
     for (var i = 0, l = hosts.length; i < l; i++) {
@@ -40,8 +38,7 @@ host_model.findAll({
             user_id: _account.user_id
           },
           logging: false
-        }).then(function(data) {
-          var miners = data;
+        }).then(function(miners) {
           var account_miners = _account.plan_miners + _account.bonus_miners;
 
           if (miners.length >= account_miners) {
