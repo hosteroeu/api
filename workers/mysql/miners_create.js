@@ -23,6 +23,11 @@ miner_model.findAll({
 
     for (var i = 0, l = miners.length; i < l; i++) {
       var miner = miners[i];
+
+      if (!miner.Host) {
+        continue;
+      }
+
       var account = miner.Host.Account;
 
       if (!miner.internal_id) {
