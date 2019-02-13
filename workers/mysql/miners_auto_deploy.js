@@ -25,9 +25,8 @@ host_model.findAll({
     for (var i = 0, l = hosts.length; i < l; i++) {
       var host = hosts[i];
       var account = host.Account;
-      var auto_deploy = account.auto_deploy;
 
-      if (!auto_deploy) {
+      if (!account.auto_deploy) {
         console.log('Host', host.id, 'not auto-deployed, because auto_deploy is not set');
         continue;
       }
