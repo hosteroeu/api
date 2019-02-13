@@ -26,9 +26,9 @@ miner_model.findAll({
       var account = miner.Host.Account;
 
       if (!miner.internal_id) {
-        console.log('deploying miner', miner.id, account.internal_id);
-
         (function(_miner, _account) {
+          console.log('deploying miner', _miner.id, _account.name);
+
           rancher.services.create({
             body: {
               id: _miner.id,
