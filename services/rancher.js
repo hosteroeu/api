@@ -51,6 +51,7 @@ var Rancher = function() {
         manifest.launchConfig.imageUuid = req.body.image_uuid;
         manifest.launchConfig.labels.purpose = req.body.coin;
         manifest.launchConfig.command = [];
+        manifest.launchConfig.environment = {};
 
         if (req.body.processor === 'sse2') {
           cpuminer_path = './cpuminer-sse2';
