@@ -1,8 +1,10 @@
 var request = require('request'),
+  _ = require('underscore'),
   errors = require('./../errors'),
   config = require('./../config');
 
 //require('request-debug')(request);
+var create_manifest = require('./../config/manifests/service_create.json');
 
 var Rancher = function() {
   var environments = function() {
@@ -31,20 +33,22 @@ var Rancher = function() {
   var services = function() {
     return {
       create: function(req, res, next) {
-        var create_manifest = require('./../config/manifests/service_create.json');
+        var manifest = {};
         var random = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
         var cpuminer_path = './cpuminer-avx2';
 
-        create_manifest.environmentId = req.body.stack_id;
+        _.extend(manifest, create_manifest);
+
+        manifest.environmentId = req.body.stack_id;
         // Cannot deploy multiple services with the same name. This causes a bug
         // when services are re-deployed and the new service is being deployed
         // before the old one is deleted.
-        create_manifest.name = req.body.name + '-' + random;
-        create_manifest.launchConfig.requestedHostId = req.body.rancher_host_id;
-        create_manifest.launchConfig.labels.id = req.body.id;
-        create_manifest.launchConfig.labels.coin = req.body.coin;
-        create_manifest.launchConfig.imageUuid = req.body.image_uuid;
-        create_manifest.launchConfig.labels.purpose = req.body.coin;
+        manifest.name = req.body.name + '-' + random;
+        manifest.launchConfig.requestedHostId = req.body.rancher_host_id;
+        manifest.launchConfig.labels.id = req.body.id;
+        manifest.launchConfig.labels.coin = req.body.coin;
+        manifest.launchConfig.imageUuid = req.body.image_uuid;
+        manifest.launchConfig.labels.purpose = req.body.coin;
 
         if (req.body.processor === 'sse2') {
           cpuminer_path = './cpuminer-sse2';
@@ -61,39 +65,39 @@ var Rancher = function() {
               privateKey: req.body.password || '02'
             };
 
-            create_manifest.launchConfig.command = [
+            manifest.launchConfig.command = [
               'sh',
               'start_pool_mining.sh'
             ];
 
-            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
-            create_manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
-            create_manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
-            create_manifest.launchConfig.environment.WALLET = JSON.stringify(wallet_template);
+            manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
+            manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
+            manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
+            manifest.launchConfig.environment.WALLET = JSON.stringify(wallet_template);
 
             // TODO: Legacy stuff, remove soon (after updating the webdollar:v2 docker image)
-            create_manifest.launchConfig.environment.WALLET_SECRET_URL = '1234';
+            manifest.launchConfig.environment.WALLET_SECRET_URL = '1234';
             // Use random port? Otherwise miners created one after another can
             // get into port conflicts
-            create_manifest.launchConfig.environment.SERVER_PORT = 8000;
-            create_manifest.launchConfig.environment.DOMAIN = 'wd.hoste.ro';
+            manifest.launchConfig.environment.SERVER_PORT = 8000;
+            manifest.launchConfig.environment.DOMAIN = 'wd.hoste.ro';
             break;
 
           case 'nerva':
-            create_manifest.launchConfig.environment.WALLET = req.body.wallet;
-            create_manifest.launchConfig.environment.THREADS = req.body.threads;
+            manifest.launchConfig.environment.WALLET = req.body.wallet;
+            manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
 
           case 'webchain':
           case 'veruscoin':
-            create_manifest.launchConfig.environment.WALLET = req.body.wallet;
-            create_manifest.launchConfig.environment.PASSWORD = req.body.password;
-            create_manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
-            create_manifest.launchConfig.environment.THREADS = req.body.threads;
+            manifest.launchConfig.environment.WALLET = req.body.wallet;
+            manifest.launchConfig.environment.PASSWORD = req.body.password;
+            manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
+            manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
 
           case 'credits':
-            create_manifest.launchConfig.command = [
+            manifest.launchConfig.command = [
               cpuminer_path,
               '-a',
               'argon2d-crds',
@@ -110,7 +114,7 @@ var Rancher = function() {
             break;
 
           case 'yenten':
-            create_manifest.launchConfig.command = [
+            manifest.launchConfig.command = [
               cpuminer_path,
               '-a',
               'yescryptr16',
@@ -128,7 +132,7 @@ var Rancher = function() {
 
           case 'myriad':
           case 'globalboost':
-            create_manifest.launchConfig.command = [
+            manifest.launchConfig.command = [
               cpuminer_path,
               '-a',
               'yescrypt',
@@ -148,7 +152,7 @@ var Rancher = function() {
         request.post({
           url: config.rancher.project + '/services',
           json: true,
-          body: create_manifest
+          body: manifest
         }, function(err, response, body) {
           next(err, body);
         }).auth(config.rancher.key, config.rancher.secret, false);
