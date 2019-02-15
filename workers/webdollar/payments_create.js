@@ -7,7 +7,7 @@ var payment_model = require('./../../models').payment.model;
 var account_model = require('./../../models').account.model;
 var log_model = require('./../../models').log.model;
 
-var url = 'https://www.webdscan.io/api/transactions?address=' + encodeURIComponent(config.webdollar.payments_address) + '&itemsPerPage=50';
+var url = 'https://www.webdscan.io/api/transactions?address=' + encodeURIComponent(config.webdollar.payments_address) + '&itemsPerPage=10';
 
 request({
   url: url,
@@ -18,6 +18,11 @@ request({
     accept: 'application/json'
   }
 }, function(error, response, body) {
+  if (error) {
+    console.error(error);
+    return;
+  }
+
   var transactions = JSON.parse(body);
 
   console.log('got transactions', transactions.length);
