@@ -88,18 +88,39 @@ account_model.findAll({
         } else {
           var new_plan_miners = 1;
 
-          switch (payment.amount) {
-            // old plan
-            case '0.99':
-            case '1.99':
-              new_plan_miners = 5;
-              break;
-            case '9.99':
-              new_plan_miners = 20;
-              break;
-            case '49.99':
-              new_plan_miners = 100;
-              break;
+          if (payment.gateway === 'webdollar') {
+            // SUM.PLAN
+            var encoding = payment.amount.split('.');
+
+            if (encoding.length > 0) {
+              var plan = encoding[0]; // encoding[1] is ACCOUNT_ID
+
+              switch (plan) {
+                case '1':
+                  new_plan_miners = 5;
+                  break;
+                case '2':
+                  new_plan_miners = 20;
+                  break;
+                case '3':
+                  new_plan_miners = 100;
+                  break;
+              }
+            }
+          } else {
+            switch (payment.amount) {
+              // old plan
+              case '0.99':
+              case '1.99':
+                new_plan_miners = 5;
+                break;
+              case '9.99':
+                new_plan_miners = 20;
+                break;
+              case '49.99':
+                new_plan_miners = 100;
+                break;
+            }
           }
 
           if (_account.plan_miners === new_plan_miners) {
