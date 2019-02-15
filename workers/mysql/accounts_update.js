@@ -89,7 +89,7 @@ account_model.findAll({
           var new_plan_miners = 1;
 
           if (payment.gateway === 'webdollar') {
-            // SUM.PLAN
+            // AMOUNT.PLAN_ID+ACCOUNT_ID
             var encoding = payment.amount.split('.');
 
             if (encoding.length > 0) {
