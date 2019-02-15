@@ -19,7 +19,7 @@ var Payment = function(sequelize) {
 
   var payment = sequelize.define('Payment', {
     user_id: Sequelize.STRING,
-    gateway: Sequelize.ENUM('paypal', 'manual'),
+    gateway: Sequelize.ENUM('paypal', 'manual', 'webdollar', 'bank'),
     gateway_internal_id: Sequelize.STRING,
     amount: Sequelize.STRING,
     event: Sequelize.ENUM('create', 'update', 'delete', 'error'),

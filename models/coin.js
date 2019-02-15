@@ -27,6 +27,7 @@ var Coin = function(sequelize) {
     'mining_pools_url',
     'exchange_url',
     'logo_url',
+    'price_eur',
     'created_at',
     'updated_at'
   ];
@@ -53,7 +54,8 @@ var Coin = function(sequelize) {
     calculator_url: Sequelize.STRING,
     mining_pools_url: Sequelize.STRING,
     exchange_url: Sequelize.STRING,
-    logo_url: Sequelize.STRING
+    logo_url: Sequelize.STRING,
+    price_eur: Sequelize.FLOAT
   }, {
     underscored: true,
     tableName: 'coins'
