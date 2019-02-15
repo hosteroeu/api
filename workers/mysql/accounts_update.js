@@ -93,7 +93,7 @@ account_model.findAll({
             var encoding = payment.amount.split('.');
 
             if (encoding.length > 0) {
-              var plan = encoding[0]; // encoding[1] is ACCOUNT_ID
+              var plan = encoding[1][0];
 
               switch (plan) {
                 case '1':
