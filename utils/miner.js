@@ -32,6 +32,7 @@ var Miner = function() {
           case 'myriad':
           case 'yenten':
           case 'globalboost':
+          case 'elicoin':
             new_miner.image_uuid = 'docker:morion4000/cpuminer-argon2:3.8.3.3';
             break;
         }

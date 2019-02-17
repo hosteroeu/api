@@ -117,6 +117,7 @@ var Rancher = function() {
             break;
 
           case 'yenten':
+          case 'elicoin':
             manifest.launchConfig.command = [
               cpuminer_path,
               '-a',
