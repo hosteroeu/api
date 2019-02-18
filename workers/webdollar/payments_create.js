@@ -35,7 +35,13 @@ request({
       continue;
     }
 
+    // Allow unconfirmed transactions for now, faster processing
     if (!transaction.isConfirmed) {
+      //continue;
+    }
+
+    // Only IN transactions
+    if (transaction.toAddresses[0].address.address !== config.webdollar.payments_address) {
       continue;
     }
 
@@ -74,7 +80,7 @@ request({
             }
           }).then(function(payment) {
             if (!payment) {
-              console.log('creating payment for', account, _transaction.hash);
+              console.log('creating payment for', account.name, _transaction.hash);
 
               payment_model.create({
                 user_id: account.user_id,
