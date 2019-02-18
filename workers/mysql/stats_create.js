@@ -37,9 +37,15 @@ function find_power(data) {
   return power;
 }
 
-function find_pos(callback) {
+function find_pos(coin, callback) {
+  if (coin !== 'webdollar') {
+    return callback(false);
+  }
+
   request.get(is_pos_url, function(err, message, body) {
     var is_pos = JSON.parse(body);
+
+    console.log('is_pos', is_pos);
 
     callback(is_pos);
   });
@@ -73,7 +79,6 @@ function get_ws_data_for_uri(uri, callback) {
   var timeout;
   var power = 0;
   var block = 0;
-  var pos = false;
   var closed = false;
 
   client.on('connectFailed', function(error) {
@@ -93,8 +98,7 @@ function get_ws_data_for_uri(uri, callback) {
 
       callback(null, {
         power: power,
-        block: block,
-        pos: pos
+        block: block
       });
     }, 10 * 1000);
 
@@ -111,10 +115,6 @@ function get_ws_data_for_uri(uri, callback) {
         power = power || find_power(message.utf8Data);
         block = block || find_block(message.utf8Data);
 
-        find_pos(function(is_pos) {
-          pos = is_pos;
-        });
-
         if (power && !closed) {
           closed = true;
           connection.close(1000); // WebSocketConnection.CLOSE_REASON_NORMAL
@@ -123,8 +123,7 @@ function get_ws_data_for_uri(uri, callback) {
 
           callback(null, {
             power: power,
-            block: block,
-            pos: pos
+            block: block
           });
         }
       }
@@ -194,39 +193,40 @@ miner_model.findAll({
             // TODO: Retry
             get_ws_uri_for_miner(_miner.internal_id, function(err, res) {
               get_ws_data_for_uri(res, function(err, res) {
-                if (err) return callback(err);
+                find_pos(_miner.internal_id, function(pos) {
+                  if (err) return callback(err);
 
-                var power = res.power;
-                var block = res.block;
-                var pos = res.pos;
+                  var power = res.power;
+                  var block = res.block;
 
-                // If pos and WebDollar, don't update power
-                if (_miner.internal_id === 'webdollar' && pos) {
-                  console.log('skipped. POS rounds');
-                } else {
-                  // Miner has went to 0 power
-                  if (_miner.power > 0 && power === 0) {
-                    // TODO: Send mail to user
+                  // If pos, don't update power
+                  if (pos) {
+                    console.log('skipped. POS rounds');
+                  } else {
+                    // Miner has went to 0 power
+                    if (_miner.power > 0 && power === 0) {
+                      // TODO: Send mail to user
+                    }
+
+                    miner_model.update({
+                        power: power,
+                        block: block
+                      }, {
+                        where: {
+                          id: _miner.id
+                        }
+                      })
+                      .then(console.log)
+                      .catch(console.error);
                   }
 
-                  miner_model.update({
+                  setTimeout(function() {
+                    callback(null, {
                       power: power,
                       block: block
-                    }, {
-                      where: {
-                        id: _miner.id
-                      }
-                    })
-                    .then(console.log)
-                    .catch(console.error);
-                }
-
-                setTimeout(function() {
-                  callback(null, {
-                    power: power,
-                    block: block
-                  });
-                }, 200);
+                    });
+                  }, 200);
+                });
               });
             });
           };
