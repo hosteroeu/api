@@ -57,7 +57,7 @@ var Coin = function(sequelize) {
     hybrid: Sequelize.BOOLEAN,
     hybrid_percentage_pow: Sequelize.INTEGER,
     block_time: Sequelize.INTEGER,
-    block_reward: Sequelize.INTEGER,
+    block_reward: Sequelize.FLOAT,
   }, {
     underscored: true,
     tableName: 'coins'
