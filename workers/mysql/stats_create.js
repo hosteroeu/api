@@ -1,11 +1,13 @@
 var WebSocketClient = require('websocket').client;
 var _ = require('underscore');
 var async = require('async');
+var request = require('request');
 
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 var miner_model = require('./../../models').miner.model;
 
+var is_pos_url = 'http://is_pos.wd.hoste.ro';
 var start = process.env.START || 0;
 var end = process.env.END || null;
 
@@ -35,16 +37,12 @@ function find_power(data) {
   return power;
 }
 
-function find_pos(data) {
-  var regex = /blocks: \d{6} POS/g; // webdollar
-  var found = data.match(regex);
-  var pos = false;
+function find_pos(callback) {
+  request.get(is_pos_url, function(err, message, body) {
+    var is_pos = JSON.parse(body);
 
-  if (found) {
-    pos = true;
-  }
-
-  return pos;
+    callback(is_pos);
+  });
 }
 
 function find_block(data) {
@@ -112,7 +110,10 @@ function get_ws_data_for_uri(uri, callback) {
       if (message.type === 'utf8') {
         power = power || find_power(message.utf8Data);
         block = block || find_block(message.utf8Data);
-        pos = pos || find_pos(message.utf8Data);
+
+        find_pos(function(is_pos) {
+          pos = is_pos;
+        });
 
         if (power && !closed) {
           closed = true;
@@ -162,10 +163,10 @@ function get_ws_uri_for_miner(internal_id, callback) {
 }
 
 miner_model.findAll({
-  where: {
-    temporary: 0
-  }
-})
+    where: {
+      temporary: 0
+    }
+  })
   .then(function(miners) {
     console.log('found miners', miners.length);
 
@@ -199,8 +200,10 @@ miner_model.findAll({
                 var block = res.block;
                 var pos = res.pos;
 
-                // If pos, don't update power
-                if (!pos) {
+                // If pos and WebDollar, don't update power
+                if (_miner.internal_id === 'webdollar' && pos) {
+                  console.log('skipped. POS rounds');
+                } else {
                   // Miner has went to 0 power
                   if (_miner.power > 0 && power === 0) {
                     // TODO: Send mail to user
@@ -216,8 +219,6 @@ miner_model.findAll({
                     })
                     .then(console.log)
                     .catch(console.error);
-                } else {
-                  console.log('skipped. POS rounds');
                 }
 
                 setTimeout(function() {
