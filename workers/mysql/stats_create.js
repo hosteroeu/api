@@ -199,7 +199,7 @@ miner_model.findAll({
 
                   // If pos, don't update power
                   if (pos) {
-                    console.log('skipped. POS rounds');
+                    console.log('skipped. Webdollar POS rounds');
                   } else {
                     // Miner has went to 0 power
                     if (_miner.power > 0 && power === 0) {
