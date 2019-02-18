@@ -24,17 +24,29 @@ coin_model.findAll({
       }
 
       (function(_coin) {
-        var url = coingecko_api_url + _coin.internal_name + api_url_postfix;
+        var id = _coin.internal_name;
+
+        if (id === 'veruscoin') {
+          id = 'verus-coin';
+        }
+
+        if (id === 'myriad') {
+          id = 'myriadcoin';
+        }
+
+        var url = coingecko_api_url + id + api_url_postfix;
 
         request.get(url, function(err, message, body) {
           if (err) {
-            console.error(err);
+            console.error(_coin.internal_name, err);
             return;
           }
 
           var data = JSON.parse(body);
 
-          if (!data.market_data) {
+          if (data.error) {
+            console.log(_coin.internal_name, data.error);
+
             return;
           }
 
