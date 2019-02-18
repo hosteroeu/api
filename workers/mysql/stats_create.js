@@ -45,8 +45,6 @@ function find_pos(coin, callback) {
   request.get(is_pos_url, function(err, message, body) {
     var is_pos = JSON.parse(body);
 
-    console.log('is_pos', is_pos);
-
     callback(is_pos);
   });
 }
@@ -193,7 +191,7 @@ miner_model.findAll({
             // TODO: Retry
             get_ws_uri_for_miner(_miner.internal_id, function(err, res) {
               get_ws_data_for_uri(res, function(err, res) {
-                find_pos(_miner.internal_id, function(pos) {
+                find_pos(_miner.coin, function(pos) {
                   if (err) return callback(err);
 
                   var power = res.power;
