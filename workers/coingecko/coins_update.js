@@ -56,7 +56,9 @@ coin_model.findAll({
           }
 
           coin_model.update({
-              price_eur: data.market_data.current_price.eur
+              price_eur: data.market_data.current_price.eur,
+              price_usd: data.market_data.current_price.usd,
+              liquidity_score: data.liquidity_score
             }, {
               where: {
                 id: _coin.id

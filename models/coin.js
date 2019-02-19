@@ -12,7 +12,6 @@ var Coin = function(sequelize) {
     'color',
     'description',
     'algorithm',
-    'supply',
     'fixed_supply',
     'network_hashrate',
     'cpu_only',
@@ -25,10 +24,13 @@ var Coin = function(sequelize) {
     'exchange_url',
     'logo_url',
     'price_eur',
+    'price_usd',
     'hybrid',
     'hybrid_percentage_pow',
     'block_time',
     'block_reward',
+    'supply',
+    'liquidity_score',
     'created_at',
     'updated_at'
   ];
@@ -41,7 +43,6 @@ var Coin = function(sequelize) {
     color: Sequelize.STRING,
     description: Sequelize.TEXT,
     algorithm: Sequelize.STRING,
-    supply: Sequelize.INTEGER,
     fixed_supply: Sequelize.BOOLEAN,
     network_hashrate: Sequelize.STRING,
     cpu_only: Sequelize.BOOLEAN,
@@ -54,10 +55,13 @@ var Coin = function(sequelize) {
     exchange_url: Sequelize.STRING,
     logo_url: Sequelize.STRING,
     price_eur: Sequelize.FLOAT,
+    price_usd: Sequelize.FLOAT,
     hybrid: Sequelize.BOOLEAN,
     hybrid_percentage_pow: Sequelize.INTEGER,
     block_time: Sequelize.INTEGER,
     block_reward: Sequelize.FLOAT,
+    supply: Sequelize.INTEGER,
+    liquidity_score: Sequelize.FLOAT,
   }, {
     underscored: true,
     tableName: 'coins'
