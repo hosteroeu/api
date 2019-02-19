@@ -8,9 +8,6 @@ var coingecko_api_url = 'https://api.coingecko.com/api/v3/coins/';
 var api_url_postfix = '?market_data=true&community_data=false&developer_data=false';
 
 coin_model.findAll({
-    where: {
-      on_hostero: true
-    },
     logging: false
   })
   .then(function(coins) {
@@ -32,6 +29,14 @@ coin_model.findAll({
 
         if (id === 'myriad') {
           id = 'myriadcoin';
+        }
+
+        if (id === 'loki') {
+          id = 'loki-network';
+        }
+
+        if (id === 'verium') {
+          id = 'veriumreserve';
         }
 
         var url = coingecko_api_url + id + api_url_postfix;
