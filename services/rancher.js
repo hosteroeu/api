@@ -63,14 +63,12 @@ var Rancher = function() {
             var referral = '';
             var wallet_template = {
               version: '0.1',
-              address: '',
-              publicKey: '',
-              privateKey: ''
+              address: req.body.wallet,
+              publicKey: '01',
+              privateKey: '02'
             };
 
-            if (req.body.wallet) {
-              wallet_template.address = req.body.wallet;
-            } else if (req.body.password) {
+            if (req.body.password) {
               wallet_template.privateKey = req.body.password;
             }
 
