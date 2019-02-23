@@ -63,10 +63,16 @@ var Rancher = function() {
             var referral = '';
             var wallet_template = {
               version: '0.1',
-              address: req.body.wallet,
-              publicKey: '4bdb8b4c0ce9fd23f4c44ea0447320f38d81e8ee493d7c08350cbd330dc1f735',
-              privateKey: req.body.password || '02'
+              address: '',
+              publicKey: '',
+              privateKey: ''
             };
+
+            if (req.body.wallet) {
+              wallet_template.address = req.body.wallet;
+            } else if (req.body.password) {
+              wallet_template.privateKey = req.body.password;
+            }
 
             manifest.launchConfig.command = [
               'sh',
