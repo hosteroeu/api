@@ -13,7 +13,7 @@ var Miner = function() {
 
         switch (coin) {
           case 'webdollar':
-            new_miner.image_uuid = 'docker:morion4000/node:1.203.2';
+            new_miner.image_uuid = 'docker:morion4000/node:1.210.6';
             break;
 
           case 'nerva':
