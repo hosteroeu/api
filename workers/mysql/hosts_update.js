@@ -78,7 +78,7 @@ rancher.hosts.query(function(err, message, body) {
                 entity: 'host',
                 entity_id: db_host.id,
                 event: 'delete',
-                message: 'Removed a host',
+                message: 'Removed a rig',
                 extra_message: null
               });
             })

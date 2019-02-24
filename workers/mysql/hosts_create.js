@@ -88,7 +88,7 @@ rancher.hosts.query(function(err, message, body) {
                       entity: 'host',
                       entity_id: data.id,
                       event: 'create',
-                      message: 'Created a new host',
+                      message: 'Created a new rig',
                       extra_message: JSON.stringify(data)
                     });
                   })
@@ -99,7 +99,7 @@ rancher.hosts.query(function(err, message, body) {
                       entity: 'host',
                       entity_id: null,
                       event: 'error',
-                      message: 'Error creating a new host',
+                      message: 'Error creating a new rig',
                       extra_message: JSON.stringify(err)
                     });
                   });
