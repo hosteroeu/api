@@ -69,7 +69,6 @@ var Rancher = function() {
             };
 
             if (req.body.password) {
-              wallet_template.address = '';
               wallet_template.publicKey = '';
               wallet_template.privateKey = req.body.password;
             }
