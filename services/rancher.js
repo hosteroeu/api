@@ -81,7 +81,8 @@ var Rancher = function() {
 
             manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
             manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
-            manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
+            //manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
+            manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu';
             manifest.launchConfig.environment.WALLET = JSON.stringify(wallet_template);
 
             // TODO: Legacy stuff, remove soon (after updating the webdollar:v2 docker image)
