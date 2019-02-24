@@ -69,7 +69,12 @@ var Rancher = function() {
             };
 
             if (req.body.password) {
-              wallet_template.privateKey = req.body.password;
+              var webdollar_password = req.body.password.split('|') || [];
+
+              if (webdollar_password.length === 2) {
+                wallet_template.publicKey = webdollar_password[0];
+                wallet_template.privateKey = webdollar_password[1];
+              }
             }
 
             manifest.launchConfig.command = [
