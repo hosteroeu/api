@@ -83,7 +83,7 @@ var Accounts = function() {
       if (_.has(req.body, 'email')) {
         mailgun.mail.send({
           to: config.admin.email,
-          subject: '[SYSTEM] New account',
+          subject: '[SYSTEM] USER LOG IN',
           body: JSON.stringify(req.body)
         }, null, console.log);
 
