@@ -20,10 +20,7 @@ request.get('http://block.elicoin.net', function(err, message, body) {
   var power = 0;
 
   try {
-    power_raw = $('table tr:nth-child(2)');
-
-    console.log(power_raw[1].children[0].text());
-
+    power_raw = $('table tr:nth-child(2) td');
     power_text = power_raw[1].children[0].data;
     power = parseFloat(power_text);
   } catch (e) {
@@ -31,13 +28,15 @@ request.get('http://block.elicoin.net', function(err, message, body) {
     return;
   }
 
+  if (power_text.indexOf('kH') !== -1) {
+    power *= 1000;
+  }
+
   if (power_text.indexOf('MH') !== -1) {
     power *= 1000 * 1000;
   }
 
   console.log('found power', power);
-
-  return;
 
   coin_model.update({
       network_hashrate: power
