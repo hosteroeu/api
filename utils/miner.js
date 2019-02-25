@@ -21,7 +21,7 @@ var Miner = function() {
             break;
 
           case 'webchain':
-            new_miner.image_uuid = 'docker:morion4000/webchain';
+            new_miner.image_uuid = 'docker:morion4000/webchain:2.6.2.0';
             break;
 
           case 'veruscoin':
