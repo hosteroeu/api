@@ -55,7 +55,7 @@ host_model.findAll({
                 entity: 'host',
                 entity_id: host.id,
                 event: 'delete',
-                message: 'Removed a rig',
+                message: 'Removed a device',
                 extra_message: null
               });
             })
