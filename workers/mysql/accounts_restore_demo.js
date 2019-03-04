@@ -17,7 +17,7 @@ account_model.update({
     default_processor: 'sse2',
     wallet_nerva: 'NV1LLwjyTdbSr6xqU9pHoddTdzFvXd4Mk86xgZ6d2bzoJBokGBun9pQYxAgB2PJ23nVZ4zF414pVHggeVLRWJC8S1Yaadwyce',
     wallet_webdollar: 'WEBD$gCET26qgUFLE5dNUo8aGrn0ZPGQQueFYuj$',
-    mining_pool_url_webdollar: 'https://webdmine.io/pool/1/BACMpool/0.01/21dc1f57cb7338963ea159877b4ade97b71dd11ac17292e3852bdc33a26a17e4/https:$$pool.bacm.ro:443',
+    mining_pool_url_webdollar: 'https://webdollar.io/pool/1/WMP/0.02/773a8d5f7ce3c0dba0b7216c35d2768b1a6abef716fa2a46d875d6ca0e2c115e/https:$$server.webdollarminingpool.com:443',
     password_webdollar: null,
     wallet_webchain: '0xdd4a6ec2eb9c76178fbf7cc40591aefb0898093f',
     password_webchain: 'demo',
