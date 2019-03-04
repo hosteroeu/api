@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var rancher = require('./../../services').Rancher();
 var mailgun = require('./../../services').Mailgun();
 var config = require('./../../config');
@@ -43,7 +44,7 @@ account_model.update({
     }
   })
   .then(console.log)
-  .catch(console.error);
+  .catch(sentry.Raven.captureException);
 
 miner_model.destroy({
     where: {
@@ -51,7 +52,7 @@ miner_model.destroy({
     }
   })
   .then(console.log)
-  .catch(console.error);
+  .catch(sentry.Raven.captureException);
 
 host_model.destroy({
     where: {
@@ -59,4 +60,4 @@ host_model.destroy({
     }
   })
   .then(console.log)
-  .catch(console.error);
+  .catch(sentry.Raven.captureException);
