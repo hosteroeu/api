@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
@@ -71,7 +72,7 @@ rancher.services.query(function(err, message, body) {
               }
             })
             .then(console.log)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
 
           log_model.create({
             user_id: db_miner.Host.Account.user_id,
@@ -89,5 +90,5 @@ rancher.services.query(function(err, message, body) {
         }
       }
     })
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 });

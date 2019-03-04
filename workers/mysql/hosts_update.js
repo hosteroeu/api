@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
@@ -82,11 +83,11 @@ rancher.hosts.query(function(err, message, body) {
                 extra_message: null
               });
             })
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
         } else {
           console.log('removed host', host.hostname);
         }
       }
     })
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 });

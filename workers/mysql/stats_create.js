@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var WebSocketClient = require('websocket').client;
 var _ = require('underscore');
 var async = require('async');
@@ -80,7 +81,7 @@ function get_ws_data_for_uri(uri, callback) {
   var closed = false;
 
   client.on('connectFailed', function(error) {
-    console.error('Connect Error: ', error.toString());
+    sentry.Raven.captureException(error);
 
     clearTimeout(timeout);
 
@@ -101,7 +102,7 @@ function get_ws_data_for_uri(uri, callback) {
     }, 10 * 1000);
 
     connection.on('error', function(error) {
-      console.error('Connection Error: ', error.toString());
+      sentry.Raven.captureException(error);
     });
 
     connection.on('close', function() {
@@ -174,7 +175,7 @@ miner_model.findAll({
     }
 
     if (start >= end) {
-      console.error('Range overflows', start, end);
+      sentry.Raven.captureException('Range overflows ' + start + ':' + end);
       return;
     }
 
@@ -215,7 +216,7 @@ miner_model.findAll({
                         }
                       })
                       .then(console.log)
-                      .catch(console.error);
+                      .catch(sentry.Raven.captureException);
                   }
 
                   setTimeout(function() {

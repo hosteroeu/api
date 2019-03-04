@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var moment = require('moment');
 var _ = require('underscore');
 var rancher = require('./../../services').Rancher();
@@ -63,7 +64,7 @@ miner_model.findAll({
               }
             })
             .then(_.noop)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
 
           /*
           host_model.update({
@@ -74,7 +75,7 @@ miner_model.findAll({
               }
             })
             .then(_.noop)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
           */
 
           log_model.create({

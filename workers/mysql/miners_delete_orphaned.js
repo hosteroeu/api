@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
@@ -21,7 +22,7 @@ miner_model.findAll({})
             }
           })
           .then(console.log)
-          .catch(console.error);
+          .catch(sentry.Raven.captureException);
       }
     }
   });

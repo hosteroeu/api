@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
 var config = require('./../../config');
 
@@ -53,6 +54,6 @@ miner_model.findAll({
           memory_total: miner.Host.memory_total
         })
         .then(_.noop)
-        .catch(console.error);
+        .catch(sentry.Raven.captureException);
     }
   });

@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var moment = require('moment');
 var rancher = require('./../../services').Rancher();
 var mailgun = require('./../../services').Mailgun();
@@ -80,7 +81,7 @@ account_model.findAll().then(function(data) {
                   }
                 })
                 .then(console.log)
-                .catch(console.error);
+                .catch(sentry.Raven.captureException);
 
               log_model.create({
                 user_id: _account.user_id,

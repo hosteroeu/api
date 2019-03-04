@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var moment = require('moment');
 var _ = require('underscore');
 var rancher = require('./../../services').Rancher();
@@ -41,7 +42,7 @@ host_model.findAll({
           var account_miners = _account.plan_miners + _account.bonus_miners;
 
           if (miners.length >= account_miners) {
-            console.error('Host', _host.id, 'not auto-deployed, because no credit', miners.length, account_miners);
+            sentry.Raven.captureException('Host', _host.id, 'not auto-deployed, because no credit', miners.length, account_miners);
 
             log_model.create({
               user_id: _account.user_id,
@@ -88,7 +89,7 @@ host_model.findAll({
                 extra_message: JSON.stringify(data)
               });
             })
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
 
           host_model.update({
               deployed: '2'
@@ -98,9 +99,9 @@ host_model.findAll({
               }
             })
             .then(_.noop)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
         });
       })(host, account);
     }
   })
-  .catch(console.error);
+  .catch(sentry.Raven.captureException);

@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
@@ -53,12 +54,12 @@ miner_model.findAll({
             }
           }, {}, function(err, body) {
             if (err) {
-              console.error(err);
+              sentry.Raven.captureException(err);
               return;
             }
 
             if (body.type === 'error') {
-              console.error(body.code);
+              sentry.Raven.captureException(body.code);
               return;
             }
 
@@ -75,7 +76,7 @@ miner_model.findAll({
                 }
               })
               .then(_.noop)
-              .catch(console.error);
+              .catch(sentry.Raven.captureException);
 
             log_model.create({
               user_id: _account.user_id,
@@ -98,7 +99,7 @@ miner_model.findAll({
                 }
               })
               .then(_.noop)
-              .catch(console.error);
+              .catch(sentry.Raven.captureException);
 
             log_model.create({
               user_id: _account.user_id,
@@ -116,4 +117,4 @@ miner_model.findAll({
       }
     }
   })
-  .catch(console.error);
+  .catch(sentry.Raven.captureException);

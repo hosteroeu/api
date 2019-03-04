@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
@@ -104,10 +105,10 @@ rancher.hosts.query(function(err, message, body) {
                     });
                   });
               })
-              .catch(console.error);
+              .catch(sentry.Raven.captureException);
           })(host);
         }
       }
     })
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 });

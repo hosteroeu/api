@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var sequelize = require('./../../models').sequelize;
 var config = require('./../../config');
 
@@ -20,7 +21,7 @@ sequelize.query('SELECT hosts.id, hosts.deployed FROM hosts LEFT JOIN miners ON 
           }
         })
         .then(console.log)
-        .catch(console.error);
+        .catch(sentry.Raven.captureException);
     } else {
       console.log('skipped', host.id);
     }
