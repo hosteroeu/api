@@ -7,7 +7,16 @@ var express = require('express'),
   config = require('./config'),
   models = require('./models'),
   middleware = require('./middleware'),
+  Raven = require('raven'),
   app = express();
+
+Raven.config('https://d9a8c0f13550478997ffd66aad57b277@sentry.io/1395940').install();
+
+// The request handler must be the first middleware on the app
+app.use(Raven.requestHandler());
+
+// The error handler must be before any other error middleware
+app.use(Raven.errorHandler());
 
 switch (app.get('env')) {
   case 'production':
