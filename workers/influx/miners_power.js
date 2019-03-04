@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var Influx = require('influxdb-nodejs');
 var request = require('request');
 var config = require('./../../config');
@@ -64,5 +65,5 @@ miner_model.findAll({
 
     client.syncWrite()
       .then(console.log)
-      .catch(console.error);
+      .catch(sentry.Raven.captureException);
   });

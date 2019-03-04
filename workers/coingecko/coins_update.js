@@ -1,4 +1,4 @@
-var Raven = require('raven');
+var sentry = require('./../../services').Sentry();
 var request = require('request');
 var _ = require('underscore');
 var config = require('./../../config');
@@ -7,8 +7,6 @@ var coin_model = require('./../../models').coin.model;
 var log_model = require('./../../models').log.model;
 var coingecko_api_url = 'https://api.coingecko.com/api/v3/coins/';
 var api_url_postfix = '?market_data=true&community_data=false&developer_data=false';
-
-Raven.config('https://d7ed343f84f04a1780f575031ed8648f@sentry.io/1407666').install();
 
 coin_model.findAll({
     logging: false
@@ -46,7 +44,7 @@ coin_model.findAll({
 
         request.get(url, function(err, message, body) {
           if (err) {
-            Raven.captureException(err);
+            sentry.Raven.captureException(err);
             return;
           }
 
@@ -68,7 +66,7 @@ coin_model.findAll({
               }
             })
             .then(_.noop)
-            .catch(Raven.captureException);
+            .catch(sentry.Raven.captureException);
         });
       })(coin);
     }

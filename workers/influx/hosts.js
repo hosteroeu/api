@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var Influx = require('influxdb-nodejs');
 var request = require('request');
 var config = require('./../../config');
@@ -30,6 +31,7 @@ request.get(config.rancher.project + '/hosts?limit=1000', {
   timeout: 5000
 }, function(err, message, body) {
   if (err && err.connect === true) {
+    sentry.Raven.captureException(err);
     process.exit(0);
   }
 
@@ -63,5 +65,5 @@ request.get(config.rancher.project + '/hosts?limit=1000', {
 
   client.syncWrite()
     .then(console.log)
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 }).auth(config.rancher.key, config.rancher.secret);
