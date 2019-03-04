@@ -10,7 +10,7 @@ var express = require('express'),
   Raven = require('raven'),
   app = express();
 
-Raven.config('https://d9a8c0f13550478997ffd66aad57b277@sentry.io/1395940').install();
+Raven.config('https://55195f3cf1d34005975b17e8eda67b92@sentry.io/1395944').install();
 
 // The request handler must be the first middleware on the app
 app.use(Raven.requestHandler());
