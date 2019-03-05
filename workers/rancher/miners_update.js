@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var request = require('request');
 var _ = require('underscore');
 

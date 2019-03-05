@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var request = require('request');
 var _ = require('underscore');
 var config = require('./../../config');
@@ -19,7 +20,7 @@ request({
   }
 }, function(error, response, body) {
   if (error) {
-    console.error(error);
+    sentry.Raven.captureException(error);
     return;
   }
 
@@ -69,7 +70,7 @@ request({
             }, null, console.log);
             */
 
-            console.error('Could not find account', account_id, encoded);
+            sentry.Raven.captureException('Could not find account ' + account_id);
 
             return;
           }
@@ -94,7 +95,7 @@ request({
             }
           });
         })
-        .catch(console.error);
+        .catch(sentry.Raven.captureException);
     })(transaction);
   }
 });

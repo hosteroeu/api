@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
 var request = require('request');
 var config = require('./../../config');
@@ -8,7 +9,7 @@ console.log('getting https://explorer.getnerva.org/api/getinfo.php');
 
 request.get('https://explorer.getnerva.org/api/getinfo.php', function(err, message, body) {
   if (err) {
-    console.error(err);
+    sentry.Raven.captureException(err);
     return;
   }
 
@@ -25,5 +26,5 @@ request.get('https://explorer.getnerva.org/api/getinfo.php', function(err, messa
       }
     })
     .then(_.noop)
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 });

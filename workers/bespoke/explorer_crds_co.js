@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
 var request = require('request');
 var cheerio = require('cheerio');
@@ -9,7 +10,7 @@ console.log('getting https://explorer.crds.co');
 
 request.get('https://explorer.crds.co', function(err, message, body) {
   if (err) {
-    console.error(err);
+    sentry.Raven.captureException(err);
     return;
   }
 
@@ -24,7 +25,7 @@ request.get('https://explorer.crds.co', function(err, message, body) {
     power_text = power_raw[2].children[0].data;
     power = parseFloat(power_text);
   } catch (e) {
-    console.error(e);
+    sentry.Raven.captureException(e);
     return;
   }
 
@@ -46,5 +47,5 @@ request.get('https://explorer.crds.co', function(err, message, body) {
       }
     })
     .then(_.noop)
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 });

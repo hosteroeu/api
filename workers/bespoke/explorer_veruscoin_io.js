@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
 var request = require('request');
 var config = require('./../../config');
@@ -8,7 +9,7 @@ console.log('getting https://explorer.veruscoin.io/ext/summary');
 
 request.get('https://explorer.veruscoin.io/ext/summary', function(err, message, body) {
   if (err) {
-    console.error(err);
+    sentry.Raven.captureException(err);
     return;
   }
 
@@ -26,5 +27,5 @@ request.get('https://explorer.veruscoin.io/ext/summary', function(err, message, 
       }
     })
     .then(_.noop)
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 });

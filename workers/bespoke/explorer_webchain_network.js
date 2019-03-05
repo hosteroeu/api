@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
 var request = require('request');
 var config = require('./../../config');
@@ -8,7 +9,7 @@ console.log('getting https://explorer.webchain.network/web3relay');
 
 request.post('https://explorer.webchain.network/web3relay', function(err, message, body) {
   if (err) {
-    console.error(err);
+    sentry.Raven.captureException(err);
     return;
   }
 
@@ -25,7 +26,7 @@ request.post('https://explorer.webchain.network/web3relay', function(err, messag
       }
     })
     .then(_.noop)
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 }).form({
   action: 'hashrate'
 });

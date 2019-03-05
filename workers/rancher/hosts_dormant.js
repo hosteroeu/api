@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 

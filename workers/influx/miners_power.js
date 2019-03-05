@@ -25,7 +25,7 @@ client.schema('hostero_miners_power', fieldSchema, tagSchema, {
   stripUnknown: true,
 });
 
-//client.createDatabase().then(console.log).catch(console.error);return;
+//client.createDatabase().then(console.log).catch(sentry.Raven.captureException);return;
 
 miner_model.findAll({
     include: [{

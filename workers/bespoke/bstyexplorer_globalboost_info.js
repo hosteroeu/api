@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
 var request = require('request');
 var config = require('./../../config');
@@ -8,7 +9,7 @@ console.log('getting http://bstyexplorer.globalboost.info/ext/summary');
 
 request.get('http://bstyexplorer.globalboost.info/ext/summary', function(err, message, body) {
   if (err) {
-    console.error(err);
+    sentry.Raven.captureException(err);
     return;
   }
 
@@ -26,5 +27,5 @@ request.get('http://bstyexplorer.globalboost.info/ext/summary', function(err, me
       }
     })
     .then(_.noop)
-    .catch(console.error);
+    .catch(sentry.Raven.captureException);
 });

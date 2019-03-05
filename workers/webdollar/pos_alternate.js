@@ -1,3 +1,4 @@
+var sentry = require('./../../services').Sentry();
 var request = require('request');
 var _ = require('underscore');
 var rancher = require('./../../services').Rancher();
@@ -80,7 +81,7 @@ request.get(url, function(err, message, body) {
 
           miner_model.create(new_miner)
             .then(_.noop)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
 
           host_model.update({
               miners: 1
@@ -90,10 +91,10 @@ request.get(url, function(err, message, body) {
               }
             })
             .then(_.noop)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
         }
       })
-      .catch(console.error);
+      .catch(sentry.Raven.captureException);
   } else {
     miner_model.findAll({
         include: [{
@@ -116,7 +117,7 @@ request.get(url, function(err, message, body) {
               }
             })
             .then(_.noop)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
 
           host_model.update({
               miners: 0
@@ -126,7 +127,7 @@ request.get(url, function(err, message, body) {
               }
             })
             .then(_.noop)
-            .catch(console.error);
+            .catch(sentry.Raven.captureException);
         }
       });
   }
