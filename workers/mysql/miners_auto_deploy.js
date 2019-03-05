@@ -42,7 +42,7 @@ host_model.findAll({
           var account_miners = _account.plan_miners + _account.bonus_miners;
 
           if (miners.length >= account_miners) {
-            sentry.Raven.captureException('Host', _host.id, 'not auto-deployed, because no credit', miners.length, account_miners);
+            console.log('Host', _host.id, 'not auto-deployed, because no credit', miners.length, account_miners);
 
             log_model.create({
               user_id: _account.user_id,
