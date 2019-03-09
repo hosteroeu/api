@@ -77,7 +77,9 @@ var Host = function(sequelize) {
     host.findOne({
         attributes: fields,
         where: {
-          user_id: params.user.sub,
+          user_id: {
+            $or: [params.user.sub, 'shared']
+          },
           id: params.params.host_id
         },
         include: [{
@@ -96,7 +98,9 @@ var Host = function(sequelize) {
     host.findAll({
         attributes: fields,
         where: {
-          user_id: params.user.sub
+          user_id: {
+            $or: [params.user.sub, 'shared']
+          },
         },
         include: [{
           model: account,
