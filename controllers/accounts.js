@@ -15,7 +15,7 @@ var Accounts = function() {
       }
 
       var curated = _.map(result, function(fields) {
-        return _.omit(fields.dataValues, 'name', 'email', 'full_name', 'internal_id', 'user_id');
+        return _.omit(fields.dataValues, 'name', 'email', 'full_name', 'internal_id', 'user_id', 'password_webdollar', 'password_webchain', 'password_veruscoin', 'password_credits', 'password_myriad', 'password_yenten', 'password_globalboost', 'password_elicoin');
       });
 
       res.send(curated);
