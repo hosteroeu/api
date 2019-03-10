@@ -54,6 +54,10 @@ request.get(url, function(err, message, body) {
             continue;
           }
 
+          if (miner.Host.user_id === 'shared') {
+            continue;
+          }
+
           var _host = miner.Host;
           var _account = miner.Host.Account;
           var new_miner = miner_util.template.create(_account.auto_deploy_coin_idle);
