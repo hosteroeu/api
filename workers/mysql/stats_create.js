@@ -198,15 +198,14 @@ miner_model.findAll({
                   var power = res.power;
                   var block = res.block;
 
-                  // If pos, don't update power
                   if (pos) {
+                    // If pos, don't update power
                     console.log('skipped. Webdollar POS rounds');
+                  } else if (_miner.power > 0 && power === 0) {
+                    // Miner has went to 0 power, don't update
+                    // TODO: Send mail to user
+                    console.log('skipped. Miner went to 0');
                   } else {
-                    // Miner has went to 0 power
-                    if (_miner.power > 0 && power === 0) {
-                      // TODO: Send mail to user
-                    }
-
                     miner_model.update({
                         power: power,
                         block: block
