@@ -23,6 +23,10 @@ miner_model.findAll({
       var miner = miners[i];
       var index = miner.coin + ' ' + miner.Host.cpu_model;
 
+      if (parseInt(miner.threads) <= 0) {
+        continue;
+      }
+
       // TODO: Do average, not max
       if (indexed[index] && indexed[index].power > miner.power) {
         continue;
