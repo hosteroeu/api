@@ -84,9 +84,13 @@ var Rancher = function() {
 
             manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
             manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
-            //manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
-            manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu';
             manifest.launchConfig.environment.WALLET = JSON.stringify(wallet_template);
+
+            if (req.body.type === 'cpp') {
+              manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu-cpp';
+            } else {
+              manifest.launchConfig.environment.TERMINAL_WORKERS_TYPE = 'cpu';
+            }
 
             // TODO: Legacy stuff, remove soon (after updating the webdollar:v2 docker image)
             manifest.launchConfig.environment.WALLET_SECRET_URL = '1234';
