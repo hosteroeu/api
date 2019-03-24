@@ -72,8 +72,8 @@ var Rancher = function() {
               var webdollar_password = req.body.password.split('|') || [];
 
               if (webdollar_password.length === 2) {
-                wallet_template.publicKey = webdollar_password[0];
-                wallet_template.privateKey = webdollar_password[1];
+                wallet_template.publicKey = webdollar_password[0] || '01';
+                wallet_template.privateKey = webdollar_password[1] || '02';
               }
             }
 
