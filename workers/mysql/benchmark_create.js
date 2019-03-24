@@ -24,6 +24,12 @@ miner_model.findAll({
       var index = miner.coin + ' ' + miner.Host.cpu_model;
 
       if (parseInt(miner.threads) <= 0) {
+        console.log('Skipping. Too few threads');
+        continue;
+      }
+
+      if (miner.type === 'legacy') {
+        console.log('Skipping. WebDollar legacy miner');
         continue;
       }
 
