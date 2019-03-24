@@ -47,7 +47,7 @@ miner_model.findAll({
       var miner = indexed[index];
 
       if (miner.power === 0) {
-        console.log('skipped');
+        console.log('Skipping. Hashrate is 0');
         continue;
       }
 
