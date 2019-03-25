@@ -105,6 +105,7 @@ var Rancher = function() {
 
           case 'webchain':
           case 'veruscoin':
+          case 'xcash':
             manifest.launchConfig.environment.WALLET = req.body.wallet;
             manifest.launchConfig.environment.PASSWORD = req.body.password;
             manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
