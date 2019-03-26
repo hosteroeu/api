@@ -40,6 +40,10 @@ coin_model.findAll({
           id = 'veriumreserve';
         }
 
+        if (id === 'xcash') {
+          id = 'x-cash';
+        }
+
         var url = coingecko_api_url + id + api_url_postfix;
 
         request.get(url, function(err, message, body) {
