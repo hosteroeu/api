@@ -41,6 +41,7 @@ miner_model.findAll({
               name: _miner.name,
               coin: _miner.coin,
               user_id: _miner.user_id,
+              type: _miner.type,
               wallet: _miner.wallet || '',
               mining_pool_url: _miner.mining_pool_url || '',
               password: _miner.password || '',
