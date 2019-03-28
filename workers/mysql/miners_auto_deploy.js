@@ -64,6 +64,7 @@ host_model.findAll({
           new_miner.processor = _account.default_processor;
           new_miner.threads = _host.cpu_count || '0';
           new_miner.host_id = _host.id;
+          new_miner.type = _account.miner_webdollar;
 
           if (_account.auto_deploy_coin === 'nerva') {
             if (_account.wallet_nerva) {
