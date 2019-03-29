@@ -8,6 +8,7 @@ module.exports = function(app, router) {
   router.post('/hosts', routers.jwtCheck, routers.bodyCleanup, hosts.create);
   router.get('/hosts/:host_id(\\d+)', routers.jwtCheck, hosts.retrieve);
   router.get('/hosts/:host_id(\\d+)/stats', routers.jwtCheck, hosts.stats);
+  router.get('/hosts/:host_id(\\d+)/events', routers.jwtCheck, hosts.events);
   router.put('/hosts/:host_id(\\d+)', routers.jwtCheck, routers.bodyCleanup, hosts.update);
   router.delete('/hosts/:host_id(\\d+)', routers.jwtCheck, hosts.remove);
 

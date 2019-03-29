@@ -1,5 +1,6 @@
 var _ = require('underscore'),
   miner = require('./../models').miner,
+  log = require('./../models').log,
   rancher = require('./../services').Rancher(),
   miner_util = require('./../utils').Miner(),
   errors = require('./../errors'),
@@ -138,6 +139,26 @@ var Miners = function() {
     });
   };
 
+  var events = function(req, res, next) {
+    log.model.findAll({
+        where: {
+          user_id: req.user.sub,
+          entity: 'miner',
+          entity_id: req.id,
+        },
+        limit: 100,
+        order: [
+          ['created_at', 'DESC']
+        ]
+      })
+      .then(function(result) {
+        res.send(result);
+      })
+      .catch(function(err) {
+        next(err);
+      });
+  };
+
   return {
     collection: collection,
     create: create,
@@ -145,7 +166,8 @@ var Miners = function() {
     update: update,
     remove: remove,
     stats: stats,
-    logs: logs
+    logs: logs,
+    events: events
   };
 };
 

@@ -1,4 +1,5 @@
 var host = require('./../models').host,
+  log = require('./../models').log,
   rancher = require('./../services').Rancher(),
   errors = require('./../errors'),
   config = require('./../config');
@@ -94,13 +95,34 @@ var Hosts = function() {
     });
   };
 
+  var events = function(req, res, next) {
+    log.model.findAll({
+        where: {
+          user_id: req.user.sub,
+          entity: 'host',
+          entity_id: req.id,
+        },
+        limit: 100,
+        order: [
+          ['created_at', 'DESC']
+        ]
+      })
+      .then(function(result) {
+        res.send(result);
+      })
+      .catch(function(err) {
+        next(err);
+      });
+  };
+
   return {
     collection: collection,
     create: create,
     retrieve: retrieve,
     update: update,
     remove: remove,
-    stats: stats
+    stats: stats,
+    events: events
   };
 };
 

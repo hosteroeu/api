@@ -9,6 +9,7 @@ module.exports = function(app, router) {
   router.get('/miners/:miner_id(\\d+)', routers.jwtCheck, miners.retrieve);
   router.get('/miners/:miner_id(\\d+)/stats', routers.jwtCheck, miners.stats);
   router.get('/miners/:miner_id(\\d+)/logs', routers.jwtCheck, miners.logs);
+  router.get('/miners/:miner_id(\\d+)/events', routers.jwtCheck, miners.events);
   router.put('/miners/:miner_id(\\d+)', routers.jwtCheck, routers.bodyCleanup, miners.update);
   router.delete('/miners/:miner_id(\\d+)', routers.jwtCheck, miners.remove);
 
