@@ -51,7 +51,8 @@ host_model.findAll({
               entity_id: _host.id,
               event: 'error',
               message: 'Error auto-deploying host',
-              extra_message: JSON.stringify(_host)
+              extra_message: JSON.stringify(_host),
+              source: 'miners_auto_deploy'
             });
 
             return;
@@ -87,7 +88,8 @@ host_model.findAll({
                 entity_id: data.id,
                 event: 'create',
                 message: 'Created a miner',
-                extra_message: JSON.stringify(data)
+                extra_message: JSON.stringify(data),
+                source: 'miners_auto_deploy'
               });
             })
             .catch(sentry.Raven.captureException);

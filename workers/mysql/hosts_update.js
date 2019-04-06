@@ -80,7 +80,8 @@ rancher.hosts.query(function(err, message, body) {
                 entity_id: db_host.id,
                 event: 'delete',
                 message: 'Removed a device',
-                extra_message: null
+                extra_message: null,
+                source: 'hosts_update'
               });
             })
             .catch(sentry.Raven.captureException);

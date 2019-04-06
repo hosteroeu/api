@@ -90,7 +90,8 @@ account_model.findAll().then(function(data) {
                 entity_id: miner.id,
                 event: 'delete',
                 message: 'Deleted miner',
-                extra_message: JSON.stringify(miner)
+                extra_message: JSON.stringify(miner),
+                source: 'miners_delete_not_paid'
               });
             }
           }

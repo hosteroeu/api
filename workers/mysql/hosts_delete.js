@@ -57,7 +57,8 @@ host_model.findAll({
                 entity_id: host.id,
                 event: 'delete',
                 message: 'Removed a device',
-                extra_message: null
+                extra_message: null,
+                source: 'hosts_delete'
               });
             })
             .catch(sentry.Raven.captureException);

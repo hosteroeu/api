@@ -85,7 +85,8 @@ miner_model.findAll({
             entity_id: miner.id,
             event: 'delete',
             message: 'Removed a miner',
-            extra_message: JSON.stringify(miner)
+            extra_message: JSON.stringify(miner),
+            source: 'miners_delete'
           });
         }
       }

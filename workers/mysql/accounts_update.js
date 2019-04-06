@@ -76,7 +76,8 @@ account_model.findAll({
             message: 'Canceled your subscription',
             extra_message: JSON.stringify({
               miners: 1
-            })
+            }),
+            source: 'accounts_update'
           });
 
           if (_account.email) {
@@ -147,7 +148,8 @@ account_model.findAll({
             message: 'Created a subscription',
             extra_message: JSON.stringify({
               miners: new_plan_miners
-            })
+            }),
+            source: 'accounts_update'
           });
 
           if (_account.email) {

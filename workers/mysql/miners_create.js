@@ -89,7 +89,8 @@ miner_model.findAll({
               extra_message: JSON.stringify({
                 status: 'started',
                 deployed: '1'
-              })
+              }),
+              source: 'miners_create'
             });
 
             host_model.update({
@@ -111,7 +112,8 @@ miner_model.findAll({
               message: 'Updated a host',
               extra_message: JSON.stringify({
                 deployed: '1'
-              })
+              }),
+              source: 'miners_create'
             });
           });
         })(miner, account);

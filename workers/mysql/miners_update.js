@@ -83,7 +83,8 @@ rancher.services.query(function(err, message, body) {
             message: 'Updated a miner',
             extra_message: JSON.stringify({
               status: status
-            })
+            }),
+            source: 'miners_update'
           });
         } else {
           console.log('Miner not in MySQL', miner.name);

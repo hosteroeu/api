@@ -90,7 +90,8 @@ rancher.hosts.query(function(err, message, body) {
                       entity_id: data.id,
                       event: 'create',
                       message: 'Created a new device',
-                      extra_message: JSON.stringify(data)
+                      extra_message: JSON.stringify(data),
+                      source: 'hosts_create'
                     });
                   })
                   .catch(function(err) {
@@ -101,7 +102,8 @@ rancher.hosts.query(function(err, message, body) {
                       entity_id: null,
                       event: 'error',
                       message: 'Error creating a new device',
-                      extra_message: JSON.stringify(err)
+                      extra_message: JSON.stringify(err),
+                      source: 'hosts_create'
                     });
                   });
               })
