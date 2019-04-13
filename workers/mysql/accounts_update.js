@@ -152,6 +152,12 @@ account_model.findAll({
             source: 'accounts_update'
           });
 
+          mailgun.mail.send({
+            to: config.admin.email,
+            subject: 'New subscription has been created',
+            body: 'Account: ' + _account.id + ', Plan: ' + new_plan_miners
+          }, null, console.log);
+
           if (_account.email) {
             mailgun.mail.send({
               to: _account.email,
