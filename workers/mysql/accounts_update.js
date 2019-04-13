@@ -21,9 +21,7 @@ var last_month_date = d;
 
 account_model.findAll({
   logging: false
-}).then(function(data) {
-  var accounts = data;
-
+}).then(function(accounts) {
   for (var i = 0, l = accounts.length; i < l; i++) {
     var account = accounts[i];
 
