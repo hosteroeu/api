@@ -60,7 +60,11 @@ var Accounts = function() {
         return next(new errors.not_found('Account not found'));
       }
 
-      result.password_webdollar = crypto.decrypt(result.password_webdollar);
+      try {
+        result.password_webdollar = crypto.decrypt(result.password_webdollar);
+      } catch(e) {
+        console.error(e);
+      }
 
       res.send(result);
     });
