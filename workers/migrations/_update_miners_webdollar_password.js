@@ -33,7 +33,7 @@ miner_model.findAll({
           }
         })
         .then(console.log)
-        .catch(sentry.Raven.captureException);
+        .catch(console.error);
 
       //break;
     }
