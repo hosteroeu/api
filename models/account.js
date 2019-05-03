@@ -66,7 +66,7 @@ var Account = function(sequelize) {
     default_processor: Sequelize.STRING,
     wallet_nerva: Sequelize.TEXT,
     wallet_webdollar: Sequelize.TEXT,
-    password_webdollar: Sequelize.STRING,
+    password_webdollar: Sequelize.TEXT,
     mining_pool_url_webdollar: Sequelize.STRING,
     miner_webdollar: Sequelize.STRING,
     wallet_webchain: Sequelize.STRING,

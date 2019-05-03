@@ -42,7 +42,7 @@ var Miner = function(sequelize) {
     processor: Sequelize.STRING,
     mining_pool_url: Sequelize.STRING,
     wallet: Sequelize.TEXT,
-    password: Sequelize.STRING,
+    password: Sequelize.TEXT,
     image_uuid: Sequelize.STRING,
     command: Sequelize.STRING,
     internal_id: Sequelize.STRING,
