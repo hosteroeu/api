@@ -28,7 +28,12 @@ var Accounts = function() {
   var create = function(req, res, next) {
     req.body.user_id = req.user.sub;
     req.body.internal_id = req.rancher_environment_id;
-    req.body.password_webdollar = crypto.encrypt(req.body.password_webdollar);
+
+    try {
+      req.body.password_webdollar = crypto.encrypt(req.body.password_webdollar);
+    } catch(e) {
+      console.error(e);
+    }
 
     account.create(req.body, function(err, result) {
       if (err) {
@@ -71,6 +76,12 @@ var Accounts = function() {
   };
 
   var update = function(req, res, next) {
+    try {
+      req.body.password_webdollar = crypto.encrypt(req.body.password_webdollar);
+    } catch(e) {
+      console.error(e);
+    }
+
     account.update(req.body, {
       id: req.id,
       user_id: req.user.sub

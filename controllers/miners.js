@@ -27,7 +27,11 @@ var Miners = function() {
 
     // TODO: Encrypt password for all coins
     if (req.body.coin === 'webdollar') {
-      req.body.password = crypto.encrypt(req.body.password);
+      try {
+        req.body.password = crypto.encrypt(req.body.password);
+      } catch(e) {
+        console.error(e);
+      }
     }
 
     // TODO: Limit miner creation based on subscription
