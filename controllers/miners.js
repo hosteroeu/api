@@ -52,9 +52,9 @@ var Miners = function() {
       }
 
       // TODO: Decrypt password for all coins
-      if (req.body.coin === 'webdollar') {
+      if (result.coin === 'webdollar') {
         try {
-          req.body.password = crypto.decrypt(req.body.password);
+          result.password = crypto.decrypt(result.password);
         } catch(e) {
           console.error(e);
         }
