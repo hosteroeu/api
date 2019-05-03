@@ -2,6 +2,7 @@ var _ = require('underscore'),
   miner = require('./../models').miner,
   log = require('./../models').log,
   rancher = require('./../services').Rancher(),
+  crypto = require('./../services').Crypto(),
   miner_util = require('./../utils').Miner(),
   errors = require('./../errors'),
   config = require('./../config');
@@ -24,6 +25,11 @@ var Miners = function() {
 
     req.body = _.extend(req.body, template);
 
+    // TODO: Encrypt password for all coins
+    if (req.body.coin === 'webdollar') {
+      req.body.password = crypto.encrypt(req.body.password);
+    }
+
     // TODO: Limit miner creation based on subscription
     miner.create(req.body, function(err, result) {
       if (err) {
@@ -43,6 +49,11 @@ var Miners = function() {
 
       if (!result) {
         return next(new errors.not_found('Miner not found'));
+      }
+
+      // TODO: Decrypt password for all coins
+      if (req.body.coin === 'webdollar') {
+        req.body.password = crypto.decrypt(req.body.password);
       }
 
       res.send(result);

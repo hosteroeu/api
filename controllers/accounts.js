@@ -4,6 +4,7 @@ var account = require('./../models').account,
   config = require('./../config'),
   mailgun = require('./../services').Mailgun(),
   mailchimp = require('./../services').Mailchimp(),
+  crypto = require('./../services').Crypto(),
   _ = require('underscore');
 
 var Accounts = function() {
@@ -14,6 +15,8 @@ var Accounts = function() {
         return next(err);
       }
 
+      // TODO: Use _.pick instead of _.omit
+      // should be inclusional instead of exclusional
       var curated = _.map(result, function(fields) {
         return _.omit(fields.dataValues, 'name', 'email', 'full_name', 'internal_id', 'user_id', 'password_webdollar', 'password_webchain', 'password_veruscoin', 'password_credits', 'password_myriad', 'password_yenten', 'password_globalboost', 'password_elicoin');
       });
@@ -25,6 +28,7 @@ var Accounts = function() {
   var create = function(req, res, next) {
     req.body.user_id = req.user.sub;
     req.body.internal_id = req.rancher_environment_id;
+    req.body.password_webdollar = crypto.encrypt(req.body.password_webdollar);
 
     account.create(req.body, function(err, result) {
       if (err) {
@@ -55,6 +59,8 @@ var Accounts = function() {
       if (!result) {
         return next(new errors.not_found('Account not found'));
       }
+
+      result.password_webdollar = crypto.decrypt(result.password_webdollar);
 
       res.send(result);
     });

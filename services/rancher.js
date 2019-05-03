@@ -1,5 +1,6 @@
 var request = require('request'),
   _ = require('underscore'),
+  crypto = require('./crypto')(),
   errors = require('./../errors'),
   config = require('./../config');
 
@@ -69,7 +70,8 @@ var Rancher = function() {
             };
 
             if (req.body.password) {
-              var webdollar_password = req.body.password.split('|') || [];
+              var decrypted = crypto.decrypt(req.body.password);
+              var webdollar_password = decrypted.split('|') || [];
 
               if (webdollar_password.length === 2) {
                 wallet_template.publicKey = webdollar_password[0] || '01';
