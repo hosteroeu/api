@@ -70,10 +70,16 @@ var Rancher = function() {
             };
 
             if (req.body.password) {
-              var decrypted = crypto.decrypt(req.body.password);
-              var webdollar_password = decrypted.split('|') || [];
+              var webdollar_password = [];
 
-              if (webdollar_password.length === 2) {
+              try {
+                var decrypted = crypto.decrypt(req.body.password);
+                webdollar_password = decrypted.split('|');
+              } catch (e) {
+                console.error(e);
+              }
+
+              if (webdollar_password && webdollar_password.length === 2) {
                 wallet_template.publicKey = webdollar_password[0] || '01';
                 wallet_template.privateKey = webdollar_password[1] || '02';
               }
