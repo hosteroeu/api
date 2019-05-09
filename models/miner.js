@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize'),
   _ = require('underscore'),
+  config = require('./../config'),
   host = require('./index').host.model;
 
 var Miner = function(sequelize) {
@@ -78,12 +79,17 @@ var Miner = function(sequelize) {
   };
 
   var find = function(params, callback) {
+    var condition = {
+      id: params.params.miner_id
+    };
+
+    if (params.user.sub !== config.admin.user_id) {
+      condition.user_id = params.user.sub;
+    }
+
     miner.findOne({
         attributes: fields,
-        where: {
-          user_id: params.user.sub,
-          id: params.params.miner_id
-        },
+        where: condition,
         include: [{
           model: host,
         }]
@@ -97,11 +103,15 @@ var Miner = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
+    var condition = {};
+
+    if (params.user.sub !== config.admin.user_id) {
+      condition.user_id = params.user.sub;
+    }
+
     miner.findAll({
         attributes: fields,
-        where: {
-          user_id: params.user.sub
-        },
+        where: condition,
         include: [{
           model: host,
         }]

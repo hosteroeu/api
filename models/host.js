@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize'),
   _ = require('underscore'),
+  config = require('./../config'),
   account = require('./index').account.model;
 
 var Host = function(sequelize) {
@@ -74,14 +75,19 @@ var Host = function(sequelize) {
   };
 
   var find = function(params, callback) {
+    var condition = {
+      id: params.params.host_id
+    };
+
+    if (params.user.sub !== config.admin.user_id) {
+      condition.user_id = {
+        $or: [params.user.sub, 'shared']
+      };
+    }
+
     host.findOne({
         attributes: fields,
-        where: {
-          user_id: {
-            $or: [params.user.sub, 'shared']
-          },
-          id: params.params.host_id
-        },
+        where: condition,
         include: [{
           model: account,
         }]
@@ -95,13 +101,17 @@ var Host = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
+    var condition = {};
+
+    if (params.user.sub !== config.admin.user_id) {
+      condition.user_id = {
+        $or: [params.user.sub, 'shared']
+      };
+    }
+
     host.findAll({
         attributes: fields,
-        where: {
-          user_id: {
-            $or: [params.user.sub, 'shared']
-          },
-        },
+        where: condition,
         include: [{
           model: account,
         }]

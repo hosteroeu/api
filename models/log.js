@@ -56,12 +56,17 @@ var Log = function(sequelize) {
   };
 
   var find = function(params, callback) {
+    var condition = {
+      id: params.params.log_id
+    };
+
+    if (params.user.sub !== config.admin.user_id) {
+      condition.user_id = params.user.sub;
+    }
+
     log.findOne({
         attributes: fields,
-        where: {
-          user_id: params.user.sub,
-          id: params.params.log_id
-        },
+        where: condition,
         include: [{
           model: account,
         }]
