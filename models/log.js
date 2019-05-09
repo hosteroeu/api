@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize'),
   _ = require('underscore'),
+  config = require('./../config'),
   account = require('./index').account.model;
 
 var Log = function(sequelize) {
@@ -74,13 +75,19 @@ var Log = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
+    var condition = {};
+
+    if (params.user.sub !== config.admin.user_id) {
+      condition.user_id = params.user.sub;
+    }
+
     log.findAll({
         attributes: fields,
-        where: {
-          user_id: params.user.sub
-        },
-        limit: 20,
-        order: [['created_at', 'DESC']]
+        where: condition,
+        limit: 50,
+        order: [
+          ['created_at', 'DESC']
+        ]
       })
       .then(function(result) {
         callback(null, result);
