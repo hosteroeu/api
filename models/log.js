@@ -79,10 +79,7 @@ var Log = function(sequelize) {
         where: {
           user_id: params.user.sub
         },
-        include: [{
-          model: account,
-        }],
-        limit: 100,
+        limit: 20,
         order: [['created_at', 'DESC']]
       })
       .then(function(result) {
