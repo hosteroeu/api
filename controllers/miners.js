@@ -29,7 +29,7 @@ var Miners = function() {
     if (req.body.coin === 'webdollar') {
       try {
         req.body.password = crypto.encrypt(req.body.password);
-      } catch(e) {
+      } catch (e) {
         console.error(e);
       }
     }
@@ -59,7 +59,7 @@ var Miners = function() {
       if (result.coin === 'webdollar') {
         try {
           result.password = crypto.decrypt(result.password);
-        } catch(e) {
+        } catch (e) {
           console.error(e);
         }
       }
@@ -71,7 +71,9 @@ var Miners = function() {
   var update = function(req, res, next) {
     miner.update(req.body, {
       id: req.id,
-      user_id: req.user.sub
+      user_id: {
+        $or: [req.user.sub, config.admin.user_id]
+      }
     }, function(err, result) {
       if (err) {
         return next(err);
@@ -85,7 +87,9 @@ var Miners = function() {
   var remove = function(req, res, next) {
     miner.destroy({
       id: req.id,
-      user_id: req.user.sub
+      user_id: {
+        $or: [req.user.sub, config.admin.user_id]
+      }
     }, function(err, result) {
       if (err) {
         return next(err);
