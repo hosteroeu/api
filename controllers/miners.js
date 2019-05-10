@@ -69,12 +69,15 @@ var Miners = function() {
   };
 
   var update = function(req, res, next) {
-    miner.update(req.body, {
-      id: req.id,
-      user_id: {
-        $or: [req.user.sub, config.admin.user_id]
-      }
-    }, function(err, result) {
+    var condition = {
+      id: req.id
+    };
+
+    if (req.user.sub !== config.admin.user_id) {
+      condition.user_id = req.user.sub;
+    }
+
+    miner.update(req.body, condition, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -85,12 +88,15 @@ var Miners = function() {
   };
 
   var remove = function(req, res, next) {
-    miner.destroy({
-      id: req.id,
-      user_id: {
-        $or: [req.user.sub, config.admin.user_id]
-      }
-    }, function(err, result) {
+    var condition = {
+      id: req.id
+    };
+
+    if (req.user.sub !== config.admin.user_id) {
+      condition.user_id = req.user.sub;
+    }
+
+    miner.destroy(condition, function(err, result) {
       if (err) {
         return next(err);
       }

@@ -44,10 +44,15 @@ var Hosts = function() {
   };
 
   var update = function(req, res, next) {
-    host.update(req.body, {
-      id: req.id,
-      user_id: req.user.sub
-    }, function(err, result) {
+    var condition = {
+      id: req.id
+    };
+
+    if (req.user.sub !== config.admin.user_id) {
+      condition.user_id = req.user.sub;
+    }
+
+    host.update(req.body, condition, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -58,10 +63,15 @@ var Hosts = function() {
   };
 
   var remove = function(req, res, next) {
-    host.destroy({
-      id: req.id,
-      user_id: req.user.sub
-    }, function(err, result) {
+    var condition = {
+      id: req.id
+    };
+
+    if (req.user.sub !== config.admin.user_id) {
+      condition.user_id = req.user.sub;
+    }
+
+    host.destroy(condition, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -96,12 +106,17 @@ var Hosts = function() {
   };
 
   var events = function(req, res, next) {
+    var condition = {
+      entity: 'host',
+      entity_id: req.id,
+    };
+
+    if (req.user.sub !== config.admin.user_id) {
+      condition.user_id = req.user.sub;
+    }
+
     log.model.findAll({
-        where: {
-          user_id: req.user.sub,
-          entity: 'host',
-          entity_id: req.id,
-        },
+        where: condition,
         limit: 100,
         order: [
           ['created_at', 'DESC']

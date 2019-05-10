@@ -45,9 +45,7 @@ var Logs = function() {
   var update = function(req, res, next) {
     log.update(req.body, {
       id: req.id,
-      user_id: {
-        $or: [req.user.sub, config.admin.user_id]
-      }
+      user_id: req.user.sub
     }, function(err, result) {
       if (err) {
         return next(err);
@@ -61,9 +59,7 @@ var Logs = function() {
   var remove = function(req, res, next) {
     log.destroy({
       id: req.id,
-      user_id: {
-        $or: [req.user.sub, config.admin.user_id]
-      }
+      user_id: req.user.sub
     }, function(err, result) {
       if (err) {
         return next(err);
