@@ -32,7 +32,7 @@ var Accounts = function() {
     try {
       req.body.password_webdollar = crypto.encrypt(req.body.password_webdollar);
     } catch(e) {
-      console.error(e);
+      console.error('=== could not encrypt password');
     }
 
     account.create(req.body, function(err, result) {
@@ -68,7 +68,7 @@ var Accounts = function() {
       try {
         result.password_webdollar = crypto.decrypt(result.password_webdollar);
       } catch(e) {
-        console.error(e);
+        console.error('=== could not decrypt password');
       }
 
       res.send(result);
@@ -79,7 +79,7 @@ var Accounts = function() {
     try {
       req.body.password_webdollar = crypto.encrypt(req.body.password_webdollar);
     } catch(e) {
-      console.error(e);
+      console.error('=== could not encrypt password');
     }
 
     account.update(req.body, {
