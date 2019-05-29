@@ -44,6 +44,10 @@ coin_model.findAll({
           id = 'x-cash';
         }
 
+        if (id === 'tera') {
+          id = 'tera-smart-money';
+        }
+
         var url = coingecko_api_url + id + api_url_postfix;
 
         request.get(url, function(err, message, body) {
