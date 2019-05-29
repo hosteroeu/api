@@ -8,6 +8,10 @@ var log_model = require('./../../models').log.model;
 var coingecko_api_url = 'https://api.coingecko.com/api/v3/coins/';
 var api_url_postfix = '?market_data=true&community_data=false&developer_data=false';
 
+setTimeout(function() {
+  process.exit(1);
+}, 30 * 1000);
+
 coin_model.findAll({
     logging: false
   })
