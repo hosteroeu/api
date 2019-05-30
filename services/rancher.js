@@ -87,10 +87,15 @@ var Rancher = function() {
 
             manifest.launchConfig.command = [
               'sh',
-              'start_pool_mining.sh'
             ];
 
-            manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
+            if (req.body.mode === 'node') {
+              manifest.launchConfig.command.push('start_mining.sh');
+            } else {
+              manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
+              manifest.launchConfig.command.push('start_pool_mining.sh');
+            }
+
             manifest.launchConfig.environment.TERMINAL_WORKERS_CPU_MAX = req.body.threads;
             manifest.launchConfig.environment.WALLET = JSON.stringify(wallet_template);
 

@@ -38,6 +38,7 @@ miner_model.findAll({
           rancher.services.create({
             body: {
               id: _miner.id,
+              mode: _miner.mode,
               name: _miner.name,
               coin: _miner.coin,
               user_id: _miner.user_id,
