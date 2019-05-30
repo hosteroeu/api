@@ -7,6 +7,7 @@ var Miner = function(sequelize) {
 
   var fields = [
     'id',
+    'mode',
     'name',
     'user_id',
     'deployed',
@@ -31,6 +32,7 @@ var Miner = function(sequelize) {
   ];
 
   var miner = sequelize.define('Miner', {
+    mode: Sequelize.ENUM('miner', 'node'),
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
     power: Sequelize.STRING,
@@ -103,7 +105,7 @@ var Miner = function(sequelize) {
   };
 
   var findAll = function(params, callback) {
-    var condition = {};
+    var condition = params.query || {};
 
     if (params.user.sub !== config.admin.user_id) {
       condition.user_id = params.user.sub;
