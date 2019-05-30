@@ -47,6 +47,8 @@ var Account = function(sequelize) {
     'mining_pool_url_xcash',
     'plan_miners',
     'bonus_miners',
+    'plan_nodes',
+    'bonus_nodes',
     'rancher_uri',
     'created_at',
     'updated_at'
@@ -95,6 +97,8 @@ var Account = function(sequelize) {
     mining_pool_url_xcash: Sequelize.STRING,
     plan_miners: Sequelize.INTEGER,
     bonus_miners: Sequelize.INTEGER,
+    plan_nodes: Sequelize.INTEGER,
+    bonus_nodes: Sequelize.INTEGER,
     rancher_uri: Sequelize.STRING
   }, {
     underscored: true,
