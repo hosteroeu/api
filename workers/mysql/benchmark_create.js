@@ -11,7 +11,8 @@ miner_model.findAll({
       model: host_model
     }],
     where: {
-      temporary: 0
+      temporary: 0,
+      mode: 'miner'
     }
   })
   .then(function(miners) {

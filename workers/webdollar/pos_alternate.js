@@ -28,7 +28,8 @@ request.get(url, function(err, message, body) {
           }]
         }],
         where: {
-          coin: 'webdollar'
+          coin: 'webdollar',
+          mode: 'miner'
         },
         logging: false
       })
