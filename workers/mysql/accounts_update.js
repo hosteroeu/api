@@ -100,10 +100,10 @@ account_model.findAll({
                   new_plan_miners = 5;
                   break;
                 case '2':
-                  new_plan_miners = 20;
+                  new_plan_miners = 50;
                   break;
                 case '3':
-                  new_plan_miners = 100;
+                  new_plan_miners = 500;
                   break;
               }
             }
@@ -115,10 +115,10 @@ account_model.findAll({
                 new_plan_miners = 5;
                 break;
               case '9.99':
-                new_plan_miners = 20;
+                new_plan_miners = 50;
                 break;
               case '49.99':
-                new_plan_miners = 100;
+                new_plan_miners = 500;
                 break;
             }
           }
