@@ -51,6 +51,7 @@ var filters = function(req, res, next) {
       'payment_id',
       'on_hostero',
       'on_bootstrap',
+      'on_staking',
       'coin',
       'removed',
       'mode'
