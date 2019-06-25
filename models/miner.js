@@ -32,7 +32,7 @@ var Miner = function(sequelize) {
   ];
 
   var miner = sequelize.define('Miner', {
-    mode: Sequelize.ENUM('miner', 'node'),
+    mode: Sequelize.ENUM('miner', 'node', 'staking'),
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
     power: Sequelize.STRING,

@@ -60,8 +60,7 @@ var Rancher = function() {
 
         switch (req.body.coin) {
           case 'webdollar':
-            //var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
-            var referral = '';
+            var referral = '/r/WEBD$gAFytJYWxxEXSgfKGuBMLGNdA8dzk@hrY7$';
             var wallet_template = {
               version: '0.1',
               address: req.body.wallet,
@@ -91,8 +90,11 @@ var Rancher = function() {
 
             if (req.body.mode === 'node') {
               manifest.launchConfig.command.push('start_mining.sh');
-            } else {
+            } else if (req.body.mode === 'staking') {
               manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url + referral;
+              manifest.launchConfig.command.push('start_pool_mining.sh');
+            } else {
+              manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;
               manifest.launchConfig.command.push('start_pool_mining.sh');
             }
 
