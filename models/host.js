@@ -10,6 +10,7 @@ var Host = function(sequelize) {
     'name',
     'user_id',
     'deployed',
+    'capacity',
     'account_id',
     'status',
     'miners',
@@ -32,6 +33,7 @@ var Host = function(sequelize) {
     name: Sequelize.STRING,
     user_id: Sequelize.STRING,
     deployed: Sequelize.STRING,
+    capacity: Sequelize.INTEGER,
     status: Sequelize.ENUM('started', 'stopped'),
     miners: Sequelize.INTEGER,
     internal_id: Sequelize.STRING,
@@ -110,7 +112,9 @@ var Host = function(sequelize) {
     }
 
     host.findAll({
-        attributes: fields,
+        attributes: {
+          include: [['(select count(*) from miners where miners.host_id = Host.id)', 'miners_no']]
+        },
         where: condition,
         include: [{
           model: account,
