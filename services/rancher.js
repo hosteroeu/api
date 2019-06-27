@@ -45,7 +45,7 @@ var Rancher = function() {
         // Cannot deploy multiple services with the same name. This causes a bug
         // when services are re-deployed and the new service is being deployed
         // before the old one is deleted.
-        manifest.name = req.body.name + '-' + random;
+        manifest.name = req.body.name.replace(/\s+/g, '-').toLowerCase() + '-' + random;
         manifest.launchConfig.requestedHostId = req.body.rancher_host_id;
         manifest.launchConfig.labels.id = req.body.id;
         manifest.launchConfig.labels.coin = req.body.coin;
