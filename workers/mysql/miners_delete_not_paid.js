@@ -49,6 +49,7 @@ account_model.findAll().then(function(data) {
 
         miner_model.findAll({
           where: {
+            mode: 'miner',
             user_id: _account.user_id,
             temporary: 0
           },
