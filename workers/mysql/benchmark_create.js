@@ -34,6 +34,11 @@ miner_model.findAll({
         continue;
       }
 
+      if (miner.mode === 'staking') {
+        console.log('Skipping. Staking miner');
+        continue;
+      }
+
       // TODO: Do average, not max
       if (indexed[index] && indexed[index].power > miner.power) {
         continue;
