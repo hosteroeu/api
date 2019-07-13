@@ -14,6 +14,7 @@ var Log = function(sequelize) {
     'message',
     'extra_message',
     'source',
+    'processed',
     'created_at',
     'updated_at'
   ];
@@ -25,7 +26,8 @@ var Log = function(sequelize) {
     event: Sequelize.ENUM('create', 'update', 'delete', 'deploy', 'undeploy', 'error'),
     message: Sequelize.STRING,
     extra_message: Sequelize.TEXT,
-    source: Sequelize.STRING
+    source: Sequelize.STRING,
+    processed: Sequelize.BOOLEAN,
   }, {
     underscored: true,
     tableName: 'logs'

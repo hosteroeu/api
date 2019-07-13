@@ -63,10 +63,8 @@ rancher.hosts.query(function(err, message, body) {
             continue;
           }
 
-          console.log('updating host in mysql', host.hostname);
           console.log('removing host in mysql', host.hostname);
 
-          // NOTE: Stopped hosts cause problems, delete them instead
           host_model.destroy({
               where: {
                 id: db_host.id
