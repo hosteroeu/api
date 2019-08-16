@@ -5,7 +5,7 @@ var config = require('./../../config');
 var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
-var client = new Influx('http://206.189.250.118:8086/webdollar_private');
+var client = new Influx('http://influx1.storage.hostero.eu:8086/webdollar_private');
 
 var fieldSchema = {
   power: 'i',

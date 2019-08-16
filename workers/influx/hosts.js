@@ -2,7 +2,7 @@ var sentry = require('./../../services').Sentry();
 var Influx = require('influxdb-nodejs');
 var request = require('request');
 var config = require('./../../config');
-var client = new Influx('http://206.189.250.118:8086/webdollar_private');
+var client = new Influx('http://influx1.storage.hostero.eu:8086/webdollar_private');
 
 var fieldSchema = {
   mem_available: 'i',
