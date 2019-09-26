@@ -32,6 +32,10 @@ var Miner = function() {
             new_miner.image_uuid = 'docker:morion4000/xcash:1.0.0';
             break;
 
+          case 'monero':
+            new_miner.image_uuid = 'docker:morion4000/xmrig:3.1.3';
+            break;
+
           case 'credits':
           case 'myriad':
           case 'yenten':
