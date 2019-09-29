@@ -71,14 +71,15 @@ coin_model.findAll({
           coin_model.update({
               price_eur: data.market_data.current_price.eur,
               price_usd: data.market_data.current_price.usd,
-              liquidity_score: data.liquidity_score
+              liquidity_score: data.liquidity_score,
+              description_extra: data.description.en.replace(/[\u0800-\uFFFF]/g, '')
             }, {
               where: {
                 id: _coin.id
               }
             })
             .then(_.noop)
-            .catch(sentry.Raven.captureException);
+            .catch(console.error);
         });
       })(coin);
     }
