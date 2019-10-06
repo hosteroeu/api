@@ -8,10 +8,16 @@ account_model.findAll({})
   .then(function(a) {
     console.log(a.length);
 
-    for (var i = 10, l = 500; i < l; i++) {
+    for (var i = 0, l = a.length; i < l; i++) {
       var ac = a[i];
 
-      console.log(ac.name);
+      continue;
+
+      if (ac.id <= 770 || ac.id >= 809) {
+        continue;
+      }
+
+      console.log(ac.name, i);
 
       (function(_ac) {
         setTimeout(function() {
@@ -35,7 +41,7 @@ account_model.findAll({})
               .then(console.log)
               .catch(console.error);
           });
-        }, i * 1000);
+        }, i * 500);
       })(ac);
     }
   });
