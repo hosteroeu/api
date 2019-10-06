@@ -8,7 +8,7 @@ var request = require('request'),
 var create_manifest = require('./../config/manifests/service_create.json');
 
 var Rancher = function(_rancher_uri) {
-  var rancher_uri = _rancher_uri || 'london1',
+  var rancher_uri = _rancher_uri || config.rancher.default,
     rancher_config = config.rancher[rancher_uri];
 
   var environments = function() {
