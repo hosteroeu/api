@@ -1,6 +1,5 @@
 var sentry = require('./../../services').Sentry();
 var moment = require('moment');
-var rancher = require('./../../services').Rancher();
 var mailgun = require('./../../services').Mailgun();
 var config = require('./../../config');
 

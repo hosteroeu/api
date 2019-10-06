@@ -1,5 +1,4 @@
 var sentry = require('./../../services').Sentry();
-var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
 
 var miner_model = require('./../../models').miner.model;

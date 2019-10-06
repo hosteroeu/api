@@ -1,7 +1,6 @@
 var sentry = require('./../../services').Sentry();
 var moment = require('moment');
 var _ = require('underscore');
-var rancher = require('./../../services').Rancher();
 var miner_util = require('./../../utils').Miner();
 var config = require('./../../config');
 
