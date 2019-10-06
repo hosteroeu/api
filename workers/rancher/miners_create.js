@@ -7,14 +7,16 @@ var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
 var log_model = require('./../../models').log.model;
-
-// TODO: Move worker to rancher folder instead of mysql?
+var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
 
 miner_model.findAll({
     include: [{
       model: host_model,
       include: [{
-        model: account_model
+        model: account_model,
+        where: {
+          rancher_uri: rancher_uri
+        }
       }]
     }],
     logging: false

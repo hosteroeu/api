@@ -6,6 +6,7 @@ var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
 var log_model = require('./../../models').log.model;
+var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
 
 function find_miner_in_miners(miner, miners) {
   for (var i = 0, l = miners.length; i < l; i++) {
@@ -31,7 +32,10 @@ rancher.services.query(function(err, message, body) {
       include: [{
         model: host_model,
         include: [{
-          model: account_model
+          model: account_model,
+          where: {
+            rancher_uri: rancher_uri
+          }
         }]
       }]
     })
