@@ -49,7 +49,7 @@ rancher.services.query(function(err, message, body) {
       for (var i = 0, l = result.length; i < l; i++) {
         var miner = result[i];
 
-        if (!miner.launchConfig.labels.purpose) {
+        if (miner.launchConfig && miner.launchConfig.labels && !miner.launchConfig.labels.purpose) {
           continue;
         }
 
@@ -97,5 +97,5 @@ rancher.services.query(function(err, message, body) {
         }
       }
     })
-    .catch(sentry.Raven.captureException);
+    .catch(console.error);
 });
