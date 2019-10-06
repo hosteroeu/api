@@ -19,6 +19,7 @@ var Rancher = function(_rancher_uri) {
           json: true,
           body: {
             name: req.body.name,
+            description: req.body.description || ''
           }
         }, function(err, response, body) {
           req.rancher_environment_id = body.id;
