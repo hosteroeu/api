@@ -1,13 +1,15 @@
+var config = require('./../../config');
+
+var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
+
 var sentry = require('./../../services').Sentry();
 var _ = require('underscore');
-var rancher = require('./../../services').Rancher();
-var config = require('./../../config');
+var rancher = require('./../../services').Rancher(rancher_uri);
 
 var miner_model = require('./../../models').miner.model;
 var host_model = require('./../../models').host.model;
 var account_model = require('./../../models').account.model;
 var log_model = require('./../../models').log.model;
-var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
 
 miner_model.findAll({
     include: [{

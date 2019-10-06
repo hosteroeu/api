@@ -3,9 +3,11 @@ var WebSocketClient = require('websocket').client;
 var _ = require('underscore');
 var async = require('async');
 var request = require('request');
-
-var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
+
+var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
+
+var rancher = require('./../../services').Rancher(rancher_uri);
 var miner_model = require('./../../models').miner.model;
 
 var is_pos_url = 'http://is_pos.wd.hoste.ro';

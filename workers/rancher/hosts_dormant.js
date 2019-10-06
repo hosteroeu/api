@@ -1,6 +1,9 @@
-var sentry = require('./../../services').Sentry();
-var rancher = require('./../../services').Rancher();
 var config = require('./../../config');
+
+var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
+
+var sentry = require('./../../services').Sentry();
+var rancher = require('./../../services').Rancher(rancher_uri);
 
 var host_model = require('./../../models').host.model;
 var miner_model = require('./../../models').host.model;

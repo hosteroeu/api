@@ -1,7 +1,10 @@
-var sentry = require('./../../services').Sentry();
-var rancher = require('./../../services').Rancher();
-var Influx = require('influxdb-nodejs');
 var config = require('./../../config');
+
+var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
+
+var sentry = require('./../../services').Sentry();
+var rancher = require('./../../services').Rancher(rancher_uri);
+var Influx = require('influxdb-nodejs');
 var client = new Influx('http://influx1.storage.hostero.eu:8086/webdollar_private');
 
 var fieldSchema = {
