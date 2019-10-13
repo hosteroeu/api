@@ -5,16 +5,16 @@ var config = require('./../../config');
 
 var coin_model = require('./../../models').coin.model;
 
-console.log('getting https://explorer.getnerva.org/api/getinfo.php');
+console.log('getting https://us-central1-nerva-248022.cloudfunctions.net/nervaApi?endpoint=get_info');
 
-request.get('https://explorer.getnerva.org/api/getinfo.php', function(err, message, body) {
+request.get('https://us-central1-nerva-248022.cloudfunctions.net/nervaApi?endpoint=get_info', function(err, message, body) {
   if (err) {
     sentry.Raven.captureException(err);
     return;
   }
 
   var power_raw = JSON.parse(body);
-  var power = power_raw.result.difficulty / 100 * 2; // TODO: Make sure formula is right
+  var power = power_raw.difficulty / 100 * 2; // TODO: Make sure formula is right
 
   console.log('found power', power);
 
