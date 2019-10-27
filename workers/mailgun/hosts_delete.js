@@ -30,8 +30,8 @@ log_model.findAll({
           if (account.email) {
             mailgun.mail.send({
               to: account.email,
-              subject: 'A host has been deleted',
-              body: 'Host with id ' + log.entity_id + ' has been deleted.'
+              subject: 'A device has been deleted from Hostero',
+              body: 'Device with id ' + log.entity_id + ' has been deleted from your account.'
             }, null, console.log);
 
             console.log('sent email to ', account.email);
