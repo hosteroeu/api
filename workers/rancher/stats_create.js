@@ -200,6 +200,16 @@ miner_model.findAll({
                   var power = res.power;
                   var block = res.block;
 
+                  miner_model.update({
+                      block: block
+                    }, {
+                      where: {
+                        id: _miner.id
+                      }
+                    })
+                    .then(console.log)
+                    .catch(sentry.Raven.captureException);
+
                   if (pos) {
                     // If pos, don't update power
                     console.log('skipped. Webdollar POS rounds');
@@ -209,8 +219,7 @@ miner_model.findAll({
                     console.log('skipped. Miner went to 0');
                   } else {
                     miner_model.update({
-                        power: power,
-                        block: block
+                        power: power
                       }, {
                         where: {
                           id: _miner.id
