@@ -200,15 +200,17 @@ miner_model.findAll({
                   var power = res.power;
                   var block = res.block;
 
-                  miner_model.update({
-                      block: block
-                    }, {
-                      where: {
-                        id: _miner.id
-                      }
-                    })
-                    .then(console.log)
-                    .catch(sentry.Raven.captureException);
+                  if (block > 0) {
+                    miner_model.update({
+                        block: block
+                      }, {
+                        where: {
+                          id: _miner.id
+                        }
+                      })
+                      .then(console.log)
+                      .catch(sentry.Raven.captureException);
+                  }
 
                   if (pos) {
                     // If pos, don't update power
