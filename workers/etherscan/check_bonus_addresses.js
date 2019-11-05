@@ -4,9 +4,9 @@ var config = require('./../../config');
 var account_model = require('./../../models').account.model;
 
 var ADDRESS = '0x40a981d92D6d9ad1532fAA8e0bdef7d390D9AaC4';
-var START_BLOCK = 8000965; //8875965;
-var TOKEN_SYMBOL = 'DAI';
-var TOKEN_ADDRESS = '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359';
+var START_BLOCK = 8875965;
+var TOKEN_SYMBOL = 'MNR';
+var TOKEN_ADDRESS = '0x85ed0aa9e6f025401de93078c17dd83f4691e38e';
 var url = config.etherscan.url + '?module=account&action=tokentx&address=' +
   ADDRESS + '&startblock=' + START_BLOCK + '&endblock=999999999&sort=desc&apikey=' +
   config.etherscan.key;

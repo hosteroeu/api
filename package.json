@@ -10,6 +10,7 @@
     "body-parser": "^1.15.2",
     "cheerio": "^1.0.0-rc.2",
     "crypto": "^1.0.1",
+    "ethers": "^4.0.39",
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "influxdb-nodejs": "^2.8.0",
