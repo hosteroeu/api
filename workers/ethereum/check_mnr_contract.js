@@ -79,6 +79,7 @@ async.parallel(calls, function(err, results) {
             bonus_miners -= delta;
             bonus_miners_mnr = tokens;
           } else {
+            console.log('nothing to do');
             continue;
           }
 
