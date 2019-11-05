@@ -52,6 +52,7 @@ var Account = function(sequelize) {
     'bonus_miners',
     'plan_nodes',
     'bonus_nodes',
+    'bonus_eth_address',
     'rancher_uri',
     'created_at',
     'updated_at'
@@ -105,6 +106,7 @@ var Account = function(sequelize) {
     bonus_miners: Sequelize.INTEGER,
     plan_nodes: Sequelize.INTEGER,
     bonus_nodes: Sequelize.INTEGER,
+    bonus_eth_address: Sequelize.STRING,
     rancher_uri: Sequelize.STRING
   }, {
     underscored: true,
