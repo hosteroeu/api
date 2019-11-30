@@ -123,7 +123,7 @@ var Rancher = function(_rancher_uri) {
             break;
 
           case 'monero':
-            manifest.launchConfig.environment.ALGO = 'cn/r';
+            manifest.launchConfig.environment.ALGO = 'rx/0';
             manifest.launchConfig.environment.WALLET = req.body.wallet;
             manifest.launchConfig.environment.PASSWORD = req.body.password;
             manifest.launchConfig.environment.MINING_POOL_URL = req.body.mining_pool_url;

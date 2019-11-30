@@ -33,7 +33,7 @@ var Miner = function() {
             break;
 
           case 'monero':
-            new_miner.image_uuid = 'docker:morion4000/xmrig:3.1.3';
+            new_miner.image_uuid = 'docker:morion4000/xmrig:5.0.1';
             break;
 
           case 'credits':
