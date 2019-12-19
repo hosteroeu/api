@@ -92,7 +92,7 @@ miner_model.findAll({
             event: 'delete',
             message: 'Removed a miner',
             extra_message: JSON.stringify(miner),
-            source: 'miners_delete'
+            source: 'miners_delete_db'
           });
         }
       }
