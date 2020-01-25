@@ -62,7 +62,7 @@ miner_model.findAll({
 
         // Do not delete miners which are being deployed
         if (!service_miner && miner.deployed != '2') {
-          console.log('removed miner', miner.name);
+          console.log('removed miner', miner.id);
 
           miner_model.destroy({
               where: {
