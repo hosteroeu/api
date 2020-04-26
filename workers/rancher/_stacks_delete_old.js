@@ -4,7 +4,7 @@ var config = require('./../../config');
 var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
 var rancher = require('./../../services').Rancher(rancher_uri);
 
-sequelize.query('SELECT * FROM accounts WHERE updated_at < DATE_SUB(NOW(),INTERVAL 6 MONTH) AND internal_id IS NOT NULL', {
+sequelize.query('SELECT * FROM accounts WHERE updated_at < DATE_SUB(NOW(),INTERVAL 5 MONTH) AND internal_id IS NOT NULL', {
     model: account_model
   })
   .then(function (accounts) {
@@ -12,6 +12,10 @@ sequelize.query('SELECT * FROM accounts WHERE updated_at < DATE_SUB(NOW(),INTERV
 
     for (var i = 0, l = accounts.length; i < l; i++) {
       var account = accounts[i];
+
+      if (account.name === 'shared') {
+        continue;
+      }
 
       (function(_account) {
         setTimeout(function () {
