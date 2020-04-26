@@ -143,12 +143,12 @@ var Accounts = function() {
         return next(err);
       }
 
-      req.body.name = ('000000' + (Math.random() * Math.pow(36, 6) << 0).toString(36)).slice(-6);
-
       if (result) {
         // Create rancher stack for user if stack has been cleaned up
         if (!result.internal_id) {
           console.log('Recreating stack for user ' + result.id);
+
+          req.body.name = result.name;
 
           rancher.environments.create(req, null, function() {
             console.log('New stack for user ' + result.id + ', ' + req.rancher_environment_id);
@@ -164,6 +164,8 @@ var Accounts = function() {
         return res.send(result);
       } else {
         console.log('Creating stack for new user');
+
+        req.body.name = ('000000' + (Math.random() * Math.pow(36, 6) << 0).toString(36)).slice(-6);
 
         // If no user have been found, forward the request to next
         // function in router (accounts.create)
