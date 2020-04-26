@@ -27,6 +27,9 @@ var Rancher = function(_rancher_uri) {
           next(err);
         }).auth(rancher_config.key, rancher_config.secret, false);
       },
+      remove: function(id, callback) {
+        request.post(rancher_config.project + '/environments/' + id + '/?action=remove', callback).auth(rancher_config.key, rancher_config.secret, false);
+      },
       query: function(callback) {
         request.get(url + '?limit=1000', {
           timeout: 5000

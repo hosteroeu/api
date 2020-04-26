@@ -29,3 +29,7 @@ FROM
     payments p
 WHERE p.gateway != 'webdollar'
 GROUP BY YEAR(p.created_at) ASC, MONTH(p.created_at) ASC;`
+
+## Active users
+
+`select * from accounts where updated_at < DATE_SUB(NOW(),INTERVAL 2 MONTH);`
