@@ -57,7 +57,8 @@ account_model.findAll({
           console.log('payment overdue, downgrading');
 
           account_model.update({
-            plan_miners: 1
+            plan_miners: 1,
+            plan_miners_staking: 0
           }, {
             where: {
               id: _account.id
@@ -86,6 +87,7 @@ account_model.findAll({
           }
         } else {
           var new_plan_miners = 1;
+          var new_plan_miners_staking = 0;
 
           if (payment.gateway === 'webdollar') {
             // AMOUNT.PLAN_ID+ACCOUNT_ID
@@ -97,12 +99,15 @@ account_model.findAll({
               switch (plan) {
                 case '1':
                   new_plan_miners = 5;
+                  new_plan_miners_staking = 1;
                   break;
                 case '2':
                   new_plan_miners = 50;
+                  new_plan_miners_staking = 5;
                   break;
                 case '3':
                   new_plan_miners = 500;
+                  new_plan_miners_staking = 25;
                   break;
               }
             }
@@ -112,24 +117,29 @@ account_model.findAll({
               case '0.99':
               case '1.99':
                 new_plan_miners = 5;
+                new_plan_miners_staking = 1;
                 break;
               case '9.99':
                 new_plan_miners = 50;
+                new_plan_miners_staking = 5;
                 break;
               case '49.99':
                 new_plan_miners = 500;
+                new_plan_miners_staking = 25;
                 break;
             }
           }
 
-          if (_account.plan_miners === new_plan_miners) {
+          if (_account.plan_miners === new_plan_miners &&
+              _account.plan_miners_staking === new_plan_miners_staking) {
             return;
           }
 
           console.log('payment ok, upgrading');
 
           account_model.update({
-            plan_miners: new_plan_miners
+            plan_miners: new_plan_miners,
+            plan_miners_staking: new_plan_miners_staking
           }, {
             where: {
               id: _account.id
@@ -144,7 +154,8 @@ account_model.findAll({
             event: 'update',
             message: 'Created a subscription',
             extra_message: JSON.stringify({
-              miners: new_plan_miners
+              miners: new_plan_miners,
+              miners_staking: new_plan_miners_staking
             }),
             source: 'accounts_update'
           });
@@ -152,7 +163,7 @@ account_model.findAll({
           mailgun.mail.send({
             to: config.admin.email,
             subject: 'New subscription has been created',
-            body: 'Account: ' + _account.id + ', Plan: ' + new_plan_miners
+            body: 'Account: ' + _account.id
           }, null, console.log);
 
           if (_account.email) {
