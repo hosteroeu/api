@@ -1,6 +1,5 @@
 var routers = require('./../middleware').routers,
-  accounts = require('./../controllers').accounts,
-  rancher = require('./../services').Rancher();
+  accounts = require('./../controllers').accounts;
 
 module.exports = function(app, router) {
   router.param('account_id', routers.param);
@@ -11,5 +10,5 @@ module.exports = function(app, router) {
   router.delete('/accounts/:account_id(\\d+)', routers.jwtCheck, accounts.remove);
 
   router.get('/accounts', routers.jwtCheck, routers.filters, accounts.collection);
-  router.get('/accounts/sync', routers.jwtCheck, accounts.sync, rancher.environments.create, accounts.create);
+  router.get('/accounts/sync', routers.jwtCheck, accounts.sync, accounts.create);
 };

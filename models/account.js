@@ -142,12 +142,17 @@ var Account = function(sequelize) {
   };
 
   var find = function(params, callback) {
+    var condition = {
+      user_id: params.user.sub
+    };
+
+    if (params.params && params.params.account_id) {
+      condition.id = params.params.account_id;
+    }
+
     account.findOne({
         attributes: fields,
-        where: {
-          user_id: params.user.sub,
-          id: params.params.account_id
-        }
+        where: condition
       })
       .then(function(result) {
         callback(null, result);

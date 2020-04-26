@@ -5,6 +5,7 @@ var account = require('./../models').account,
   mailgun = require('./../services').Mailgun(),
   mailchimp = require('./../services').Mailchimp(),
   crypto = require('./../services').Crypto(),
+  rancher = require('./../services').Rancher(),
   _ = require('underscore');
 
 var Accounts = function() {
@@ -28,6 +29,10 @@ var Accounts = function() {
   var create = function(req, res, next) {
     req.body.user_id = req.user.sub;
     req.body.internal_id = req.rancher_environment_id;
+
+    if (req.body.full_name) {
+      req.body.full_name = req.body.full_name.replace(/[^\x00-\x7F]/g, '');
+    }
 
     try {
       req.body.password_webdollar = crypto.encrypt(req.body.password_webdollar);
@@ -82,6 +87,10 @@ var Accounts = function() {
       console.error('=== could not encrypt password');
     }
 
+    if (req.body.full_name) {
+      req.body.full_name = req.body.full_name.replace(/[^\x00-\x7F]/g, '');
+    }
+
     account.update(req.body, {
       id: req.id,
       user_id: req.user.sub
@@ -129,23 +138,38 @@ var Accounts = function() {
   };
 
   var sync = function(req, res, next) {
-    account.findAll(req, function(err, result) {
+    account.find(req, function(err, result) {
       if (err) {
         return next(err);
       }
 
-      var found = _.find(result, function(field) {
-        return field.user_id === req.user.sub;
-      });
+      req.body.name = ('000000' + (Math.random() * Math.pow(36, 6) << 0).toString(36)).slice(-6);
 
-      if (found) {
-        return res.send(found);
+      if (result) {
+        // Create rancher stack for user if stack has been cleaned up
+        if (!result.internal_id) {
+          console.log('Recreating stack for user ' + result.id);
+
+          rancher.environments.create(req, null, function() {
+            console.log('New stack for user ' + result.id + ', ' + req.rancher_environment_id);
+
+            account.update({
+              internal_id: req.rancher_environment_id
+            }, {
+              id: result.id
+            }, console.log);
+          });
+        }
+
+        return res.send(result);
+      } else {
+        console.log('Creating stack for new user');
+
+        // If no user have been found, forward the request to next
+        // function in router (accounts.create)
+        // Create rancher stack for user if just registered
+        rancher.environments.create(req, null, next);
       }
-
-      // TODO: Longer ids?
-      req.body.name = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
-
-      next();
     });
   };
 
