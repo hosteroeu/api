@@ -4,7 +4,7 @@ var host_model = require('./../../models').host.model;
 var config = require('./../../config');
 var rancher_uri = process.env.RANCHER_URI || config.rancher.default;
 var rancher = require('./../../services').Rancher(rancher_uri);
-var months = process.env.MONTHS ? parseInt(process.env.MONTHS) : 4;
+var months = process.env.MONTHS ? parseInt(process.env.MONTHS) : 1;
 
 sequelize.query('SELECT * FROM accounts WHERE updated_at < DATE_SUB(NOW(),INTERVAL ' + months + ' MONTH) AND internal_id IS NOT NULL', {
     model: account_model
