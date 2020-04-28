@@ -18,6 +18,21 @@ d.setMilliseconds(0);
 
 var last_month_date = d;
 
+// TODO: This is lazy, make sure to revisit in the future
+function get_plan_based_on_amount(amount) {
+  var plan = '1';
+
+  if (amount < 100000) {
+    plan = '1';
+  } else if (amount < 500000) {
+    plan = '2';
+  } else {
+    plan = '3';
+  }
+
+  return plan;
+}
+
 account_model.findAll({
   logging: false
 }).then(function(accounts) {
@@ -90,26 +105,21 @@ account_model.findAll({
           var new_plan_miners_staking = 0;
 
           if (payment.gateway === 'webdollar') {
-            // AMOUNT.PLAN_ID+ACCOUNT_ID
-            var encoding = payment.amount.split('.');
+            var plan = get_plan_based_on_amount(payment.amount);
 
-            if (encoding.length > 0) {
-              var plan = encoding[1][0];
-
-              switch (plan) {
-                case '1':
-                  new_plan_miners = 5;
-                  new_plan_miners_staking = 1;
-                  break;
-                case '2':
-                  new_plan_miners = 50;
-                  new_plan_miners_staking = 5;
-                  break;
-                case '3':
-                  new_plan_miners = 500;
-                  new_plan_miners_staking = 25;
-                  break;
-              }
+            switch (plan) {
+              case '1':
+                new_plan_miners = 5;
+                new_plan_miners_staking = 1;
+                break;
+              case '2':
+                new_plan_miners = 50;
+                new_plan_miners_staking = 5;
+                break;
+              case '3':
+                new_plan_miners = 500;
+                new_plan_miners_staking = 25;
+                break;
             }
           } else {
             switch (payment.amount) {

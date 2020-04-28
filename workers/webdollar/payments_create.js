@@ -49,7 +49,6 @@ request({
     (function(_transaction) {
       var amount_float = transaction.amount.amount / 10000;
       var amount = amount_float.toString();
-      // AMOUNT.PLAN_ID+ACCOUNT_ID
       var encoded = amount.split('.');
 
       if (encoded.length !== 2) {
@@ -57,7 +56,7 @@ request({
         return;
       }
 
-      var account_id = encoded[1].substr(1);
+      var account_id = encoded[1];
 
       account_model.findById(account_id)
         .then(function(account) {
