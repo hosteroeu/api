@@ -1,21 +1,19 @@
-org: morion4000
-app: medusa
 service: workers
 
 frameworkVersion: '2'
 useDotenv: true
 
-
 provider:
-  name: AWS
+  name: aws
+  profile: hostero
   runtime: nodejs12.x
   region: eu-central-1
   stage: ${opt:stage, 'prod'}
 
 functions:
-  coingecko_coins_updates:
-    handler: workers/coingecko/coins_updates
+  coingecko_coins_update:
+    handler: workers/lambda.coingecko_coins_update
     events:
       - schedule: rate(1 minute)
     environment:
-      NODE_ENV: 'production'
+      NODE_ENV: production
