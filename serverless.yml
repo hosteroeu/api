@@ -5,6 +5,7 @@ service: workers
 frameworkVersion: '2'
 useDotenv: true
 
+
 provider:
   name: AWS
   runtime: nodejs12.x
