@@ -17,7 +17,7 @@ var Miner = function() {
             break;
 
           case 'nerva':
-            new_miner.image_uuid = 'docker:morion4000/nerva:0.1.7.1';
+            new_miner.image_uuid = 'docker:morion4000/nerva:0.1.7.3';
             break;
 
           case 'webchain':
