@@ -125,6 +125,7 @@ var Rancher = function(_rancher_uri) {
             manifest.launchConfig.environment.THREADS = req.body.threads;
             break;
 
+          case 'scala':
           case 'monero':
             manifest.launchConfig.environment.ALGO = 'rx/0';
             manifest.launchConfig.environment.WALLET = req.body.wallet;

@@ -36,6 +36,10 @@ var Miner = function() {
             new_miner.image_uuid = 'docker:morion4000/xmrig:5.1.0';
             break;
 
+          case 'scala':
+            new_miner.image_uuid = 'docker:morion4000/scala:5.2.2';
+            break;
+
           case 'credits':
           case 'myriad':
           case 'yenten':
