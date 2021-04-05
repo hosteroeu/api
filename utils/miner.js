@@ -25,7 +25,7 @@ var Miner = function() {
             break;
 
           case 'veruscoin':
-            new_miner.image_uuid = 'docker:morion4000/veruscoin';
+            new_miner.image_uuid = 'docker:morion4000/veruscoin:0.8.2';
             break;
 
           case 'xcash':
