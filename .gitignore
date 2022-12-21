@@ -6,3 +6,5 @@
 /.idea
 package-lock.json
 /.serverless
+
+.env
